@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{REPORT_TITLE}} | {{REPORT_PERIOD}} 技术报告</title>
+  <link rel="stylesheet" href="styles/report.css">
+</head>
+<body>
+  <header class="report-nav">
+    <div class="report-nav-inner">
+      <a class="report-brand" href="#report-header">
+        <span class="report-brand-mark">{{REPORT_MONTH}}</span>
+        <span class="report-brand-copy">
+          <strong>{{REPORT_AUTHOR}}</strong>
+          <span>ACADEMIC REPORT / {{REPORT_PERIOD}}</span>
+        </span>
+      </a>
+      <nav class="report-nav-links" aria-label="报告导航">
+        <a class="report-nav-link" href="#summary">摘要</a>
+        <a class="report-nav-link" href="#section-1">主要工作</a>
+        <a class="report-nav-link" href="#section-2">结果与验证</a>
+        <button class="report-nav-action" type="button" data-print-report>打印 / PDF</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="report-main">
+    <header class="report-header" id="report-header">
+      <div>
+        <p class="report-kicker">{{REPORT_CATEGORY}} · {{REPORT_PERIOD}}</p>
+        <h1 class="report-title">{{REPORT_TITLE}}</h1>
+        <p class="report-subtitle">{{REPORT_SUBTITLE}}</p>
+      </div>
+      <aside class="report-meta" aria-label="报告信息">
+        <div class="report-meta-row"><span>状态</span><strong>进行中</strong></div>
+        <div class="report-meta-row"><span>报告日期</span><strong>{{REPORT_DATE}}</strong></div>
+      </aside>
+    </header>
+
+    <section class="completion-panel" id="summary" aria-labelledby="completion-title">
+      <div class="completion-head">
+        <h2 id="completion-title">完成情况摘要</h2>
+      </div>
+      <p class="completion-text" data-completion-text>
+        在此概述本期完成的工作、关键数据、已形成的交付物和尚未完成的事项。摘要中的每项判断都应与后文图表或表格对应。
+      </p>
+    </section>
+
+    <div class="metric-grid" aria-label="关键指标">
+      <div class="metric"><strong>待补充</strong><span>指标 1</span></div>
+      <div class="metric"><strong>待补充</strong><span>指标 2</span></div>
+      <div class="metric"><strong>待补充</strong><span>指标 3</span></div>
+      <div class="metric"><strong>待补充</strong><span>指标 4</span></div>
+    </div>
+
+    <section class="report-section page-break" id="section-1">
+      <div class="section-head">
+        <span class="section-no">01</span>
+        <div>
+          <h2>主要工作</h2>
+          <p>说明本节解决的技术问题、输入数据、处理方法和形成的结果。</p>
+        </div>
+      </div>
+      <div class="table-wrap" data-title="关键结果">
+        <table class="data-table">
+          <thead>
+            <tr><th>项目</th><th class="num">结果</th><th>说明</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>指标 1</td><td class="num">待补充</td><td>填写统计口径、单位或验证状态。</td></tr>
+            <tr><td>指标 2</td><td class="num">待补充</td><td>填写与指标对应的输出文件或图表。</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!--
+      添加图片时使用以下结构。图片保持原始宽高比，不设置固定高度。
+      <figure class="figure-card is-full">
+        <div class="figure-media">
+          <img src="assets/example.png" alt="准确描述图片内容">
+        </div>
+        <figcaption>
+          <strong>图题</strong>
+          <span>数据范围、样本量、关键结果和必要的解释。</span>
+        </figcaption>
+      </figure>
+      -->
+    </section>
+
+    <section class="report-section page-break" id="section-2">
+      <div class="section-head">
+        <span class="section-no">02</span>
+        <div>
+          <h2>结果与验证</h2>
+          <p>说明结果如何验证、与什么基准比较，以及仍然存在的限制。</p>
+        </div>
+      </div>
+      <p class="callout"><strong>验证结论：</strong>填写已通过的验证、剩余风险或待确认事项。</p>
+    </section>
+
+    <footer class="report-footer">
+      <span>{{REPORT_TITLE}} · {{REPORT_CATEGORY}}</span>
+      <span>依据本期日志、数据、图表和验证输出整理</span>
+    </footer>
+  </main>
+
+  <script src="scripts/report.js"></script>
+</body>
+</html>

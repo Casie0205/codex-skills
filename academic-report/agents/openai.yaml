@@ -1,0 +1,5 @@
+interface:
+  display_name: "Academic Report"
+  short_description: "Create print-ready academic-style HTML progress reports"
+  brand_color: "#45685e"
+  default_prompt: "Use $academic-report to turn the supplied work records and figures into a print-ready academic report."

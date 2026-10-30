@@ -1,0 +1,9 @@
+{
+  "name": "gnss-analysishub",
+  "skill_version": "0.3.6",
+  "bundle_version": "AnalysisHub-v2-ai-skills",
+  "install_dir_name": "gnss-analysishub",
+  "entry": "SKILL.md",
+  "target_platform": "codex",
+  "default_user_root": "~/.codex/skills"
+}

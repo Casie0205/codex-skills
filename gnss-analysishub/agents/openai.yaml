@@ -1,0 +1,4 @@
+interface:
+  display_name: "GNSS AnalysisHub"
+  short_description: "Route GNSS QC, reports, recovery, and evidence-based diagnosis"
+  default_prompt: "Use $gnss-analysishub to inspect GNSS inputs, choose the correct AnalysisHub workflow, verify observable identities and metric denominators, and return evidence-based findings with outputs and next checks."
