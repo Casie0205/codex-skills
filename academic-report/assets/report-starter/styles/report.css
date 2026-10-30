@@ -345,6 +345,73 @@ body {
   object-fit: contain;
 }
 
+.figure-media.is-transparent {
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
+.chart-legend {
+  margin: 14px 0 18px;
+  padding: 8px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  border-top: 1px solid #d9d6ce;
+  border-bottom: 1px solid #d9d6ce;
+  font-family: "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+  font-size: 10px;
+  break-inside: avoid;
+}
+
+.chart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+
+.chart-legend-line {
+  width: 35px;
+  height: 2px;
+  flex: 0 0 auto;
+  background: var(--legend-color, #45685e);
+}
+
+.chart-legend-line.is-dash {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--legend-color, #45685e) 0 9px,
+    transparent 9px 13px
+  );
+}
+
+.chart-legend-line.is-long-dash {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--legend-color, #45685e) 0 14px,
+    transparent 14px 19px
+  );
+}
+
+.chart-legend-line.is-dash-dot {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--legend-color, #45685e) 0 9px,
+    transparent 9px 12px,
+    var(--legend-color, #45685e) 12px 14px,
+    transparent 14px 18px
+  );
+}
+
+.chart-legend-line.is-dot {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--legend-color, #45685e) 0 3px,
+    transparent 3px 8px
+  );
+}
+
 .figure-card figcaption {
   margin-top: 7px;
   padding: 7px 0 0;
@@ -641,8 +708,8 @@ body {
   }
 
   .report-header {
-    grid-template-columns: minmax(0, 1fr) 50mm;
-    gap: 8mm;
+    grid-template-columns: minmax(0, 1fr) 46mm;
+    gap: 7mm;
     padding-bottom: 6mm;
     border-bottom-width: 1.2pt;
   }
@@ -666,6 +733,11 @@ body {
   .report-meta-row {
     padding: 1.6mm 0;
     font-size: 7.3pt;
+  }
+
+  .report-meta-row strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .completion-panel {

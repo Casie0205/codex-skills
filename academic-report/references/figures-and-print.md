@@ -16,6 +16,7 @@ Use separate output files for separate plots. Do not build a single plotting fun
 - Include units in axes and legends.
 - Use consistent font sizes large enough for A4 printing.
 - Prefer vector outputs for line plots when available; export PNG when the web page needs it.
+- For SVG charts, keep the canvas background transparent. Remove full-size white or paper-colored background rectangles before embedding the file.
 - Avoid unnecessary chart titles when the figure caption already names the plot.
 - Keep axis scales honest. Label logarithmic scales.
 - State duration, sample count, and selection rules in the caption.

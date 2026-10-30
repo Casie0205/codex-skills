@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
+import xml.etree.ElementTree as ET
 
 try:
     from PIL import Image
@@ -91,6 +92,49 @@ def resolve_local_ref(report_dir: Path, value: str) -> Path | None:
     return (report_dir / unquote(parts.path)).resolve()
 
 
+def svg_dimensions(path: Path) -> tuple[int, int]:
+    root = ET.parse(path).getroot()
+    view_box = root.attrib.get("viewBox", "").replace(",", " ").split()
+    if len(view_box) == 4:
+        return round(float(view_box[2])), round(float(view_box[3]))
+    width = round(float(re.match(r"[0-9.]+", root.attrib["width"]).group()))
+    height = round(float(re.match(r"[0-9.]+", root.attrib["height"]).group()))
+    return width, height
+
+
+def svg_has_opaque_background(path: Path) -> bool:
+    root = ET.parse(path).getroot()
+    view_box = root.attrib.get("viewBox", "").replace(",", " ").split()
+    if len(view_box) == 4:
+        root_width = float(view_box[2])
+        root_height = float(view_box[3])
+    else:
+        root_width = float(re.match(r"[0-9.]+", root.attrib["width"]).group())
+        root_height = float(re.match(r"[0-9.]+", root.attrib["height"]).group())
+    for element in root.iter():
+        if not element.tag.endswith("rect"):
+            continue
+        width_match = re.match(r"[0-9.]+", element.attrib.get("width", ""))
+        height_match = re.match(r"[0-9.]+", element.attrib.get("height", ""))
+        if not width_match or not height_match:
+            continue
+        width = float(width_match.group())
+        height = float(height_match.group())
+        fill = element.attrib.get("fill", "").lower()
+        style = element.attrib.get("style", "").lower().replace(" ", "")
+        if (
+            width >= root_width * 0.95
+            and height >= root_height * 0.95
+            and (
+                fill in {"white", "#fff", "#ffffff", "#f8f7f2"}
+                or "fill:white" in style
+                or "fill:#ffffff" in style
+            )
+        ):
+            return True
+    return False
+
+
 def main() -> None:
     args = parse_args()
     html_path = args.html.resolve()
@@ -163,9 +207,14 @@ def main() -> None:
             if resolved is None or not resolved.is_file():
                 continue
             try:
-                with Image.open(resolved) as bitmap:
-                    width, height = bitmap.size
-            except OSError:
+                if resolved.suffix.lower() == ".svg":
+                    width, height = svg_dimensions(resolved)
+                    if svg_has_opaque_background(resolved):
+                        errors.append(f"SVG contains an opaque background: {source_value}")
+                else:
+                    with Image.open(resolved) as bitmap:
+                        width, height = bitmap.size
+            except (OSError, ET.ParseError, ValueError, AttributeError):
                 warnings.append(f"Could not read image dimensions: {source_value}")
                 continue
             printed_height = args.content_width_mm * height / width
