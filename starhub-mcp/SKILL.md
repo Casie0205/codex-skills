@@ -69,6 +69,9 @@ When changing message output:
 
 - Configure commands first, then start a fresh save so startup responses and
   stale output do not contaminate the dataset.
+- Save temporary captures under `D:\DataDownload` by default. Copy a capture to
+  `D:\Dataset` only when the user explicitly requests processing, analysis, or
+  longer-term retention.
 - Use `start_save` without timestamps for raw protocol logs unless the user
   explicitly requests timestamp injection.
 - Use `stop_save` before treating the saved file as complete.

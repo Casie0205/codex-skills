@@ -63,6 +63,8 @@ that the command was rejected. Recheck connection state and command effects.
 
 - `start_save` fields: `handleKey`, absolute `dir`, optional `fileName`,
   `split_hours` or `split_mb`, and `with_timestamp`.
+- Use `D:\DataDownload` for temporary or not-yet-classified captures. Promote
+  data to `D:\Dataset` only when later processing or retention is requested.
 - Do not set both split modes.
 - Get the actual path with `get_save_status`.
 - `read_message_file` defaults to the last 64 KB and caps output at 1 MB.
