@@ -1,0 +1,4 @@
+interface:
+  display_name: "StarHub MCP Control"
+  short_description: "Operate StarHub ports, commands, saves, and logs through MCP"
+  default_prompt: "Use $starhub-mcp to inspect StarHub, reuse the active connection, send device commands safely, and manage saved output."
