@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build Modular Feature"
+  short_description: "Build modular features in codebases"
+  default_prompt: "Use $build-modular-feature to add a new capability to this codebase while keeping modules separate and the main flow clean."
