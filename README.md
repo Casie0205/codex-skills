@@ -1,5 +1,11 @@
 # Codex Skills
 
+## Contents
+
+- [Skills](#skills)
+- [Installation](#installation)
+- [Validation](#validation)
+
 Custom Codex skills maintained in this repository.
 
 ## Skills
@@ -9,6 +15,7 @@ Custom Codex skills maintained in this repository.
 | [`academic-report`](academic-report/SKILL.md) | Create and revise print-ready academic-style HTML progress reports with figures, tables, and A4 print output. |
 | [`gnss-analysishub`](gnss-analysishub/SKILL.md) | Support GNSS conversion, QC, AnalysisHub processing, plotting, reports, and troubleshooting. |
 | [`humanizer`](humanizer/SKILL.md) | Rewrite AI-sounding prose while preserving facts, data, and the writer's intended meaning. |
+| [`structured-md-docs`](structured-md-docs/SKILL.md) | Create and maintain structure-first Markdown documentation with synchronized tables of contents, deliberate content placement, and document-splitting checks. |
 
 ## Installation
 
