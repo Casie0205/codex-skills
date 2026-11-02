@@ -6,7 +6,8 @@
 - [Installation](#installation)
 - [Validation](#validation)
 
-Custom Codex skills maintained in this repository.
+Custom Codex skills maintained in this repository for company knowledge retrieval,
+GNSS workflows, report generation, and technical writing.
 
 ## Skills
 
@@ -16,6 +17,7 @@ Custom Codex skills maintained in this repository.
 | [`gnss-analysishub`](gnss-analysishub/SKILL.md) | Support GNSS conversion, QC, AnalysisHub processing, plotting, reports, and troubleshooting. |
 | [`humanizer`](humanizer/SKILL.md) | Rewrite AI-sounding prose while preserving facts, data, and the writer's intended meaning. |
 | [`structured-md-docs`](structured-md-docs/SKILL.md) | Create and maintain structure-first Markdown documentation with synchronized tables of contents, deliberate content placement, and document-splitting checks. |
+| [`yunxin-wiki`](yunxin-wiki/SKILL.md) | Search and read the authenticated internal Yunxin DokuWiki for company documentation, commands, message definitions, and technical references. |
 
 ## Installation
 

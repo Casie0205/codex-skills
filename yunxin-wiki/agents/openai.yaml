@@ -1,0 +1,4 @@
+interface:
+  display_name: "云芯 Wiki 检索"
+  short_description: "检索并阅读公司内网 DokuWiki"
+  default_prompt: "Use $yunxin-wiki to search the company Wiki and summarize the relevant pages."
