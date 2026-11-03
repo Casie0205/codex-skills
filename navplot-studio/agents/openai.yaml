@@ -1,0 +1,4 @@
+interface:
+  display_name: "NavPlot Studio"
+  short_description: "Render and difference NavPlot data through GUI or CLI"
+  default_prompt: "Use $navplot-studio to inspect NavPlot inputs and export the requested position, velocity, attitude, or difference plots."
