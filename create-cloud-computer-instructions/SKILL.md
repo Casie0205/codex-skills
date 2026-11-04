@@ -21,6 +21,9 @@ not a local Codex skill, command, or project document.
   without repacking it.
 - A cloud-computer skill must contain `SKILL.md` at its root and any scripts or agents
   directories beside it.
+- Skill directory names may be descriptive, but their first two to four characters must
+  be unique across installed cloud-computer skills. Keep the short prefix in
+  `display_name` so the user can type a few letters and lock the intended skill.
 - Use lowercase English, digits, and hyphens in file names.
 - Keep every Markdown file below 10,000 characters. Start splitting when a file exceeds
   roughly 8,000 characters.

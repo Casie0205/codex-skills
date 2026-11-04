@@ -129,6 +129,36 @@ C:\Users\liuziao\lingma\skills
 D:\DOC\cloud-skills\<skill-name>\
 ```
 
+目录名可以较长，但名称最前面的 2 至 4 个字母必须在所有云电脑 skill 中保持唯一。
+推荐结构：
+
+```text
+ctc-postprocess-test
+navoutput-analysis
+enu-coordinate-conversion
+fig-publication
+doc-structured-markdown
+```
+
+对应输入前缀：
+
+```text
+ctc
+nav
+enu
+fig
+doc
+```
+
+`display_name` 也应以该前缀开头，例如：
+
+```yaml
+interface:
+  display_name: "ctc - CTCLib Post-process Test"
+```
+
+新增 skill 前先检查现有目录的前缀，不得出现两个 skill 使用相同的前缀。
+
 目录结构：
 
 ```text
@@ -169,6 +199,7 @@ D:\DOC\cloud-skills\<skill-name>\
 - [ ] 配套文件准备复制到同一个 `commands` 目录；
 - [ ] 可复用能力已打包为完整 skill 文件夹，而不是单个指令文件；
 - [ ] skill 根目录包含 `SKILL.md`；
+- [ ] skill 目录名的前 2 至 4 个字母在现有云电脑 skill 中唯一；
 - [ ] skill 文件夹准备复制到云电脑 `skills` 目录；
 - [ ] 云电脑无需读取当前 Codex 的 skill；
 - [ ] 目标环境和版本已写明；
