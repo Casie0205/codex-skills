@@ -13,6 +13,15 @@ not a local Codex skill, command, or project document.
 
 - Store cloud-computer instructions under `D:\DOC\<project>\`.
 - Use lowercase English, digits, and hyphens in file names.
+- Keep every Markdown file below 10,000 characters. Start splitting when a file exceeds
+  roughly 8,000 characters.
+- For a multi-file command, keep the entry file and all referenced files in the same
+  cloud-computer `commands` directory. The current standard target is
+  `C:\Users\liuziao\lingma\commands`.
+- The entry file must list every required sibling file in read order and use relative
+  links such as `[plot_style.md](plot_style.md)`.
+- Do not split by arbitrary chunks. Separate purpose, style, code template, and
+  validation into documents with clear responsibilities.
 - Do not create cloud-computer instructions under `C:\Users\<user>\.codex\commands`.
 - Do not create cloud-computer instructions under `C:\Users\<user>\.codex\skills`.
 - A local Codex skill may define how to author these documents, but it does not replace
@@ -28,14 +37,17 @@ not a local Codex skill, command, or project document.
    instead of creating a duplicate.
 3. Read [references/instruction-template.md](references/instruction-template.md) and
    use its document structure.
-4. State prerequisites, version checks, the main execution flow, success conditions,
+4. Check the character count of every deliverable. Split long instructions into an
+   entry document plus purpose-specific referenced files before copying to the cloud
+   computer.
+5. State prerequisites, version checks, the main execution flow, success conditions,
    failure handling, and the required completion report.
-5. Make commands, paths, and code copyable. When a package is required, specify its
+6. Make commands, paths, and code copyable. When a package is required, specify its
    copied location and integrity check.
-6. Run testable code locally before delivery. Mark any unverified part explicitly.
-7. Audit the Markdown for table-of-contents anchors, links, placeholders, code fences,
+7. Run testable code locally before delivery. Mark any unverified part explicitly.
+8. Audit the Markdown for table-of-contents anchors, links, placeholders, code fences,
    and final newline.
-8. Report the absolute instruction path and every adjacent package or resource.
+9. Report the absolute instruction paths and every adjacent package or resource.
 
 ## Boundaries
 
