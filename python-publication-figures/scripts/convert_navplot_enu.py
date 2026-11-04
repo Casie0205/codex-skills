@@ -265,6 +265,7 @@ def convert_rows(
     vertical_path_m = 0.0
     max_step_2d_m = 0.0
     max_step_3d_m = 0.0
+    max_dt_s = 0.0
     last_east_m = 0.0
     last_north_m = 0.0
     last_up_m = 0.0
@@ -307,6 +308,7 @@ def convert_rows(
             vertical_path_m += abs(delta_up_m)
             max_step_2d_m = max(max_step_2d_m, step_2d_m)
             max_step_3d_m = max(max_step_3d_m, step_3d_m)
+            max_dt_s = max(max_dt_s, dt_s)
 
         elapsed_s = elapsed_seconds(first, row)
         output_rows.append(
@@ -351,6 +353,7 @@ def convert_rows(
         "net_vertical_change_m": last_up_m,
         "max_step_2d_m": max_step_2d_m,
         "max_step_3d_m": max_step_3d_m,
+        "max_dt_s": max_dt_s,
     }
     return output_rows, metrics
 
@@ -413,6 +416,14 @@ def run(args: argparse.Namespace) -> Path:
         summary_path = args.output_csv.with_name(
             args.output_csv.stem + "_summary.json"
         )
+
+    input_resolved = args.input.resolve()
+    csv_resolved = args.output_csv.resolve()
+    summary_resolved = summary_path.resolve()
+    if csv_resolved == input_resolved or summary_resolved == input_resolved:
+        raise ConversionError("output paths must not overwrite the input file")
+    if csv_resolved == summary_resolved:
+        raise ConversionError("output CSV and summary JSON must be different paths")
 
     if not args.overwrite:
         existing = [
