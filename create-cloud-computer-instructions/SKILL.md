@@ -11,6 +11,9 @@ not a local Codex skill, command, or project document.
 
 ## Storage Rules
 
+- When the cloud computer supports skills, prefer a reusable skill package for any
+  workflow that will be used repeatedly. Use a command-style Markdown document only for
+  a one-off task.
 - Store cloud-computer instructions under `D:\DOC\<project>\`.
 - Store reusable cloud-computer skill packages under `D:\DOC\cloud-skills\<skill-name>\`.
 - The standard cloud-computer skill directory is
