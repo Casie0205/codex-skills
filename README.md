@@ -17,6 +17,7 @@ GNSS workflows, report generation, technical writing, Word equation conversion, 
 | [`build-modular-feature`](build-modular-feature/SKILL.md) | Extend existing codebases with clear module boundaries, thin entrypoints, and focused validation and review. |
 | [`convert-word-equations-to-mathtype`](convert-word-equations-to-mathtype/SKILL.md) | Convert native Word OMML equations into editable inline MathType objects using a MathML-first workflow and preservation checks. |
 | [`create-cloud-computer-instructions`](create-cloud-computer-instructions/SKILL.md) | Write standalone offline instruction documents for an external cloud computer under `D:\DOC`, separate from local Codex skills and commands. |
+| [`ctclib-app-postprocess-test`](ctclib-app-postprocess-test/SKILL.md) | Run and maintain CTCLib post-processing tests with controlled CTCCFG copies, parameter changes, explicit output paths, and result validation. |
 | [`gnss-analysishub`](gnss-analysishub/SKILL.md) | Support GNSS conversion, QC, AnalysisHub processing, plotting, reports, and troubleshooting. |
 | [`humanizer`](humanizer/SKILL.md) | Rewrite AI-sounding prose while preserving facts, data, and the writer's intended meaning. |
 | [`navigation-output-analysis`](navigation-output-analysis/SKILL.md) | Analyze NavPlot `ins_insplot.txt` files, including fixed column definitions, run-status checks, missing-column limits, and concise evidence reporting. |
