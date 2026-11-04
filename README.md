@@ -16,6 +16,7 @@ GNSS workflows, report generation, technical writing, Word equation conversion, 
 | [`academic-report`](academic-report/SKILL.md) | Create and revise print-ready academic-style HTML progress reports with figures, tables, and A4 print output. |
 | [`build-modular-feature`](build-modular-feature/SKILL.md) | Extend existing codebases with clear module boundaries, thin entrypoints, and focused validation and review. |
 | [`convert-word-equations-to-mathtype`](convert-word-equations-to-mathtype/SKILL.md) | Convert native Word OMML equations into editable inline MathType objects using a MathML-first workflow and preservation checks. |
+| [`create-cloud-computer-instructions`](create-cloud-computer-instructions/SKILL.md) | Write standalone offline instruction documents for an external cloud computer under `D:\DOC`, separate from local Codex skills and commands. |
 | [`gnss-analysishub`](gnss-analysishub/SKILL.md) | Support GNSS conversion, QC, AnalysisHub processing, plotting, reports, and troubleshooting. |
 | [`humanizer`](humanizer/SKILL.md) | Rewrite AI-sounding prose while preserving facts, data, and the writer's intended meaning. |
 | [`navplot-studio`](navplot-studio/SKILL.md) | Inspect, plot, save, and difference NavPlot data through the packaged Windows GUI or CLI. |

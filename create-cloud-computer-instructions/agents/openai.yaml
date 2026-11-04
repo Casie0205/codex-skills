@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Cloud Computer Instructions"
+  short_description: "Write standalone offline instructions under D:\\DOC"
+  default_prompt: "Use $create-cloud-computer-instructions to write a self-contained instruction document for the external cloud computer under D:\\DOC."
