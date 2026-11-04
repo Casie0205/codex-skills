@@ -1,0 +1,4 @@
+interface:
+  display_name: "Python Publication Figures"
+  short_description: "A4 report-ready Matplotlib figures with external legends"
+  default_prompt: "Use $python-publication-figures to create report-ready Python figures from the supplied data."
