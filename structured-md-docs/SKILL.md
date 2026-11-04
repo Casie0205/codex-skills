@@ -7,7 +7,7 @@ metadata:
 
 # Structured Markdown docs
 
-## 目录
+## Contents
 
 - [Core rule](#core-rule)
 - [Workflow](#workflow)
