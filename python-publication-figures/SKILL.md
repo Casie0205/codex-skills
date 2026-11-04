@@ -10,7 +10,9 @@ labels must remain stable after export.
 
 ## Workflow
 
-1. Resolve the input data and confirm the plotted columns, units, and time basis.
+1. Resolve the input data and confirm the plotted columns, units, and time basis. If
+   NavPlot positions are stored as latitude/longitude/height and the requested plot is a
+   metric displacement, run `scripts/convert_navplot_enu.py` first.
 2. Read [references/figure-spec.md](references/figure-spec.md) before creating or
    changing a multi-panel figure.
 3. Start from [scripts/plotting_template.py](scripts/plotting_template.py). Preserve its
@@ -26,6 +28,7 @@ labels must remain stable after export.
 ## Invariants
 
 - Figure width is `2/3` of A4 width, exactly `140 mm`.
+- Never use raw latitude/longitude columns as metric E/N coordinates.
 - Panels stack vertically by default.
 - Legends stay outside the axes.
 - Each panel has only an `(a)`, `(b)`, `(c)` label at its upper-left corner.
@@ -39,3 +42,5 @@ labels must remain stable after export.
 - [references/figure-spec.md](references/figure-spec.md): complete layout, typography,
   legend, axis-label, output, and validation contract.
 - `scripts/plotting_template.py`: tested runnable template covering both legend modes.
+- `scripts/convert_navplot_enu.py`: converts NavPlot latitude/longitude/height to local
+  ENU metres and writes a CSV ready for plotting.
