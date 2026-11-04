@@ -12,6 +12,12 @@ not a local Codex skill, command, or project document.
 ## Storage Rules
 
 - Store cloud-computer instructions under `D:\DOC\<project>\`.
+- Store reusable cloud-computer skill packages under `D:\DOC\cloud-skills\<skill-name>\`.
+- The standard cloud-computer skill directory is
+  `C:\Users\liuziao\lingma\skills`. Copy the complete `<skill-name>` folder there
+  without repacking it.
+- A cloud-computer skill must contain `SKILL.md` at its root and any scripts or agents
+  directories beside it.
 - Use lowercase English, digits, and hyphens in file names.
 - Keep every Markdown file below 10,000 characters. Start splitting when a file exceeds
   roughly 8,000 characters.
