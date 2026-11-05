@@ -1,0 +1,4 @@
+interface:
+  display_name: "C++ Code Navigation"
+  short_description: "Read and change C++ using semantic evidence"
+  default_prompt: "Use $cpp-code-navigation to trace this C++ symbol, its callers, and required headers before changing code."
