@@ -33,6 +33,8 @@ Do not organize the main narrative around files processed, tools used, meetings 
 
 The opening summary should stand alone. A reader who stops after it should still know the outcome.
 
+Do not fill that summary with internal sample counts, event counts, or file counts. Use a qualitative scope statement and move detailed counts to the evidence sections.
+
 ## 3. Title block
 
 Include:

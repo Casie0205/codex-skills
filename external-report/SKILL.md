@@ -38,6 +38,7 @@ Use this skill when the intended reader is a customer, partner, or other externa
 - Keep the current academic paper layout: white surface, single content column, numbered sections, full-width figures, captions below figures, and print-safe tables.
 - Default to the `humanizer:humanizer` skill for all report prose.
 - State conclusions in customer terms. Describe what was found, its impact, what changed, and whether it is resolved.
+- Keep the opening summary free of internal sample counts, event counts, file counts, and implementation metrics. Put exact audit counts in the evidence sections and retain only the few numbers needed for the customer decision.
 - Do not expose exact proprietary tuning values, configuration snippets, tuning grids, or implementation-specific thresholds. Use relative ranges and the resulting behavior.
 - Support data-quality conclusions with direct evidence: one or two intuitive plots plus a screenshot or excerpt of the complete original record row. Never show only a cropped field when the reader may question how the source record was interpreted.
 - Use figures only when they reveal a pattern that prose or a table cannot express as clearly. Simple counts and single values remain in text or tables.

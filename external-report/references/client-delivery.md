@@ -24,6 +24,8 @@ Avoid narrating the internal sequence of investigation. Remove tool lists, inter
 
 Use concrete outcomes. "The timestamp rollback was removed from all 93,862 records" is more useful than "we performed a detailed timestamp audit."
 
+Keep internal volume counts out of the opening summary. Sample counts, frame counts, event counts, file sizes, and anchor totals belong in evidence tables, captions, or audit detail. The summary states the affected scope and outcome without enumerating every object processed. If one extra number is essential to the customer decision, keep no more than that one.
+
 ## 2. Parameter confidentiality
 
 Do not place exact proprietary or customer-specific parameters in an external report. This includes noise densities, covariance values, scale factors, tuning grids, thresholds, and full configuration files.
