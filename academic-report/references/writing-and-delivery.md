@@ -60,6 +60,7 @@ When prose editing is substantial and the `humanizer` skill is available, apply 
 - Do not mention WIKI or other planned knowledge products when the user has asked to omit them.
 - Do not imply that a class-group presentation occurred when only a mentor briefing occurred.
 - Do not replace a numeric result with a screenshot when the screenshot does not show the measurement.
+- Do not show page construction or implementation validation status such as “页面已验证” in the report metadata.
 
 ## Validation and Delivery
 

@@ -28,8 +28,10 @@ The title block contains:
 - report category and period;
 - a real technical title, not a slogan;
 - one sentence describing the evaluated scope;
-- status and reporting date;
-- optional reporting state, such as “已向导师简报，待组内分享”.
+- reporting date;
+- optional substantive work state only when it changes how the result should be read.
+
+Do not show implementation or page-verification state such as “页面已验证” or “页面已完成”.
 
 Avoid a decorative cover page for a normal progress report. The title block should begin on the first content page.
 
