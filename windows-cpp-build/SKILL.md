@@ -10,7 +10,7 @@ Use the local `windows-cpp-build` MCP whenever a Windows C++ change must be vali
 ## Required Workflow
 
 1. Locate the actual `.sln` or `.vcxproj`; do not assume the nearest project is the intended target.
-2. Call `discover_visual_studio` once to find MSBuild, or use an explicitly configured `msbuild_path`.
+2. Call `discover_visual_studio` once to find MSBuild, or use an explicitly configured `msbuild_path`. When the project requires Visual Studio 2019, pass `version: "2019"` and `visual_studio_version: "2019"`; keep the toolset on `v142`.
 3. Build the unchanged baseline when practical, so existing failures are not attributed to the new edit.
 4. Read the reported errors and warnings. Fix one root cause at a time.
 5. Rebuild the same target after every source or project-file change.
@@ -23,6 +23,7 @@ Use the local `windows-cpp-build` MCP whenever a Windows C++ change must be vali
 - Treat `LNK2019` and related link errors as ownership/definition/import-library problems, not as reasons to add arbitrary source files.
 - When the build output is incomplete, call `parse_build_log` on the saved log instead of relying on the console tail.
 - If no Visual Studio or MSBuild installation is found, report that environment blocker. Do not claim compilation succeeded.
+- Do not silently fall back to Visual Studio 2022 or the `v143` toolset when the project requires Visual Studio 2019.
 
 ## Tool Contract
 

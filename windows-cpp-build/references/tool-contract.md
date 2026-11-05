@@ -20,12 +20,13 @@ The MCP provides a deterministic Windows build loop for C++ projects. It does no
 Input:
 
 ```json
-{}
+{"version": "2019"}
 ```
 
 Output:
 
 - `vswhere_path`
+- `requested_version`
 - `installations[]`, including `installation_path`, `display_name`, `installation_version`, `msbuild_path`, and `vcvars_path`
 - `errors[]`
 
@@ -38,6 +39,7 @@ Input:
   "solution_path": "D:\\project\\app.sln",
   "configuration": "Debug",
   "platform": "x64",
+  "visual_studio_version": "2019",
   "restore": true,
   "clean": false,
   "timeout_seconds": 1800,
@@ -70,6 +72,7 @@ Build tools return:
 - `target_path`
 - `configuration`
 - `platform`
+- `visual_studio_version`
 - `command[]`
 - `log_path`
 - `errors[]`
@@ -91,7 +94,6 @@ Build tools return:
 - `link`: linker failure such as `LNK2019`
 - `project_or_build`: MSBuild, project, toolset, or configuration failure
 - `toolchain`: missing compiler, toolset, Windows SDK, or Visual Studio component, including `MSB8020` and `MSB8036`
-- `project_or_build`: project configuration or general MSBuild failure
 - `other`: a diagnostic that does not match a known code
 
 ## 5. Output locations
@@ -113,3 +115,5 @@ The server uses these discovery paths unless `msbuild_path` is supplied:
 3. `PATH`
 
 Use an explicit MSBuild path when multiple toolchains are installed and the project requires a specific one.
+
+For Visual Studio 2019, set `WINDOWS_CPP_VS_VERSION` to `[16.0,17.0)` or pass `visual_studio_version: "2019"` to the build tools. Keep the project on `PlatformToolset=v142`; do not let it fall through to the v143 toolset from Visual Studio 2022.
