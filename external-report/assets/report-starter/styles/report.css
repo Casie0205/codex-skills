@@ -1,0 +1,929 @@
+@import url("./tokens.css");
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  color: #1d211f;
+  background: #e9e7e1;
+  font-family: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+}
+
+.report-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  color: #1d211f;
+  background: rgba(249, 248, 244, 0.97);
+  border-bottom: 1px solid #d4d1c8;
+  backdrop-filter: blur(10px);
+}
+
+.report-nav-inner {
+  width: min(calc(100% - 48px), 1100px);
+  min-height: 50px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.report-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: #1d211f;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.report-brand-mark {
+  width: 31px;
+  height: 31px;
+  display: grid;
+  place-items: center;
+  color: #1d211f;
+  background: transparent;
+  border: 1px solid #8d948f;
+  border-radius: 2px;
+  font-family: "Noto Serif SC", "SimSun", serif;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.report-brand-copy {
+  display: grid;
+  gap: 1px;
+  line-height: 1.15;
+}
+
+.report-brand-copy strong {
+  font-family: "Noto Serif SC", "SimSun", serif;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.report-brand-copy span {
+  color: #6f7974;
+  font-family: "Bahnschrift", "Arial Narrow", sans-serif;
+  font-size: 10px;
+}
+
+.report-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.report-nav-links::-webkit-scrollbar {
+  display: none;
+}
+
+.report-nav-link,
+.report-nav-action {
+  min-height: 34px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #59635e;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0;
+  text-decoration: none;
+  white-space: nowrap;
+  font-family: "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+  font-size: 12px;
+}
+
+.report-nav-link:hover,
+.report-nav-link[aria-current="page"] {
+  color: #111614;
+  background: transparent;
+  border-bottom-color: #1d211f;
+}
+
+.report-nav-action {
+  color: #1d211f;
+  border-color: #8d948f;
+  cursor: pointer;
+}
+
+.report-nav-action:hover {
+  color: #ffffff;
+  background: #1d211f;
+}
+
+.report-main {
+  width: min(calc(100% - 56px), 960px);
+  margin: 30px auto 50px;
+  padding: 48px 58px 52px;
+  background: #fffefb;
+  border: 1px solid #d8d5cc;
+  counter-reset: figure table;
+}
+
+.report-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 42px;
+  align-items: end;
+  padding-bottom: 24px;
+  border-bottom: 2px solid #252d2a;
+}
+
+.report-kicker {
+  margin-bottom: 12px;
+  color: #4b5f58;
+  font-family: "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.report-title {
+  max-width: 680px;
+  color: #111614;
+  font-family: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+  font-size: 41px;
+  line-height: 1.18;
+  font-weight: 700;
+}
+
+.report-subtitle {
+  max-width: 670px;
+  margin-top: 15px;
+  color: #4c5651;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.report-meta {
+  border-top: 1px solid #858b87;
+  border-bottom: 1px solid #858b87;
+}
+
+.report-meta-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px solid #dedbd3;
+  font-family: "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+  font-size: 11px;
+}
+
+.report-meta-row:last-child {
+  border-bottom: 0;
+}
+
+.report-meta-row span {
+  color: #6f7974;
+}
+
+.report-meta-row strong {
+  font-weight: 650;
+  text-align: right;
+}
+
+.completion-panel {
+  margin-top: 26px;
+  padding: 22px 24px;
+  color: #1d211f;
+  background: #f3f4f1;
+  border-left: 4px solid #45685e;
+  border-radius: 0;
+}
+
+.completion-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 12px;
+}
+
+.completion-head h2 {
+  font-family: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+  font-size: 17px;
+}
+
+.completion-text {
+  color: #28312d;
+  font-size: 14px;
+  line-height: 1.9;
+  text-align: justify;
+}
+
+.metric-grid {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid #777e7a;
+  border-bottom: 1px solid #777e7a;
+}
+
+.metric {
+  min-height: 104px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: 1px solid #dedbd3;
+}
+
+.metric:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.metric:last-child {
+  padding-right: 0;
+}
+
+.metric strong {
+  color: #111614;
+  font-family: "Bahnschrift", "Arial Narrow", sans-serif;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.metric span {
+  color: #68726d;
+  font-family: "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.report-section {
+  margin-top: 48px;
+}
+
+.section-head {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #aeb3af;
+}
+
+.section-no {
+  padding-top: 4px;
+  color: #45685e;
+  font-family: "Bahnschrift", "Arial Narrow", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.section-head h2 {
+  color: #111614;
+  font-family: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+  font-size: 24px;
+  line-height: 1.35;
+}
+
+.section-head p {
+  max-width: 760px;
+  margin-top: 5px;
+  color: #59635e;
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.subsection {
+  margin-top: 26px;
+}
+
+.subsection h3 {
+  font-family: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+  font-size: 18px;
+}
+
+.subsection > p {
+  margin-top: 5px;
+  color: #59635e;
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.evidence-grid {
+  display: block;
+}
+
+.figure-card {
+  margin: 20px 0 26px;
+  padding: 0;
+  overflow: visible;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  counter-increment: figure;
+  break-inside: avoid;
+}
+
+.figure-media {
+  min-height: 0;
+  padding: 0;
+  display: block;
+  overflow: visible;
+  background: #ffffff;
+  border: 1px solid #d7d4cc;
+}
+
+.figure-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: none;
+  object-fit: contain;
+}
+
+.figure-media.is-transparent {
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
+.chart-legend {
+  margin: 14px 0 18px;
+  padding: 8px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  border-top: 1px solid #d9d6ce;
+  border-bottom: 1px solid #d9d6ce;
+  font-family: "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+  font-size: 10px;
+  break-inside: avoid;
+}
+
+.chart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+
+.chart-legend-line {
+  width: 35px;
+  height: 2px;
+  flex: 0 0 auto;
+  background: var(--legend-color, #45685e);
+}
+
+.chart-legend-line.is-dash {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--legend-color, #45685e) 0 9px,
+    transparent 9px 13px
+  );
+}
+
+.chart-legend-line.is-long-dash {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--legend-color, #45685e) 0 14px,
+    transparent 14px 19px
+  );
+}
+
+.chart-legend-line.is-dash-dot {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--legend-color, #45685e) 0 9px,
+    transparent 9px 12px,
+    var(--legend-color, #45685e) 12px 14px,
+    transparent 14px 18px
+  );
+}
+
+.chart-legend-line.is-dot {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--legend-color, #45685e) 0 3px,
+    transparent 3px 8px
+  );
+}
+
+.figure-card figcaption {
+  margin-top: 7px;
+  padding: 7px 0 0;
+  border-top: 1px solid #aeb3af;
+}
+
+.figure-card figcaption strong {
+  display: block;
+  color: #1d211f;
+  font-family: "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.figure-card figcaption strong::before {
+  content: "图 " counter(figure) "  ";
+}
+
+.figure-card figcaption span {
+  display: block;
+  margin-top: 3px;
+  color: #1d211f;
+  font-family: "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+.table-wrap {
+  margin: 16px 0 22px;
+  overflow-x: auto;
+  counter-increment: table;
+}
+
+.table-wrap::before {
+  content: "表 " counter(table);
+  display: block;
+  padding: 5px 0;
+  color: #1d211f;
+  font-family: "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.table-wrap[data-title]::before {
+  content: "表 " counter(table) "  " attr(data-title);
+}
+
+.table-spaced {
+  margin-top: 18px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+  font-size: 10.5px;
+}
+
+.data-table th,
+.data-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #d9d6ce;
+  text-align: left;
+  vertical-align: top;
+}
+
+.data-table th {
+  color: #3d4742;
+  background: #f3f4f1;
+  border-top: 1px solid #747b77;
+  border-bottom: 1px solid #747b77;
+  font-weight: 650;
+}
+
+.data-table td:first-child {
+  color: #1d211f;
+  font-weight: 600;
+}
+
+.data-table .num {
+  text-align: right;
+  font-family: "Bahnschrift", "Arial Narrow", sans-serif;
+  white-space: nowrap;
+}
+
+.note-stack {
+  display: grid;
+  gap: 10px;
+}
+
+.note-row {
+  padding: 12px 0;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) 64px;
+  gap: 14px;
+  align-items: center;
+  border-bottom: 1px solid #d9d6ce;
+}
+
+.note-index {
+  color: #45685e;
+  font-family: "Bahnschrift", "Arial Narrow", sans-serif;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.note-row h3 {
+  font-family: "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+  font-size: 14px;
+}
+
+.note-row p {
+  margin-top: 3px;
+  color: #68726d;
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.note-count {
+  color: #1d211f;
+  font-family: "Bahnschrift", "Arial Narrow", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  text-align: right;
+}
+
+.callout {
+  margin: 18px 0;
+  padding: 14px 16px;
+  color: #4d5752;
+  background: #f3f4f1;
+  border-left: 3px solid #6c7973;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.callout strong {
+  color: #1d211f;
+  font-family: "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+}
+
+.check-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 20px;
+}
+
+.check-item {
+  position: relative;
+  padding: 8px 0 8px 16px;
+  color: #4d5752;
+  border-bottom: 1px solid #dedbd3;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.check-item::before {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  background: #45685e;
+  border-radius: 50%;
+}
+
+.text-muted {
+  color: #68726d;
+}
+
+.report-footer {
+  margin-top: 46px;
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: #68726d;
+  border-top: 1px solid #777e7a;
+  font-family: "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+  font-size: 9px;
+}
+
+@media (max-width: 900px) {
+  .report-nav-inner {
+    width: min(calc(100% - 32px), 1100px);
+  }
+
+  .report-main {
+    width: min(calc(100% - 32px), 960px);
+    padding: 36px 34px 40px;
+  }
+
+  .report-header {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .report-meta {
+    max-width: 340px;
+  }
+
+  .report-title {
+    font-size: 37px;
+  }
+
+  .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .metric:nth-child(3) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .metric:nth-child(-n + 2) {
+    border-bottom: 1px solid #dedbd3;
+  }
+}
+
+@media (max-width: 640px) {
+  .report-brand-copy span,
+  .report-nav-link {
+    display: none;
+  }
+
+  .report-main {
+    width: calc(100% - 20px);
+    margin: 10px auto 24px;
+    padding: 28px 20px 32px;
+  }
+
+  .report-title {
+    font-size: 31px;
+  }
+
+  .report-subtitle {
+    font-size: 13px;
+  }
+
+  .completion-panel {
+    padding: 18px 16px;
+  }
+
+  .completion-head {
+    align-items: flex-start;
+  }
+
+  .completion-text {
+    font-size: 13px;
+  }
+
+  .section-head {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+
+  .check-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 18mm 20mm 17mm;
+  }
+
+  html,
+  body {
+    width: auto;
+    min-width: 0;
+    background: #ffffff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    color: #111614;
+    font-size: 10.5pt;
+    line-height: 1.55;
+  }
+
+  .report-nav,
+  .screen-only {
+    display: none !important;
+  }
+
+  .report-main {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+  }
+
+  .report-header {
+    grid-template-columns: minmax(0, 1fr) 46mm;
+    gap: 7mm;
+    padding-bottom: 6mm;
+    border-bottom-width: 1.2pt;
+  }
+
+  .report-kicker {
+    margin-bottom: 3mm;
+    font-size: 8pt;
+  }
+
+  .report-title {
+    font-size: 25pt;
+    line-height: 1.12;
+  }
+
+  .report-subtitle {
+    margin-top: 4mm;
+    font-size: 9.5pt;
+    line-height: 1.6;
+  }
+
+  .report-meta-row {
+    padding: 1.6mm 0;
+    font-size: 7.3pt;
+  }
+
+  .report-meta-row strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .completion-panel {
+    margin-top: 6mm;
+    padding: 5mm 6mm;
+    background: #f3f4f1;
+    border-left: 1.2mm solid #45685e;
+    break-inside: avoid;
+  }
+
+  .completion-head {
+    margin-bottom: 3mm;
+  }
+
+  .completion-head h2 {
+    font-size: 12pt;
+  }
+
+  .completion-text {
+    font-size: 9.5pt;
+    line-height: 1.7;
+  }
+
+  .metric-grid {
+    margin-top: 5mm;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 0.8pt solid #666d69;
+    border-bottom: 0.8pt solid #666d69;
+    break-inside: avoid;
+  }
+
+  .metric {
+    min-height: 22mm;
+    padding: 3.5mm;
+    border-bottom: 0;
+    border-left: 0.5pt solid #dedbd3;
+  }
+
+  .metric:first-child {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .metric:nth-child(3) {
+    padding-left: 3.5mm;
+    border-bottom: 0;
+    border-left: 0.5pt solid #dedbd3;
+  }
+
+  .metric:last-child {
+    padding-right: 0;
+  }
+
+  .metric strong {
+    font-size: 17pt;
+  }
+
+  .metric span {
+    font-size: 7.2pt;
+  }
+
+  .report-section {
+    margin-top: 8mm;
+  }
+
+  .report-section.page-break {
+    break-before: page;
+  }
+
+  .section-head {
+    grid-template-columns: 10mm minmax(0, 1fr);
+    gap: 3mm;
+    margin-bottom: 4mm;
+    padding-bottom: 2.5mm;
+    border-bottom: 0.6pt solid #8f9591;
+    break-after: avoid;
+  }
+
+  .section-head h2 {
+    font-size: 15pt;
+  }
+
+  .section-head p {
+    font-size: 8pt;
+    line-height: 1.55;
+  }
+
+  .subsection {
+    margin-top: 5mm;
+  }
+
+  .subsection h3 {
+    font-size: 11pt;
+  }
+
+  .figure-card {
+    margin: 6mm 0 7mm;
+    break-inside: avoid;
+  }
+
+  .figure-media {
+    border: 0.5pt solid #c6c9c5;
+  }
+
+  .figure-media img {
+    width: 100%;
+    height: auto;
+    max-height: none;
+  }
+
+  .figure-card figcaption {
+    margin-top: 2mm;
+    padding-top: 1.8mm;
+    border-top: 0.5pt solid #929894;
+  }
+
+  .figure-card figcaption strong {
+    font-size: 8.5pt;
+  }
+
+  .figure-card figcaption span {
+    margin-top: 1mm;
+    color: #1d211f;
+    font-size: 8.5pt;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .table-wrap {
+    margin: 4mm 0 6mm;
+    overflow: visible;
+    break-inside: avoid;
+  }
+
+  .table-wrap::before {
+    padding: 1.5mm 0;
+    font-size: 8pt;
+  }
+
+  .data-table {
+    font-size: 7.6pt;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 1.6mm 2mm;
+  }
+
+  .data-table th {
+    border-top-width: 0.7pt;
+    border-bottom-width: 0.7pt;
+  }
+
+  .data-table tr {
+    break-inside: avoid;
+  }
+
+  .callout {
+    margin: 4mm 0;
+    padding: 3mm 4mm;
+    border-left-width: 1mm;
+    font-size: 8pt;
+  }
+
+  .check-grid {
+    gap: 1.5mm 5mm;
+  }
+
+  .check-item {
+    padding: 2mm 0 2mm 4mm;
+    font-size: 8pt;
+    break-inside: avoid;
+  }
+
+  .check-item::before {
+    top: 3.2mm;
+    width: 1.5mm;
+    height: 1.5mm;
+  }
+
+  .report-footer {
+    margin-top: 9mm;
+    padding-top: 2mm;
+    border-top: 0.6pt solid #777e7a;
+    font-size: 7pt;
+  }
+}

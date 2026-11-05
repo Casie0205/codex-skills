@@ -1,0 +1,3 @@
+interface:
+  display_name: "External Report"
+  short_description: "Create client-ready technical reports with protected parameters"
