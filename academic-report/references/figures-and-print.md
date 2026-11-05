@@ -12,6 +12,7 @@ Use separate output files for separate plots. Do not build a single plotting fun
 
 ## Plot Standards
 
+- Before plotting, choose the simplest adequate representation. A few simple counts or a single scalar normally belongs in prose or a table; use a figure when it reveals shape, distribution, trend, relationship, spatial pattern, or a comparison that is difficult to read as numbers.
 - Put the legend outside the axes, normally above the plotting area.
 - Include units in axes and legends.
 - Use consistent font sizes large enough for A4 printing.

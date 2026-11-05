@@ -51,6 +51,7 @@ A finished report should:
 - Use serif type for body text and report titles; reserve sans-serif for navigation, labels, code, and numeric callouts.
 - Use numbered main sections and, when needed, descriptive subsections. Do not mix multiple competing section systems.
 - Keep figures single-column and full-width. Preserve the original aspect ratio; never place a graph inside a fixed-height viewport that clips it.
+- Do not create a figure for a few simple counts or a single scalar when prose or a table communicates the result more directly. Use figures when the visual reveals a trend, distribution, relationship, spatial pattern, or nontrivial comparison.
 - Put figure captions below the image and table titles above the table. Let the CSS number them automatically.
 - Put figure legends outside the plot area, normally above it.
 - When several event plots answer the same question, combine them into one multi-panel figure with `(a)`, `(b)`, `(c)` labels and one caption.

@@ -28,6 +28,7 @@ labels must remain stable after export.
 ## Invariants
 
 - Figure width is `2/3` of A4 width, exactly `140 mm`.
+- Do not create a figure for a few simple counts or one scalar. Use prose or a table unless the visual reveals a trend, distribution, relationship, or another non-obvious pattern.
 - Never use raw latitude/longitude columns as metric E/N coordinates.
 - Panels stack vertically by default.
 - Legends stay outside the axes.

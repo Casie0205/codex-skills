@@ -1,6 +1,6 @@
 # Python Publication Figure Specification
 
-> Status: active | Updated: 2026-11-04 | Target: CPython 3.11.x / Matplotlib
+> Status: active | Updated: 2026-11-05 | Target: CPython 3.11.x / Matplotlib
 
 ## 目录
 
@@ -151,6 +151,7 @@ SVG width: 396.850394 pt (140 mm)
 
 ## 10. 禁止模式
 
+- 为少量简单计数或单个标量单独作图；这类信息优先用文字或表格表达，除非图形能揭示趋势、分布、关系或其他非显然模式；
 - 图例放进子图内部；
 - `loc="best"` 自动放置图例；
 - `fig.suptitle()`；
