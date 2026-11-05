@@ -433,8 +433,10 @@ body {
 .figure-card figcaption span {
   display: block;
   margin-top: 3px;
-  color: #69736e;
-  font-size: 10.5px;
+  color: #1d211f;
+  font-family: "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
   line-height: 1.7;
 }
 
@@ -860,7 +862,9 @@ body {
 
   .figure-card figcaption span {
     margin-top: 1mm;
-    font-size: 7.3pt;
+    color: #1d211f;
+    font-size: 8.5pt;
+    font-weight: 400;
     line-height: 1.5;
   }
 

@@ -50,6 +50,8 @@ Do not combine unrelated metrics merely to reduce figure count.
 </figure>
 ```
 
+Keep the caption title and its explanatory text at the same font family, size, and color. Make only the title bold; render the explanation at regular weight.
+
 Do not add a fixed height to `.figure-media` or the image. Use `width: 100%; height: auto`.
 
 ## Table HTML

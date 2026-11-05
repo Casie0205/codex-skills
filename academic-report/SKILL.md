@@ -53,6 +53,7 @@ A finished report should:
 - Keep figures single-column and full-width. Preserve the original aspect ratio; never place a graph inside a fixed-height viewport that clips it.
 - Do not create a figure for a few simple counts or a single scalar when prose or a table communicates the result more directly. Use figures when the visual reveals a trend, distribution, relationship, spatial pattern, or nontrivial comparison.
 - Put figure captions below the image and table titles above the table. Let the CSS number them automatically.
+- Give a figure caption title and its explanatory text the same font family, size, and color. Keep only the title bold; use regular weight for the explanation.
 - Put figure legends outside the plot area, normally above it.
 - When several event plots answer the same question, combine them into one multi-panel figure with `(a)`, `(b)`, `(c)` labels and one caption.
 - Keep captions quantitative. State what is shown, the sample size or duration, the key result, and any limitation needed to interpret it.
