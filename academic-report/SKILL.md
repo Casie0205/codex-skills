@@ -1,6 +1,6 @@
 ---
 name: academic-report
-description: "Create and revise print-ready academic-style HTML progress reports, especially monthly summaries and technical work reports, with quantitative figures and tables, a consistent paper layout, and A4 print output."
+description: "Create and revise print-ready academic-style HTML progress reports and PPT-conversion reports, with quantitative figures and tables, consistent layouts, and A4 or slide output."
 ---
 
 # Academic Report
@@ -62,6 +62,16 @@ A finished report should:
 - Use screen-only navigation and print controls. They must be hidden by `@media print`.
 - Do not present the page as a collection of floating cards. Use prose, rules, tables, and uninterrupted figure bands.
 - Do not use direct PDF editing to repair layout. Fix the HTML/CSS and print again.
+
+## PPT Conversion
+
+When the report will be converted into PPT or shown as slides:
+
+- Omit slide numbers, page counters, footer labels, source paths, generation dates, validation records, and other production metadata from every slide.
+- Keep provenance, data paths, collection dates, and caveats in an accompanying Markdown file, README, or speaker notes instead of visible slide text.
+- Use one idea per 16:9 page and keep content inside the page without relying on browser navigation, footers, or hover states.
+- Inspect the print export page by page and confirm that no footer labels, page numbers, paths, or metadata remain.
+- Do not treat a paper-style report page as a PPT cover. Use the supplied presentation template or a dedicated slide cover when one is available.
 
 ## Writing Rules
 
