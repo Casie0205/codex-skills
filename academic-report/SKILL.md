@@ -43,7 +43,7 @@ A finished report should:
 
    Resolve missing references, duplicate IDs, unresolved placeholders, omitted alt text, and images that cannot fit the intended print width.
 7. **Inspect rendered output.** Check desktop, a narrow viewport, and print media or an A4 preview. Confirm that images are uncropped, tables remain aligned, captions follow their objects, and screen-only controls disappear in print.
-8. **Deliver only what was requested.** Publish the HTML and supporting assets first. Generate the PDF when the user asks for it or after the page version is approved.
+8. **Deliver only what was requested.** Publish the HTML and supporting assets first. Do not generate or overwrite a PDF on every iteration. Generate the PDF only after the user explicitly confirms that the current version is final or explicitly asks for a PDF. Use browser screenshots or rendered page inspection for intermediate QA.
 
 ## Design Invariants
 
@@ -72,6 +72,7 @@ When the report will be converted into PPT or shown as slides:
 - Use one idea per 16:9 page and keep content inside the page without relying on browser navigation, footers, or hover states.
 - Inspect the print export page by page and confirm that no footer labels, page numbers, paths, or metadata remain.
 - Do not treat a paper-style report page as a PPT cover. Use the supplied presentation template or a dedicated slide cover when one is available.
+- Do not generate or overwrite a PDF during iterative slide design. Export only after the user explicitly confirms the current version as final or explicitly requests a PDF.
 
 ## Writing Rules
 
