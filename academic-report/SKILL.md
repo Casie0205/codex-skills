@@ -67,10 +67,11 @@ A finished report should:
 
 When the report will be converted into PPT or shown as slides:
 
-- Omit slide numbers, page counters, footer labels, source paths, generation dates, validation records, and other production metadata from every slide.
+- Omit footer labels, source paths, generation dates, validation records, and other production metadata from every slide.
+- A page number is allowed only as a small, unobtrusive bottom-right marker. Do not add total-page text, footer rules, paths, or metadata beside it.
 - Keep provenance, data paths, collection dates, and caveats in an accompanying Markdown file, README, or speaker notes instead of visible slide text.
 - Use one idea per 16:9 page and keep content inside the page without relying on browser navigation, footers, or hover states.
-- Inspect the print export page by page and confirm that no footer labels, page numbers, paths, or metadata remain.
+- Inspect the print export page by page and confirm that the only permitted footer text is the discreet bottom-right page number.
 - Do not treat a paper-style report page as a PPT cover. Use the supplied presentation template or a dedicated slide cover when one is available.
 - Do not generate or overwrite a PDF during iterative slide design. Export only after the user explicitly confirms the current version as final or explicitly requests a PDF.
 
