@@ -73,6 +73,7 @@ When the report will be converted into PPT or shown as slides:
 - Use one idea per 16:9 page and keep content inside the page without relying on browser navigation, footers, or hover states.
 - Inspect the print export page by page and confirm that the only permitted footer text is the discreet bottom-right page number.
 - Do not treat a paper-style report page as a PPT cover. Use the supplied presentation template or a dedicated slide cover when one is available.
+- When an internal PPT template supplies a header master, reproduce its geometry instead of inventing page labels. Use the template icon at the left, one concise module-and-topic title, one key-conclusion line, and the supplied logo at its original proportions. Fix these positions and font sizes in print units and verify the populated header at 16:9.
 - Do not generate or overwrite a PDF during iterative slide design. Export only after the user explicitly confirms the current version as final or explicitly requests a PDF.
 
 ## Writing Rules
