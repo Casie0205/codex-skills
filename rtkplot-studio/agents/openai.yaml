@@ -1,0 +1,4 @@
+interface:
+  display_name: "RTKPlot Studio"
+  short_description: "Inspect and plot 18-column RTKPlot solution files"
+  default_prompt: "Use $rtkplot-studio to inspect an RTKPlot text file and render the requested trajectory, position, sigma, or quality figure."
