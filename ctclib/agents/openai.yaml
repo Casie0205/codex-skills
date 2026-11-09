@@ -1,0 +1,4 @@
+interface:
+  display_name: "CTCLib CLI"
+  short_description: "Decode raw data and run ctclib navigation post-processing"
+  default_prompt: "Use $ctclib to decode a raw GNSS/INS file or run ctclib navigation post-processing."
