@@ -1,4 +1,4 @@
 interface:
   display_name: "GNSS/INS Navigation Baseline"
-  short_description: "Analyze CTCLib IMU and calibrate GNSS/INS parameters"
-  default_prompt: "Use $gnss-ins-baseline-analysis to analyze split CTCLib IMU data, calibrate observable states, and run final navigation."
+  short_description: "Analyze CTCLib IMU, calibrate INS, and plot navigation errors"
+  default_prompt: "Use $gnss-ins-baseline-analysis to analyze CTCLib IMU data, calibrate observable states, and plot INS-versus-RTK navigation errors."

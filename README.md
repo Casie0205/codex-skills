@@ -20,7 +20,7 @@ GNSS workflows, report generation, technical writing, Word equation conversion, 
 | [`create-cloud-computer-instructions`](create-cloud-computer-instructions/SKILL.md) | Write standalone offline instruction documents for an external cloud computer under `D:\DOC`, separate from local Codex skills and commands. |
 | [`ctclib`](ctclib/SKILL.md) | Decode raw GNSS/INS data with `ctclib_decode.exe` and run navigation post-processing with `ctclib_app.exe`. |
 | [`gnss-analysishub`](gnss-analysishub/SKILL.md) | Support GNSS conversion, QC, AnalysisHub processing, plotting, reports, and troubleshooting. |
-| [`gnss-ins-baseline-analysis`](gnss-ins-baseline-analysis/SKILL.md) | Analyze split CTCLib IMU data, calibrate observable states, and run the final fixed-parameter navigation solution. |
+| [`gnss-ins-baseline-analysis`](gnss-ins-baseline-analysis/SKILL.md) | Analyze split CTCLib IMU data, calibrate observable states, run final navigation, and plot status-colored INS-versus-RTK errors. |
 | [`humanizer`](humanizer/SKILL.md) | Rewrite AI-sounding prose while preserving facts, data, and the writer's intended meaning. |
 | [`navigation-output-analysis`](navigation-output-analysis/SKILL.md) | Analyze NavPlot `ins_insplot.txt` files, including fixed column definitions, run-status checks, missing-column limits, and concise evidence reporting. |
 | [`navplot-coordinate-conversion`](navplot-coordinate-conversion/SKILL.md) | Convert NavPlot latitude, longitude, and height into metric local ENU displacement, cumulative distance, and summary output. |

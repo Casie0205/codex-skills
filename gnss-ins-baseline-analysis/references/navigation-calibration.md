@@ -146,5 +146,6 @@ If a previous run already contains validated outputs:
 - skip calibration when `dr_est.prodef` and its application report are valid;
 - skip final navigation when a valid primary result exists.
 
-Do not skip because a file merely exists. If any content check fails, rerun
-that step in a new timestamped directory.
+Do not skip because a file merely exists. If any content check fails, rerun in
+the same canonical data-time/variant directory after explicit overwrite
+approval. Add a new variant suffix only when an important parameter changes.

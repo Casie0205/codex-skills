@@ -1,6 +1,6 @@
 ---
 name: gnss-ins-baseline-analysis
-description: Use when analyzing CTCLib GNSS/INS data end to end, including split IMU NavPlot statistics and figures, navigation calibration, observable lever-arm and installation-state writeback, and the final fixed-parameter navigation solve.
+description: Use when analyzing CTCLib GNSS/INS data end to end, including split IMU figures, navigation calibration and writeback, status-colored trajectories, and INS-versus-RTK error statistics.
 ---
 
 # GNSS/INS Baseline Analysis
@@ -15,6 +15,8 @@ Status: workflow and helper scripts verified on Windows on 2026-11-09.
 - [IMU analysis](#imu-analysis)
 - [Calibration](#calibration)
 - [Apply calibration and rerun](#apply-calibration-and-rerun)
+- [Navigation result plots](#navigation-result-plots)
+- [Output naming](#output-naming)
 - [Resume without repeating](#resume-without-repeating)
 - [Output layout](#output-layout)
 - [Validation rules](#validation-rules)
@@ -52,7 +54,8 @@ or executables are unavailable, stop and report the missing dependency.
 5. Inspect `dr_est.prodef`; treat states that never update as unobservable.
 6. Write observable final values and their last-window STD into a new config.
 7. Disable estimation and run `ins_mode=0`.
-8. Validate the produced navigation rows and update the project Markdown report.
+8. Generate trajectory, position-time, and INS-versus-RTK error outputs.
+9. Validate the produced navigation rows and update the project Markdown report.
 
 Do not skip from calibration directly to a deliverable navigation result
 without checking that estimated values actually changed.
@@ -133,8 +136,8 @@ values:
 ```powershell
 python "<skill-root>\scripts\apply_calibration.py" `
   --dr-est "D:\Output\<project>\ctclib\<calibration>\dr_est.prodef" `
-  --config "D:\DatasetParameters\<project>\<time>_gnss-ins-calibration.ctccfg" `
-  --output-config "D:\DatasetParameters\<project>\<time>_gnss-ins-final.ctccfg" `
+  --config "D:\DatasetParameters\<project>\<data-time-tag>_gnss-ins-calibration.ctccfg" `
+  --output-config "D:\DatasetParameters\<project>\<data-time-tag>_gnss-ins-final.ctccfg" `
   --vio-prodef "D:\Output\<project>\ctclib\<decode>\source\<stem>_ctclibdec\ctclibdec_vio.prodef" `
   --window-seconds 30 `
   --json
@@ -161,6 +164,76 @@ observable groups are found. Some CTCLib builds may rewrite
 that all related `est_*` switches are still zero and that the calibrated values
 remain constant in `dr_est.prodef`.
 
+## Navigation result plots
+
+Read [references/navigation-plots.md](references/navigation-plots.md) before
+interpreting solution colors, error signs, or error statistics.
+
+Run:
+
+```powershell
+python "<skill-root>\scripts\plot_navigation_results.py" `
+  --ins-insplot "<run>\ins_insplot.txt" `
+  --gnss-rtkplot "<run>\gnss_rtkplot.txt" `
+  --output-dir "<stable-analysis-directory>" `
+  --data-label "<dataset label>" `
+  --json
+```
+
+The script produces:
+
+- one horizontal trajectory colored by solution class;
+- one E/N/U time-series figure colored by solution class;
+- one position and velocity error figure, defined as INS minus RTK;
+- one fixed/all error statistics table in CSV and Markdown;
+- matched error samples and a JSON summary.
+
+Every figure is written as SVG, PNG, and pickle-backed FIG. Keep the title
+above the legend and put units in each y-axis label.
+
+The current CTCLib `gnss_rtkplot.txt` ECEF format is parsed directly. Do not send
+it to the separate 18-column relative-time RTKPlot workflow.
+
+## Output naming
+
+Use data time and meaningful parameter variants, never the current wall-clock
+time of the run:
+
+```text
+<data-time>_<flavor>
+<data-time>_<flavor>_<parameter-tags>
+```
+
+Examples:
+
+```text
+20261109T160537_navigation
+20261109T160537_navigation_arw_x0p1
+20261109T160537_navigation_arw_x0p1_vrw_x0p5
+20261109T160537_calibration
+```
+
+Use `scripts/resolve_output_path.py`:
+
+```powershell
+python "<skill-root>\scripts\resolve_output_path.py" `
+  --root "D:\Output\<project>\ctclib" `
+  --data-time "2026-11-09T16:05:37" `
+  --mode navigation `
+  --variant "arw=0.1" `
+  --json
+```
+
+Rules:
+
+- Reuse the same path when data time, mode, and parameter variant are the same.
+- Do not add a run timestamp to avoid a new directory for every execution.
+- Create a different variant only when an important parameter differs from the
+  standard template.
+- Encode decimals as `p`, for example `0.1` becomes `0p1` in a path token.
+- If an identical path already exists, overwrite only after an explicit user
+  request to rerun that variant.
+
 ## Resume without repeating
 
 Reuse earlier work only after validating its contents:
@@ -174,8 +247,10 @@ Reuse earlier work only after validating its contents:
 - final navigation complete: the primary output has valid navigation rows and
   status values.
 
-Do not skip based only on file existence. If the user asks to rerun, create a
-new timestamped output directory.
+Do not skip based only on file existence. If the user asks to rerun the same
+data and parameter variant, reuse the same canonical directory after explicit
+approval to overwrite. Create a different suffix only when an important
+parameter changes.
 
 ## Output layout
 
@@ -183,10 +258,11 @@ Use the project paths required by the workspace:
 
 ```text
 D:\Dataset\<project>\raw\
-D:\DatasetParameters\<project>\<YYMMDDHH>_gnss-ins-calibration.ctccfg
-D:\DatasetParameters\<project>\<YYMMDDHH>_gnss-ins-final.ctccfg
+D:\DatasetParameters\<project>\<YYMMDDHH_data>_gnss-ins-calibration.ctccfg
+D:\DatasetParameters\<project>\<YYMMDDHH_data>_gnss-ins-final.ctccfg
 D:\Output\<project>\imu_analysis\
-D:\Output\<project>\ctclib\<calibration-or-navigation-timestamp>\
+D:\Output\<project>\ctclib\<data-time>_<flavor>[_<parameter-tags>]\
+D:\Output\<project>\analysis\<data-time>_navigation[_<parameter-tags>]\
 D:\DOC\<project>\
 ```
 
