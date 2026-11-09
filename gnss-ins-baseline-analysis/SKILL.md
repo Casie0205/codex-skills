@@ -81,7 +81,8 @@ The script must produce:
 
 Each figure must be saved as `.svg`, `.png`, and `.fig`; set
 `figure.set_visible(True)` before saving `.fig`. Keep the legend outside the
-plot area at the top.
+plot area at the top, below the figure title. Put the unit in each y-axis
+label, not in the figure title.
 
 ## Calibration
 

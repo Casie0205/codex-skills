@@ -193,7 +193,7 @@ def plot_sensor(
                 legend_labels.append(segment.path.name)
 
     for axis, label in zip(axes, labels):
-        axis.set_ylabel(label)
+        axis.set_ylabel(f"{label} ({unit})")
         axis.grid(True, alpha=0.25)
     axes[-1].set_xlabel("Elapsed time (min)")
 
@@ -202,12 +202,12 @@ def plot_sensor(
         legend_handles,
         legend_labels,
         loc="upper center",
-        bbox_to_anchor=(0.5, 0.995),
+        bbox_to_anchor=(0.5, 0.955),
         ncol=legend_columns,
         frameon=True,
     )
-    fig.subplots_adjust(top=0.90, hspace=0.20, left=0.08, right=0.985, bottom=0.07)
-    axes[0].set_title(f"{title} ({unit})", pad=10)
+    fig.suptitle(title, x=0.5, y=0.995, fontsize=14)
+    fig.subplots_adjust(top=0.88, hspace=0.20, left=0.08, right=0.985, bottom=0.07)
 
     outputs: list[Path] = []
     for suffix, kwargs in (

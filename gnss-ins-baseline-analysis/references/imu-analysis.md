@@ -60,7 +60,9 @@ Create two independent figures:
 Every input segment must be present in each figure. Use one color line per
 segment, three vertically stacked subplots, and an external legend at the top.
 Save SVG and PNG for inspection, plus a pickle-backed `.fig` with the figure
-visible.
+visible. Put the figure title above the legend. Write the unit in each y-axis
+label, for example `Acc X (g)` and `Gyro X (deg/s)`; do not append the unit to
+the figure title.
 
 ## Quality checks
 

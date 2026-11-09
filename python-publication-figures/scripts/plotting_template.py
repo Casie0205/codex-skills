@@ -164,14 +164,19 @@ def add_figure_legend(
     fig.legend(
         handles=handles,
         labels=[entry[0] for entry in entries],
-        loc="lower center",
-        bbox_to_anchor=(0.5, 0.962),
+        loc="upper center",
+        bbox_to_anchor=(0.5, 0.955),
         ncol=min(legend_columns, len(handles)),
         frameon=False,
         borderaxespad=0,
         handlelength=2.4,
         columnspacing=1.3,
     )
+
+
+def add_figure_title(fig: plt.Figure, title: str | None) -> None:
+    if title:
+        fig.suptitle(title, x=0.5, y=0.995, fontsize=10)
 
 
 def save_figure(
@@ -187,7 +192,10 @@ def save_figure(
     return [png_path, svg_path]
 
 
-def draw_with_subplot_legends(output_dir: Path) -> list[Path]:
+def draw_with_subplot_legends(
+    output_dir: Path,
+    title: str | None = None,
+) -> list[Path]:
     configure_style()
     time_s = np.linspace(0.0, 120.0, 240)
     figure, axes = create_figure(3, legend_scope="subplot")
@@ -220,13 +228,17 @@ def draw_with_subplot_legends(output_dir: Path) -> list[Path]:
         )
         add_subplot_legend(ax, legend_columns=2)
 
+    add_figure_title(figure, title)
     add_aligned_ylabels(figure, axes, ylabels)
     outputs = save_figure(figure, output_dir / "subplot_legends")
     plt.close(figure)
     return outputs
 
 
-def draw_with_figure_legend(output_dir: Path) -> list[Path]:
+def draw_with_figure_legend(
+    output_dir: Path,
+    title: str | None = None,
+) -> list[Path]:
     configure_style()
     time_s = np.linspace(0.0, 120.0, 240)
     figure, axes = create_figure(2, legend_scope="figure")
@@ -258,6 +270,7 @@ def draw_with_figure_legend(output_dir: Path) -> list[Path]:
             xlabel="时间 (s)" if index == len(axes) - 1 else None,
         )
 
+    add_figure_title(figure, title)
     add_figure_legend(figure, entries, legend_columns=2)
     add_aligned_ylabels(figure, axes, ylabels)
     outputs = save_figure(figure, output_dir / "figure_legend")
@@ -268,8 +281,8 @@ def draw_with_figure_legend(output_dir: Path) -> list[Path]:
 def main() -> int:
     output_dir = Path(__file__).resolve().parent / "output"
     outputs = [
-        *draw_with_subplot_legends(output_dir),
-        *draw_with_figure_legend(output_dir),
+        *draw_with_subplot_legends(output_dir, title="Position and attitude"),
+        *draw_with_figure_legend(output_dir, title="Position and velocity"),
     ]
     for path in outputs:
         if not path.exists() or path.stat().st_size == 0:
