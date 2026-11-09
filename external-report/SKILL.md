@@ -40,6 +40,7 @@ Use this skill when the intended reader is a customer, partner, or other externa
 - State conclusions in customer terms. Describe what was found, its impact, what changed, and whether it is resolved.
 - Keep the opening summary free of internal sample counts, event counts, file counts, and implementation metrics. Put exact audit counts in the evidence sections and retain only the few numbers needed for the customer decision.
 - Do not expose exact proprietary tuning values, configuration snippets, tuning grids, or implementation-specific thresholds. Use relative ranges and the resulting behavior.
+- Do not expose device brands or model names in customer-facing content or delivery assets unless release is explicitly approved. This includes headings, body text, captions, alt text, linked files, and image or data filenames. Use functional labels instead; in Chinese reports, use "参考 IMU" rather than a model identifier.
 - Support data-quality conclusions with direct evidence: one or two intuitive plots plus a screenshot or excerpt of the complete original record row. Never show only a cropped field when the reader may question how the source record was interpreted.
 - Use figures only when they reveal a pattern that prose or a table cannot express as clearly. Simple counts and single values remain in text or tables.
 - Keep residual risks and validation limits near the relevant conclusion.

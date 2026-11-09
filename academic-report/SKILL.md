@@ -1,6 +1,6 @@
 ---
 name: academic-report
-description: "Create and revise print-ready academic-style HTML progress reports, especially monthly summaries and technical work reports, with quantitative figures and tables, a consistent paper layout, and A4 print output."
+description: "Create and revise print-ready academic-style HTML progress reports and PPT-conversion reports, with quantitative figures and tables, consistent layouts, and A4 or slide output."
 ---
 
 # Academic Report
@@ -43,7 +43,7 @@ A finished report should:
 
    Resolve missing references, duplicate IDs, unresolved placeholders, omitted alt text, and images that cannot fit the intended print width.
 7. **Inspect rendered output.** Check desktop, a narrow viewport, and print media or an A4 preview. Confirm that images are uncropped, tables remain aligned, captions follow their objects, and screen-only controls disappear in print.
-8. **Deliver only what was requested.** Publish the HTML and supporting assets first. Generate the PDF when the user asks for it or after the page version is approved.
+8. **Deliver only what was requested.** Publish the HTML and supporting assets first. Do not generate or overwrite a PDF on every iteration. Generate the PDF only after the user explicitly confirms that the current version is final or explicitly asks for a PDF. Use browser screenshots or rendered page inspection for intermediate QA.
 
 ## Design Invariants
 
@@ -62,6 +62,19 @@ A finished report should:
 - Use screen-only navigation and print controls. They must be hidden by `@media print`.
 - Do not present the page as a collection of floating cards. Use prose, rules, tables, and uninterrupted figure bands.
 - Do not use direct PDF editing to repair layout. Fix the HTML/CSS and print again.
+
+## PPT Conversion
+
+When the report will be converted into PPT or shown as slides:
+
+- Omit footer labels, source paths, generation dates, validation records, and other production metadata from every slide.
+- A page number is allowed only as a small, unobtrusive bottom-right marker. Do not add total-page text, footer rules, paths, or metadata beside it.
+- Keep provenance, data paths, collection dates, and caveats in an accompanying Markdown file, README, or speaker notes instead of visible slide text.
+- Use one idea per 16:9 page and keep content inside the page without relying on browser navigation, footers, or hover states.
+- Inspect the print export page by page and confirm that the only permitted footer text is the discreet bottom-right page number.
+- Do not treat a paper-style report page as a PPT cover. Use the supplied presentation template or a dedicated slide cover when one is available.
+- When an internal PPT template supplies a header master, reproduce its geometry instead of inventing page labels. Use the template icon at the left, one concise module-and-topic title, one key-conclusion line, and the supplied logo at its original proportions. Fix these positions and font sizes in print units and verify the populated header at 16:9.
+- Do not generate or overwrite a PDF during iterative slide design. Export only after the user explicitly confirms the current version as final or explicitly requests a PDF.
 
 ## Writing Rules
 
