@@ -76,6 +76,30 @@ GROUPS = (
     ),
 )
 
+COMMENTS = {
+    "ins_mode": "# [enum] 0:NAV, 1:CALIB, 2:NAVLC, 3:STATICCALIB",
+    "method_adaptive_calib": "# [bool] enable adaptive calibration",
+    "method_vio_yaw": "# [bool] use VIO yaw update only with VIO rows",
+    "lever_imu2gnss": "# [m] IMU-to-GNSS lever arm X,Y,Z",
+    "lever_imu2gnss_std": "# [m] IMU-to-GNSS lever-arm prior std X,Y,Z",
+    "lever_imu2car": "# [m] IMU-to-vehicle lever arm X,Y,Z",
+    "lever_imu2car_std": "# [m] IMU-to-vehicle lever-arm prior std X,Y,Z",
+    "install_imu2car": "# [deg] IMU-to-vehicle installation angle X,Y,Z",
+    "install_imu2car_std": "# [deg] IMU-to-vehicle angle prior std X,Y,Z",
+    "install_gnss2car": "# [deg] GNSS-to-vehicle installation angle X,Y,Z",
+    "install_gnss2car_std": "# [deg] GNSS-to-vehicle angle prior std X,Y,Z",
+    "lever_imu2vio": "# [m] IMU-to-VIO lever arm X,Y,Z",
+    "lever_imu2vio_std": "# [m] IMU-to-VIO lever-arm prior std X,Y,Z",
+    "install_car2vio": "# [deg] vehicle-to-VIO installation angle X,Y,Z",
+    "install_car2vio_std": "# [deg] vehicle-to-VIO angle prior std X,Y,Z",
+    "est_lever_imu2gnss": "# [bool] estimate IMU-to-GNSS lever arm",
+    "est_lever_imu2car": "# [bool] estimate IMU-to-vehicle lever arm",
+    "est_install_imu2car": "# [bool] estimate IMU-to-vehicle installation angle",
+    "est_install_gnss2car": "# [bool] estimate GNSS-to-vehicle installation angle",
+    "est_lever_imu2vio": "# [bool] estimate IMU-to-VIO lever arm",
+    "est_install_car2vio": "# [bool] estimate vehicle-to-VIO installation angle",
+}
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -163,7 +187,10 @@ def set_config_value(
         comment = comment_match.group(0) if comment_match else ""
         lines[index] = f"{key} = {value}{comment}"
         return
+    comment = COMMENTS.get(key, "")
     insertion = f"{key} = {value}"
+    if comment:
+        insertion = f"{insertion} {comment}"
     lines.insert(section_end, insertion)
     for indexes_for_key in entries.values():
         for index_position, line_index in enumerate(indexes_for_key):

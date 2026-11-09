@@ -94,6 +94,15 @@ Do not silently reuse another project's noise values.
 
 Start from
 [assets/navigation-calibration.ctccfg](assets/navigation-calibration.ctccfg).
+Preserve the template defaults `log_level=0,5`,
+`method_align_velyaw=1`, and `method_align_velyaw_min=0.2` unless the data's
+speed profile requires a different minimum yaw-alignment speed.
+
+Every active parameter line in the generated input config must keep an ASCII
+English inline `#` comment. Do not put Chinese text in an inline parameter
+comment; some CTCLib builds fail to parse a single parameter line containing
+Chinese text.
+
 Select only sensor relationships supported by the decoded records:
 
 - IMU to vehicle: `lever_imu2car`, `install_imu2car`;

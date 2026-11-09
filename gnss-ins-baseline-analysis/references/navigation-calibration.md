@@ -3,6 +3,7 @@
 ## Contents
 
 - [Calibration inputs](#calibration-inputs)
+- [Default calibration values](#default-calibration-values)
 - [ARW and VRW confirmation](#arw-and-vrw-confirmation)
 - [Sensor relationships](#sensor-relationships)
 - [CALIB run](#calib-run)
@@ -26,6 +27,21 @@ Create a normalized calibration config from
 `assets/navigation-calibration.ctccfg`. Store it under
 `D:\DatasetParameters\<project>` and do not modify the decode-generated source
 config.
+
+## Default calibration values
+
+Start from these corrected defaults:
+
+| Parameter | Value | Reason |
+| --- | --- | --- |
+| `log_level` | `0, 5` | Keep stdout at the default level and write detailed solver logs to the file. |
+| `method_align_velyaw` | `1` | Enable velocity-yaw alignment. |
+| `method_align_velyaw_min` | `0.2` | Current baseline minimum speed; adjust only after checking the actual motion-speed profile. |
+
+Every active parameter line in the source config must have an ASCII English
+inline `#` comment describing its meaning and unit. Do not use Chinese text in
+an inline parameter comment because some CTCLib builds cannot parse such a
+single parameter line.
 
 ## ARW and VRW confirmation
 

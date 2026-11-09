@@ -2,52 +2,52 @@
 # Normalized CTCLib calibration template.
 # Replace every angle-bracket placeholder before running.
 [ctclib]
-gimode = 1
-rtcm_time = <YYYY-MM-DD>
-file_input_obs_rover = <ABSOLUTE_INPUT_PATH>
-selfoutput = 0
-dir_output = <ABSOLUTE_OUTPUT_DIR>
-realtime_mode = 0
+gimode = 1 # [enum] 0:loose, 1:tight, 2:ins-align-tight, 3:ins-only, 4:gnss-only
+rtcm_time = <YYYY-MM-DD> # [string] base observation date
+file_input_obs_rover = <ABSOLUTE_INPUT_PATH> # [string] absolute rover input path
+selfoutput = 0 # [bool] 1:timestamped output directory, 0:use dir_output
+dir_output = <ABSOLUTE_OUTPUT_DIR> # [string] absolute result directory
+realtime_mode = 0 # [bool] 0:post-processing, 1:real-time
 
 [ctclib_core]
-device_name = <DEVICE_NAME>
+device_name = <DEVICE_NAME> # [string] receiver or IMU platform name
 
 [ctclib_ins]
-ins_mode = 1
-carrier = <CARRIER_ENUM>
-imu_freq = <IMU_FREQUENCY_HZ>
-navsol_gnss_freq = <GNSS_NAV_FREQUENCY_HZ>
-b_2ant_available = <DUAL_ANTENNA_AVAILABLE_0_OR_1>
-log_level = 5, -1
+ins_mode = 1 # [enum] 0:NAV, 1:CALIB, 2:NAVLC, 3:STATICCALIB
+carrier = <CARRIER_ENUM> # [enum] 0:none, 1:vehicle, 2:ship, 3:UAV
+imu_freq = <IMU_FREQUENCY_HZ> # [Hz] IMU output frequency
+navsol_gnss_freq = <GNSS_NAV_FREQUENCY_HZ> # [Hz] GNSS navigation frequency
+b_2ant_available = <DUAL_ANTENNA_AVAILABLE_0_OR_1> # [bool] dual-antenna yaw availability
+log_level = 0, 5 # [enum] stdout,file log level; 0:default, 5:debug
 
-method_dr = 2
-method_align_velyaw = 0
-method_align_velyaw_min = 0
-method_adaptive_calib = 1
-method_use_navsol = 0
-method_vio_yaw = <VIO_YAW_ENABLED_0_OR_1>
+method_dr = 2 # [int] dead-reckoning processing method
+method_align_velyaw = 1 # [bool] use velocity yaw during alignment
+method_align_velyaw_min = 0.2 # [m/s] minimum speed for velocity yaw alignment
+method_adaptive_calib = 1 # [bool] enable adaptive calibration in CALIB mode
+method_use_navsol = 0 # [bool] use receiver navigation solution
+method_vio_yaw = <VIO_YAW_ENABLED_0_OR_1> # [bool] use VIO yaw update only with VIO rows
 
-gyo_arw = <GYRO_ARW_X_Y_Z>
-acc_vrw = <ACC_VRW_X_Y_Z>
+gyo_arw = <GYRO_ARW_X_Y_Z> # [deg/sqrt(h)] gyro angular random walk X,Y,Z
+acc_vrw = <ACC_VRW_X_Y_Z> # [ug/sqrt(Hz)] accelerometer velocity random walk X,Y,Z
 
-lever_imu2gnss = <INITIAL_IMU_TO_GNSS_M>
-lever_imu2car = <INITIAL_IMU_TO_CAR_M>
-install_imu2car = <INITIAL_IMU_TO_CAR_DEG>
-install_gnss2car = <INITIAL_GNSS_TO_CAR_DEG>
-lever_imu2vio = <INITIAL_IMU_TO_VIO_M>
-install_car2vio = <INITIAL_CAR_TO_VIO_DEG>
+lever_imu2gnss = <INITIAL_IMU_TO_GNSS_M> # [m] IMU-to-GNSS lever arm X,Y,Z
+lever_imu2car = <INITIAL_IMU_TO_CAR_M> # [m] IMU-to-vehicle lever arm X,Y,Z
+install_imu2car = <INITIAL_IMU_TO_CAR_DEG> # [deg] IMU-to-vehicle installation angle X,Y,Z
+install_gnss2car = <INITIAL_GNSS_TO_CAR_DEG> # [deg] GNSS-to-vehicle installation angle X,Y,Z
+lever_imu2vio = <INITIAL_IMU_TO_VIO_M> # [m] IMU-to-VIO lever arm X,Y,Z
+install_car2vio = <INITIAL_CAR_TO_VIO_DEG> # [deg] vehicle-to-VIO installation angle X,Y,Z
 
-est_lever_imu2gnss = <ENABLE_IMU_GNSS_LEVER_0_OR_1>
-est_lever_imu2car = <ENABLE_IMU_CAR_LEVER_0_OR_1>
-est_install_imu2car = <ENABLE_IMU_CAR_INSTALL_0_OR_1>
-est_install_gnss2car = <ENABLE_GNSS_CAR_INSTALL_0_OR_1>
-est_lever_imu2vio = <ENABLE_IMU_VIO_LEVER_0_OR_1>
-est_install_car2vio = <ENABLE_CAR_VIO_INSTALL_0_OR_1>
+est_lever_imu2gnss = <ENABLE_IMU_GNSS_LEVER_0_OR_1> # [bool] estimate IMU-to-GNSS lever arm
+est_lever_imu2car = <ENABLE_IMU_CAR_LEVER_0_OR_1> # [bool] estimate IMU-to-vehicle lever arm
+est_install_imu2car = <ENABLE_IMU_CAR_INSTALL_0_OR_1> # [bool] estimate IMU-to-vehicle installation angle
+est_install_gnss2car = <ENABLE_GNSS_CAR_INSTALL_0_OR_1> # [bool] estimate GNSS-to-vehicle installation angle
+est_lever_imu2vio = <ENABLE_IMU_VIO_LEVER_0_OR_1> # [bool] estimate IMU-to-VIO lever arm
+est_install_car2vio = <ENABLE_CAR_VIO_INSTALL_0_OR_1> # [bool] estimate vehicle-to-VIO installation angle
 
-lever_imu2gnss_std = <INITIAL_IMU_GNSS_LEVER_STD_M>
-lever_imu2car_std = <INITIAL_IMU_CAR_LEVER_STD_M>
-install_imu2car_std = <INITIAL_IMU_CAR_INSTALL_STD_DEG>
-install_gnss2car_std = <INITIAL_GNSS_CAR_INSTALL_STD_DEG>
-lever_imu2vio_std = <INITIAL_IMU_VIO_LEVER_STD_M>
-install_car2vio_std = <INITIAL_CAR_VIO_INSTALL_STD_DEG>
+lever_imu2gnss_std = <INITIAL_IMU_GNSS_LEVER_STD_M> # [m] IMU-to-GNSS lever-arm prior std X,Y,Z
+lever_imu2car_std = <INITIAL_IMU_CAR_LEVER_STD_M> # [m] IMU-to-vehicle lever-arm prior std X,Y,Z
+install_imu2car_std = <INITIAL_IMU_CAR_INSTALL_STD_DEG> # [deg] IMU-to-vehicle angle prior std X,Y,Z
+install_gnss2car_std = <INITIAL_GNSS_CAR_INSTALL_STD_DEG> # [deg] GNSS-to-vehicle angle prior std X,Y,Z
+lever_imu2vio_std = <INITIAL_IMU_VIO_LEVER_STD_M> # [m] IMU-to-VIO lever-arm prior std X,Y,Z
+install_car2vio_std = <INITIAL_CAR_VIO_INSTALL_STD_DEG> # [deg] vehicle-to-VIO angle prior std X,Y,Z
 > END_CTCCFG
