@@ -112,6 +112,9 @@ English inline `#` comment. Do not put Chinese text in an inline parameter
 comment; some CTCLib builds fail to parse a single parameter line containing
 Chinese text.
 
+Keep `method_vio_yaw=0` by default. Enable it only when the user explicitly
+requests VIO yaw updates and `ctclibdec_vio.prodef` contains `VIO,` rows.
+
 Select only sensor relationships supported by the decoded records:
 
 - IMU to vehicle: `lever_imu2car`, `install_imu2car`;

@@ -37,6 +37,7 @@ Start from these corrected defaults:
 | `log_level` | `0, 5` | Keep stdout at the default level and write detailed solver logs to the file. |
 | `method_align_velyaw` | `1` | Enable velocity-yaw alignment. |
 | `method_align_velyaw_min` | `0.2` | Current baseline minimum speed; adjust only after checking the actual motion-speed profile. |
+| `method_vio_yaw` | `0` | VIO yaw is disabled by default; enable only on explicit request with valid VIO rows. |
 
 Every active parameter line in the source config must have an ASCII English
 inline `#` comment describing its meaning and unit. Do not use Chinese text in
@@ -69,6 +70,9 @@ Enable calibration only for relationships supported by data and installation:
 If `ctclibdec_vio.prodef` has no `VIO,` data rows, set VIO estimate switches to
 `0,0,0` and set `method_vio_yaw=0`. Do not report a VIO angle from an
 unobservable run.
+
+Even when VIO rows exist, keep `method_vio_yaw=0` unless the user explicitly
+requests VIO yaw updates.
 
 ## CALIB run
 

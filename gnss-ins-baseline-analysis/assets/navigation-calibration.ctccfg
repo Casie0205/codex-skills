@@ -25,7 +25,7 @@ method_align_velyaw = 1 # [bool] use velocity yaw during alignment
 method_align_velyaw_min = 0.2 # [m/s] minimum speed for velocity yaw alignment
 method_adaptive_calib = 1 # [bool] enable adaptive calibration in CALIB mode
 method_use_navsol = 0 # [bool] use receiver navigation solution
-method_vio_yaw = <VIO_YAW_ENABLED_0_OR_1> # [bool] use VIO yaw update only with VIO rows
+method_vio_yaw = 0 # [bool] VIO yaw update is disabled by default
 
 gyo_arw = <GYRO_ARW_X_Y_Z> # [deg/sqrt(h)] gyro angular random walk X,Y,Z
 acc_vrw = <ACC_VRW_X_Y_Z> # [ug/sqrt(Hz)] accelerometer velocity random walk X,Y,Z
