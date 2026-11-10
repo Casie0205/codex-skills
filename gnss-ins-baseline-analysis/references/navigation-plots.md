@@ -68,7 +68,7 @@ The error figure must cover:
 - position error East/North/Up;
 - velocity error East/North/Up.
 
-Render through `python-publication-figures` and its shared `figure_core.py`.
+Render through `standard-plotting` and its shared `figure_core.py`.
 
 ## Error comparison
 

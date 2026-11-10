@@ -25,7 +25,7 @@ GNSS workflows, report generation, technical writing, Word equation conversion, 
 | [`navigation-output-analysis`](navigation-output-analysis/SKILL.md) | Analyze NavPlot `ins_insplot.txt` files, including fixed column definitions, run-status checks, missing-column limits, and concise evidence reporting. |
 | [`navplot-coordinate-conversion`](navplot-coordinate-conversion/SKILL.md) | Convert NavPlot latitude, longitude, and height into metric local ENU displacement, cumulative distance, and summary output. |
 | [`navplot-studio`](navplot-studio/SKILL.md) | Inspect, plot, save, and difference NavPlot data through the packaged Windows GUI or CLI. |
-| [`python-publication-figures`](python-publication-figures/SKILL.md) | Create consistent A4 report-ready Matplotlib figures with vertical panels, external legends, publication fonts, and SVG/PNG output. |
+| [`standard-plotting`](standard-plotting/SKILL.md) | Default plotting standard for all charts and figures: fixed Matplotlib layout, external legends, no titles, publication fonts, and SVG/PNG output. |
 | [`rtkplot-studio`](rtkplot-studio/SKILL.md) | Inspect and plot 18-column RTKPlot solution text as trajectory, position, sigma, or quality figures through a headless CLI. |
 | [`starhub-mcp`](starhub-mcp/SKILL.md) | Operate CHC StarHub through MCP for connection reuse, device commands, raw saves, log inspection, and upgrade-state handling. |
 | [`structured-md-docs`](structured-md-docs/SKILL.md) | Create and maintain structure-first Markdown documentation with synchronized tables of contents, deliberate content placement, and document-splitting checks. |

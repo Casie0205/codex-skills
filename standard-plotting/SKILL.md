@@ -1,9 +1,9 @@
 ---
-name: python-publication-figures
-description: Create publication-ready Matplotlib figures for reports and papers, especially A4 two-thirds-width vertical panels with external legends, Chinese/English publication fonts, and SVG/PNG output.
+name: standard-plotting
+description: Default skill for all charts and figures unless the user explicitly requests another visual system. Creates stable Matplotlib layouts with fixed width, external legends, no titles, Chinese/English publication fonts, and SVG/PNG output.
 ---
 
-# Python Publication Figures
+# Standard Plotting
 
 ## Contents
 
@@ -11,8 +11,11 @@ description: Create publication-ready Matplotlib figures for reports and papers,
 - [Invariants](#invariants)
 - [Resources](#resources)
 
-Use Matplotlib for report and paper figures when layout, typography, legends, and panel
-labels must remain stable after export.
+Use this skill as the default plotting workflow for every chart or figure request:
+time series, diagnostics, comparison plots, multi-panel report figures, and
+presentation-ready plots. Use another plotting system only when the user explicitly
+requests it. The fixed layout, legends, typography, and export rules below remain in
+force across report, paper, analysis, and presentation contexts.
 
 ## Workflow
 
@@ -31,6 +34,9 @@ labels must remain stable after export.
 6. Export one SVG and one PNG per figure. Do not use `bbox_inches="tight"`.
 7. Verify files, dimensions, fonts, clipping, legend placement, axis units, and panel labels before
    reporting success.
+
+File names and directory structure identify the figure; do not repeat that information
+as an in-figure title.
 
 ## Invariants
 

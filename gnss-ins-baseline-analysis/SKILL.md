@@ -37,7 +37,7 @@ NavPlot plotting that does not involve CTCLib GNSS/INS processing.
 
 ## Plot styling
 
-Use the `python-publication-figures` skill and its `scripts/figure_core.py`
+Use the `standard-plotting` skill and its `scripts/figure_core.py`
 for every figure. Do not restate or override its sizing, fonts, legend,
 panel-label, or export rules in this skill.
 
@@ -91,7 +91,7 @@ The script must produce:
 - `imu_analysis_summary.json` with segment, time, rate, gap, and temperature
   evidence.
 
-Render these datasets through `python-publication-figures`.
+Render these datasets through `standard-plotting`.
 
 ## Calibration
 
@@ -196,7 +196,7 @@ The script produces:
 - one fixed/all error statistics table in CSV and Markdown;
 - matched error samples and a JSON summary.
 
-Render these datasets through `python-publication-figures`.
+Render these datasets through `standard-plotting`.
 
 The current CTCLib `gnss_rtkplot.txt` ECEF format is parsed directly. Do not send
 it to the separate 18-column relative-time RTKPlot workflow.
@@ -293,7 +293,7 @@ intermediate level. Put generated calibration or comparison reports in
 
 Keep parameters only in `D:\DatasetParameters`, generated results only in
 `D:\Output`, and the project summary in `D:\DOC`. Plot output formats are owned
-by `python-publication-figures`.
+by `standard-plotting`.
 
 ## Validation rules
 

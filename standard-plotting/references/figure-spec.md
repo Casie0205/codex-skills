@@ -1,4 +1,4 @@
-# Python Publication Figure Specification
+# Standard Plotting Specification
 
 > Status: active | Updated: 2026-11-10 | Target: CPython 3.11.x / Matplotlib
 
@@ -17,8 +17,9 @@
 
 ## 1. 适用范围
 
-该规范用于当前 Codex 生成报告、论文和阶段性总结中的 Matplotlib 图片。每张图只
-回答一个视觉问题。多个不相关主题应分别生成独立图片。
+该规范是 Codex 所有默认绘图的统一标准，适用于报告、论文、分析、诊断、对比图和
+阶段性总结。只有用户明确指定其他视觉系统时才切换。每张图只回答一个视觉问题。
+多个不相关主题应分别生成独立图片。文件名和目录负责标识图件内容，图内不添加标题。
 
 导航输出的默认数据源是运行输出目录中的 `ins_insplot.txt`。绘图前先确认列定义。
 如果第 3 至 5 列是经纬高，而绘图主题是米制位移或轨迹，必须先运行

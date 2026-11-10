@@ -1,4 +1,4 @@
-"""Resolve the shared plotting implementation from python-publication-figures."""
+"""Resolve the shared plotting implementation from standard-plotting."""
 
 from __future__ import annotations
 
@@ -11,10 +11,16 @@ from types import ModuleType
 
 def load_figure_core() -> ModuleType:
     candidates: list[Path] = []
-    override = os.environ.get("PYTHON_PUBLICATION_FIGURES_HOME")
+    override = (
+        os.environ.get("STANDARD_PLOTTING_HOME")
+        or os.environ.get("PYTHON_PUBLICATION_FIGURES_HOME")
+    )
     if override:
         candidates.append(Path(override))
-    candidates.append(Path.home() / ".codex" / "skills" / "python-publication-figures")
+    candidates.append(Path.home() / ".codex" / "skills" / "standard-plotting")
+    candidates.append(
+        Path(__file__).resolve().parents[2] / "standard-plotting"
+    )
     candidates.append(
         Path(__file__).resolve().parents[2] / "python-publication-figures"
     )
@@ -29,6 +35,6 @@ def load_figure_core() -> ModuleType:
         finally:
             sys.path.pop(0)
     raise RuntimeError(
-        "python-publication-figures/scripts/figure_core.py was not found. "
-        "Install that skill or set PYTHON_PUBLICATION_FIGURES_HOME."
+        "standard-plotting/scripts/figure_core.py was not found. "
+        "Install that skill or set STANDARD_PLOTTING_HOME."
     )

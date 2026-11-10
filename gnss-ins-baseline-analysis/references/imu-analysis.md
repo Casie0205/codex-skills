@@ -59,7 +59,7 @@ Create two independent figures:
 
 Every input segment must be present in each figure. The plotted values and axis
 semantics are defined above; layout and export are delegated to
-`python-publication-figures`.
+`standard-plotting`.
 
 ## Quality checks
 
