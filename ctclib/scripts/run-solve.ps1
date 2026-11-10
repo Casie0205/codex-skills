@@ -31,11 +31,6 @@ if (-not (Test-Path -LiteralPath $inputPath -PathType Leaf)) {
     throw "Navigation input file not found: $inputPath"
 }
 
-if ([string]::IsNullOrWhiteSpace($RunRoot)) {
-    $RunRoot = Join-Path 'D:\Output\ctclib\_runs' ($timestamp + '_solve_' + $safeStem)
-}
-$RunRoot = [System.IO.Path]::GetFullPath($RunRoot)
-
 if ($UseConfigOutput) {
     if (-not [string]::IsNullOrWhiteSpace($OutputDir)) {
         throw 'Use either -OutputDir or -UseConfigOutput, not both.'
@@ -47,10 +42,20 @@ if ($UseConfigOutput) {
 }
 else {
     if ([string]::IsNullOrWhiteSpace($OutputDir)) {
-        $OutputDir = Join-Path 'D:\Output\ctclib' ($safeStem + '_solution')
+        throw (
+            'OutputDir is required. Use ' +
+            'D:\Output\<dataset-root>\ctclib\<run-name>.'
+        )
     }
-    $OutputDir = [System.IO.Path]::GetFullPath($OutputDir)
 }
+
+$OutputDir = Resolve-CtclibDatasetOutputPath -Path $OutputDir -ParameterName 'OutputDir'
+
+if ([string]::IsNullOrWhiteSpace($RunRoot)) {
+    $runParent = Join-Path (Split-Path -Parent $OutputDir) 'runs'
+    $RunRoot = Join-Path $runParent ($timestamp + '_solve_' + $safeStem)
+}
+$RunRoot = Resolve-CtclibDatasetOutputPath -Path $RunRoot -ParameterName 'RunRoot'
 
 if (-not [string]::IsNullOrWhiteSpace($OutputDir) -and (Test-Path -LiteralPath $OutputDir -PathType Container)) {
     $existing = @(Get-ChildItem -LiteralPath $OutputDir -Force)

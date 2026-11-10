@@ -20,13 +20,14 @@ $environment = Resolve-CtclibEnvironment -CtclibHome $CtclibHome
 $inputPath = (Resolve-Path -LiteralPath $InputFile).Path
 $inputItem = Get-Item -LiteralPath $inputPath
 $stem = [System.IO.Path]::GetFileNameWithoutExtension($inputItem.Name)
-$safeStem = Get-CtclibSafeName $stem
-$timestamp = Get-Date -Format 'yyyyMMdd_HHmmss_fff'
 
 if ([string]::IsNullOrWhiteSpace($Workspace)) {
-    $Workspace = Join-Path 'D:\Output\ctclib' (Join-Path $safeStem ('decode_' + $timestamp))
+    throw (
+        'Workspace is required. Use ' +
+        'D:\Output\<dataset-root>\ctclib\decode_<timestamp>.'
+    )
 }
-$Workspace = [System.IO.Path]::GetFullPath($Workspace)
+$Workspace = Resolve-CtclibDatasetOutputPath -Path $Workspace -ParameterName 'Workspace'
 $runRoot = Join-Path $Workspace '_run'
 $plannedExecutionInput = if ($NoStage) {
     $inputPath

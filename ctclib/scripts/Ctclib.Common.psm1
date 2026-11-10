@@ -1,6 +1,8 @@
 Set-StrictMode -Version 2.0
 
 $script:DefaultCtclibHome = 'D:\Code\ctclib_exe'
+$script:DefaultOutputRoot = 'D:\Output'
+$script:LegacyOutputRoot = 'D:\Output\ctclib'
 
 function Get-CtclibSafeName {
     param([Parameter(Mandatory)][string]$Value)
@@ -11,6 +13,41 @@ function Get-CtclibSafeName {
         return 'ctclib'
     }
     return $name
+}
+
+function Resolve-CtclibDatasetOutputPath {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)][string]$Path,
+        [string]$ParameterName = 'Path'
+    )
+
+    $fullPath = [System.IO.Path]::GetFullPath($Path).TrimEnd('\')
+    $legacyRoot = $script:LegacyOutputRoot
+    if (
+        $fullPath.Equals($legacyRoot, [System.StringComparison]::OrdinalIgnoreCase) -or
+        $fullPath.StartsWith(
+            $legacyRoot + '\',
+            [System.StringComparison]::OrdinalIgnoreCase
+        )
+    ) {
+        throw (
+            "$ParameterName must not be under $legacyRoot. " +
+            'Use D:\Output\<dataset-root>\ctclib\<run-name> instead.'
+        )
+    }
+
+    $outputRoot = $script:DefaultOutputRoot
+    if (-not $fullPath.StartsWith(
+        $outputRoot + '\',
+        [System.StringComparison]::OrdinalIgnoreCase
+    )) {
+        throw (
+            "$ParameterName must be under " +
+            'D:\Output\<dataset-root>\ctclib\<run-name>.'
+        )
+    }
+    return $fullPath
 }
 
 function Resolve-CtclibEnvironment {
@@ -449,6 +486,7 @@ function Write-CtclibSummary {
 
 Export-ModuleMember -Function @(
     'Get-CtclibSafeName',
+    'Resolve-CtclibDatasetOutputPath',
     'Resolve-CtclibEnvironment',
     'Import-CtclibInput',
     'Invoke-CtclibExecutable',

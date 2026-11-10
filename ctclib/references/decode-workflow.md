@@ -24,15 +24,24 @@
   `<input-dir>\<input-stem>_ctclibdec`
 
 包装脚本会先在工作区创建输入硬链接或副本，因此输出仍位于 `D:\Output`。
-默认工作区布局为：
+数据专用输出布局为：
 
 ```text
-<workspace>\
-  source\<input-stem>_ctclibdec\
-  _run\
+D:\Output\<dataset-root>\
+  ctclib\
+    decode_<timestamp>\
+      source\<input-stem>_ctclibdec\
+      _run\
 ```
 
 `-NoStage` 时，输出目录直接位于原始输入文件旁。
+
+不要新建 `D:\Output\ctclib` 下的输出目录。`Workspace` 必须显式传入，
+并使用数据集专用根目录，例如：
+
+```text
+D:\Output\M720_20261109_160537\ctclib\decode_20261109_193000
+```
 
 ## 主要输出
 

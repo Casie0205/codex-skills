@@ -14,6 +14,7 @@ Status: verified on Windows on 2026-11-09.
 - [Choose the workflow](#choose-the-workflow)
 - [Decode raw data](#decode-raw-data)
 - [Run navigation](#run-navigation)
+- [Output layout](#output-layout)
 - [Validate results](#validate-results)
 - [Required rules](#required-rules)
 
@@ -67,7 +68,7 @@ Run:
 ```powershell
 & "<skill-root>\scripts\run-decode.ps1" `
   -InputFile "<raw-file>" `
-  -Workspace "D:\Output\ctclib\<project>\decode_<timestamp>"
+  -Workspace "D:\Output\<dataset-root>\ctclib\decode_<timestamp>"
 ```
 
 The script:
@@ -93,7 +94,7 @@ Run:
 ```powershell
 & "<skill-root>\scripts\run-solve.ps1" `
   -ConfigFile "<config.ctccfg>" `
-  -OutputDir "D:\Output\ctclib\<project>\<run-name>"
+  -OutputDir "D:\Output\<dataset-root>\ctclib\<run-name>"
 ```
 
 The script:
@@ -115,6 +116,29 @@ output directory.
 
 Read [references/navigation-workflow.md](references/navigation-workflow.md)
 before building or interpreting a navigation config.
+
+## Output layout
+
+Never create new ctclib outputs under the generic `D:\Output\ctclib` root.
+Use a dataset-specific output folder instead:
+
+```text
+D:\Output\<dataset-root>\
+  ctclib\
+    decode_<timestamp>\
+    <run-name>\
+    runs\
+```
+
+Example:
+
+```text
+D:\Output\M720_20261109_160537\ctclib\decode_20261109_193000
+```
+
+Use the raw dataset folder name as `<dataset-root>`. The packaged scripts
+reject paths below `D:\Output\ctclib` and require an explicit dataset-specific
+workspace or output directory.
 
 ## Validate results
 

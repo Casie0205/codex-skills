@@ -62,6 +62,11 @@ gnss_interrupt_end_time = 200405, 0, 0, 0
 
 源配置保持不变。
 
+输出目录必须位于数据集专用根目录，例如
+`D:\Output\<dataset-root>\ctclib\<run-name>`。不要使用
+`D:\Output\ctclib`。未显式提供 `RunRoot` 时，脚本会把运行记录放在输出目录
+同级的 `runs\<timestamp>_solve_<config-stem>`。
+
 使用 `-Force` 复用非空输出目录时，只有本次运行新增或修改的主结果文件才算成功；
 旧的 `ins_novatel.ASC` 不会让空跑被误判为成功。
 
