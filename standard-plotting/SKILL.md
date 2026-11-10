@@ -31,6 +31,8 @@ force across report, paper, analysis, and presentation contexts.
 5. Choose exactly one legend mode:
    - all panels share the same legend: one legend above the whole figure;
    - panels need different legends: one legend above each panel.
+   Write legend labels in Chinese by default. Keep Latin text only for units,
+   special symbols, or model and product names that should not be translated.
 6. Export one SVG and one PNG per figure. Do not use `bbox_inches="tight"`.
 7. Verify files, dimensions, fonts, clipping, legend placement, axis units, and panel labels before
    reporting success.
@@ -45,6 +47,8 @@ as an in-figure title.
 - Never use raw latitude/longitude columns as metric E/N coordinates.
 - Panels stack vertically by default.
 - Legends stay outside the axes and are the topmost visual element.
+- Legend labels are Chinese by default; units, special symbols, and untranslated
+  model or product names are the exceptions.
 - Each panel has only an `(a)`, `(b)`, `(c)` label at its upper-left corner.
 - Do not add figure-level titles or panel titles.
 - Chinese text uses SimSun; Latin text, numbers, and panel labels use Times New Roman.
