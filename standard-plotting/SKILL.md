@@ -54,6 +54,8 @@ as an in-figure title.
 - Chinese text uses SimSun; Latin text, numbers, and panel labels use Times New Roman.
 - Every y-axis label includes its unit, for example `位置 (m)`.
 - Vertical y-axis labels are centered on the axes height.
+- Centering must be verified from the rendered rotated text bounding box. Do not
+  assume that `va="center"` or `rotation_mode="anchor"` is sufficient.
 - Horizontal y-label placement follows the leftmost rendered tick label with a
   small fixed gap; do not use a fixed figure-wide x coordinate.
 - Each figure is an independent output with SVG and PNG variants.
@@ -65,5 +67,6 @@ as an in-figure title.
 - `scripts/figure_core.py`: shared implementation for size, style, panels, legends,
   and export.
 - `scripts/plotting_template.py`: tested runnable template covering both legend modes.
+- `scripts/check_ylabel_alignment.py`: regression check for rendered y-label centering.
 - `scripts/convert_navplot_enu.py`: converts NavPlot latitude/longitude/height to local
   ENU metres and writes a CSV ready for plotting.

@@ -13,6 +13,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.lines import Line2D
+from matplotlib.text import Text
 
 
 MM_PER_INCH = 25.4
@@ -166,9 +167,10 @@ def add_aligned_ylabels(
     labels: list[str],
     *,
     x_position: float | None = None,
-) -> None:
+) -> list[Text]:
     fig.canvas.draw()
     renderer = fig.canvas.get_renderer()
+    text_artists: list[Text] = []
     for ax, label in zip(np.ravel(axes), labels, strict=True):
         position = ax.get_position()
         y_center = position.y0 + 0.5 * position.height
@@ -191,16 +193,50 @@ def add_aligned_ylabels(
             )[0]
         else:
             x = x_position
-        fig.text(
+        text = fig.text(
             x,
             y_center,
             label,
             rotation=90,
             ha="right",
             va="center",
-            rotation_mode="anchor",
             fontsize=9,
         )
+        text_artists.append(text)
+
+    # Matplotlib's anchor rotation mode does not center the rendered rotated bbox.
+    # Measure the actual text box and neutralise any residual vertical offset.
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    for ax, text in zip(np.ravel(axes), text_artists, strict=True):
+        axes_box = ax.get_window_extent(renderer)
+        target_y_px = axes_box.y0 + 0.5 * axes_box.height
+        text_box = text.get_window_extent(renderer)
+        text_center_px = text_box.y0 + 0.5 * text_box.height
+        delta_px = target_y_px - text_center_px
+        if abs(delta_px) > 1e-9:
+            x, y = text.get_position()
+            delta_fig_y = fig.transFigure.inverted().transform(
+                (0.0, delta_px)
+            )[1]
+            text.set_position((x, y + delta_fig_y))
+
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    for ax, text in zip(np.ravel(axes), text_artists, strict=True):
+        axes_box = ax.get_window_extent(renderer)
+        text_box = text.get_window_extent(renderer)
+        delta_px = (
+            text_box.y0
+            + 0.5 * text_box.height
+            - axes_box.y0
+            - 0.5 * axes_box.height
+        )
+        if abs(delta_px) > 0.5:
+            raise RuntimeError(
+                f"y-axis label vertical center is off by {delta_px:.3f} px"
+            )
+    return text_artists
 
 
 def save_figure(
