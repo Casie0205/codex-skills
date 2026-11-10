@@ -237,8 +237,12 @@ Rules:
 
 - Reuse the same path when data time, mode, and parameter variant are the same.
 - Do not add a run timestamp to avoid a new directory for every execution.
+- Treat base settings such as `method_vio_yaw` as part of the canonical run,
+  not as path descriptors. Update baseline values in place and overwrite the
+  existing canonical output after explicit approval.
 - Create a different variant only when an important parameter differs from the
-  standard template.
+  standard template and the purpose is an explicit comparison or parameter
+  sweep.
 - Encode decimals as `p`, for example `0.1` becomes `0p1` in a path token.
 - If an identical path already exists, overwrite only after an explicit user
   request to rerun that variant.
