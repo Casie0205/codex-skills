@@ -5,7 +5,7 @@ description: Use when analyzing CTCLib GNSS/INS data end to end, including split
 
 # GNSS/INS Baseline Analysis
 
-Status: workflow and helper scripts verified on Windows on 2026-11-09.
+Status: workflow and helper scripts verified on Windows on 2026-11-10.
 
 ## Contents
 

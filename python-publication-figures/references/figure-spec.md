@@ -1,6 +1,6 @@
 # Python Publication Figure Specification
 
-> Status: active | Updated: 2026-11-05 | Target: CPython 3.11.x / Matplotlib
+> Status: active | Updated: 2026-11-10 | Target: CPython 3.11.x / Matplotlib
 
 ## 目录
 

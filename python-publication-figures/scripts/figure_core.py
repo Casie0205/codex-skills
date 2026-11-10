@@ -77,7 +77,7 @@ def create_figure(
         left=left_margin,
         right=0.975,
         bottom=0.16,
-        top=0.94,
+        top=0.88 if legend_scope == "figure" else 0.94,
         hspace=0.42,
         wspace=0.30,
     )
