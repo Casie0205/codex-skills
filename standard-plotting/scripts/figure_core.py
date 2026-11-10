@@ -165,13 +165,35 @@ def add_aligned_ylabels(
     axes: np.ndarray,
     labels: list[str],
     *,
-    x_position: float = 0.045,
+    x_position: float | None = None,
 ) -> None:
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
     for ax, label in zip(np.ravel(axes), labels, strict=True):
         position = ax.get_position()
+        y_center = position.y0 + 0.5 * position.height
+        if x_position is None:
+            tick_boxes = [
+                tick.get_window_extent(renderer)
+                for tick in ax.get_yticklabels()
+                if tick.get_visible() and tick.get_text().strip()
+            ]
+            offset_text = ax.yaxis.get_offset_text()
+            if offset_text.get_visible() and offset_text.get_text().strip():
+                tick_boxes.append(offset_text.get_window_extent(renderer))
+            if tick_boxes:
+                leftmost_px = min(box.x0 for box in tick_boxes)
+            else:
+                leftmost_px = ax.get_window_extent(renderer).x0 - 24.0
+            gap_px = 8.0
+            x = fig.transFigure.inverted().transform(
+                (leftmost_px - gap_px, 0.0)
+            )[0]
+        else:
+            x = x_position
         fig.text(
-            x_position,
-            position.y1,
+            x,
+            y_center,
             label,
             rotation=90,
             ha="right",

@@ -49,7 +49,9 @@ as an in-figure title.
 - Do not add figure-level titles or panel titles.
 - Chinese text uses SimSun; Latin text, numbers, and panel labels use Times New Roman.
 - Every y-axis label includes its unit, for example `位置 (m)`.
-- Vertical y-axis labels are top-aligned and must not overlap tick labels.
+- Vertical y-axis labels are centered on the axes height.
+- Horizontal y-label placement follows the leftmost rendered tick label with a
+  small fixed gap; do not use a fixed figure-wide x coordinate.
 - Each figure is an independent output with SVG and PNG variants.
 
 ## Resources
