@@ -30,7 +30,8 @@ config.
 
 The parameter root holds only default profile configurations, such as VIO off
 and optional VIO on baselines. Store grouped noise sweeps and comparison
-configs under `D:\DatasetParameters\<project>\sweeps\<experiment>`.
+configs in a single experiment folder directly under the parameter root, such
+as `D:\DatasetParameters\<project>\vrw_sweep`.
 
 ## Default calibration values
 
