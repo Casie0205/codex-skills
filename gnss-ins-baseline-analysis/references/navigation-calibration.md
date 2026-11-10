@@ -28,6 +28,10 @@ Create a normalized calibration config from
 `D:\DatasetParameters\<project>` and do not modify the decode-generated source
 config.
 
+The parameter root holds only default profile configurations, such as VIO off
+and optional VIO on baselines. Store grouped noise sweeps and comparison
+configs under `D:\DatasetParameters\<project>\sweeps\<experiment>`.
+
 ## Default calibration values
 
 Start from these corrected defaults:

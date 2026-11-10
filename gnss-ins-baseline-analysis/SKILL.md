@@ -271,8 +271,11 @@ Use the project paths required by the workspace:
 
 ```text
 D:\Dataset\<project>\raw\
-D:\DatasetParameters\<project>\<YYMMDDHH_data>_gnss-ins-calibration.ctccfg
-D:\DatasetParameters\<project>\<YYMMDDHH_data>_gnss-ins-final.ctccfg
+D:\DatasetParameters\<project>\
+  <YYMMDDHH_data>_gnss-ins-calibration.ctccfg
+  <YYMMDDHH_data>_gnss-ins-final.ctccfg
+  sweeps\<experiment>\
+  reports\<analysis>\
 D:\Output\<project>\ctclib\<data-time>_<flavor>[_<parameter-tags>]\
 D:\Output\<project>\analysis\<data-time>_decode[_<parameter-tags>]\
 D:\Output\<project>\analysis\<data-time>_imu[_<parameter-tags>]\
@@ -280,6 +283,11 @@ D:\Output\<project>\analysis\<data-time>_calibration[_<parameter-tags>]\
 D:\Output\<project>\analysis\<data-time>_navigation[_<parameter-tags>]\
 D:\DOC\<project>\
 ```
+
+Keep only default machine/profile configurations in the parameter root. These
+are baseline variants such as VIO off and, when maintained, VIO on. Put
+grouped tests and parameter sweeps in `sweeps\<experiment>\`; put generated
+calibration or comparison reports in `reports\<analysis>\`.
 
 Keep parameters only in `D:\DatasetParameters`, generated results only in
 `D:\Output`, and the project summary in `D:\DOC`. Plot output formats are owned
