@@ -29,7 +29,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--mode",
         required=True,
-        choices=("calibration", "navigation", "analysis"),
+        choices=("decode", "imu", "calibration", "navigation", "analysis"),
     )
     parser.add_argument(
         "--variant",

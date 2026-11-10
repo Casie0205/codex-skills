@@ -70,7 +70,7 @@ Run:
 ```powershell
 python "<skill-root>\scripts\analyze_imu_navplots.py" `
   --input-dir "D:\Output\<project>\ctclib\<decode>\source\<stem>_ctclibdec\ctclibdec_imu_navplot" `
-  --output-dir "D:\Output\<project>\imu_analysis" `
+  --output-dir "D:\Output\<project>\analysis\<data-time>_imu" `
   --json
 ```
 
@@ -211,6 +211,8 @@ Examples:
 20261109T160537_navigation_arw_x0p1
 20261109T160537_navigation_arw_x0p1_vrw_x0p5
 20261109T160537_calibration
+20261109T160537_imu
+20261109T160537_decode
 ```
 
 Use `scripts/resolve_output_path.py`:
@@ -260,8 +262,10 @@ Use the project paths required by the workspace:
 D:\Dataset\<project>\raw\
 D:\DatasetParameters\<project>\<YYMMDDHH_data>_gnss-ins-calibration.ctccfg
 D:\DatasetParameters\<project>\<YYMMDDHH_data>_gnss-ins-final.ctccfg
-D:\Output\<project>\imu_analysis\
 D:\Output\<project>\ctclib\<data-time>_<flavor>[_<parameter-tags>]\
+D:\Output\<project>\analysis\<data-time>_decode[_<parameter-tags>]\
+D:\Output\<project>\analysis\<data-time>_imu[_<parameter-tags>]\
+D:\Output\<project>\analysis\<data-time>_calibration[_<parameter-tags>]\
 D:\Output\<project>\analysis\<data-time>_navigation[_<parameter-tags>]\
 D:\DOC\<project>\
 ```
