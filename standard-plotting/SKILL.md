@@ -67,6 +67,7 @@ as an in-figure title.
 - `scripts/figure_core.py`: shared implementation for size, style, panels, legends,
   and export.
 - `scripts/plotting_template.py`: tested runnable template covering both legend modes.
-- `scripts/check_ylabel_alignment.py`: regression check for rendered y-label centering.
+- `scripts/check_ylabel_alignment.py`: regression check for y-label 90-degree
+  rotation and rendered bbox centering.
 - `scripts/convert_navplot_enu.py`: converts NavPlot latitude/longitude/height to local
   ENU metres and writes a CSV ready for plotting.

@@ -27,6 +27,10 @@ def check_rows(row_count: int) -> None:
     renderer = figure.canvas.get_renderer()
     deltas = []
     for axis, text in zip(axes[:, 0], texts, strict=True):
+        if abs(text.get_rotation() - 90.0) > 1e-9:
+            raise RuntimeError(
+                f"{row_count}-row y-label rotation is {text.get_rotation()}, expected 90"
+            )
         axes_box = axis.get_window_extent(renderer)
         text_box = text.get_window_extent(renderer)
         delta = (
@@ -39,7 +43,10 @@ def check_rows(row_count: int) -> None:
     plt.close(figure)
     if max(deltas) > 0.5:
         raise RuntimeError(f"{row_count}-row y-label alignment failed: {deltas}")
-    print(f"{row_count} rows: maximum vertical center error {max(deltas):.6f} px")
+    print(
+        f"{row_count} rows: rotation 90 deg; "
+        f"maximum vertical center error {max(deltas):.6f} px"
+    )
 
 
 def main() -> int:
