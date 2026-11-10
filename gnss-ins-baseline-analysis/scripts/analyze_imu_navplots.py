@@ -7,16 +7,13 @@ import argparse
 import csv
 import json
 import math
-import pickle
 import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-import matplotlib
-
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 import numpy as np
+
+from standard_plot_bridge import load_figure_core
 
 
 WEEK_COLUMN = 0
@@ -48,7 +45,6 @@ def parse_args() -> argparse.Namespace:
         help="Explicit imu_*.navplot path; repeat for multiple files",
     )
     parser.add_argument("--output-dir", type=Path, required=True)
-    parser.add_argument("--title-prefix", default="CTCLib IMU")
     parser.add_argument("--force", action="store_true", help="Allow writing into a non-empty output directory")
     parser.add_argument("--json", action="store_true", help="Print the summary JSON")
     return parser.parse_args()
@@ -171,11 +167,12 @@ def plot_sensor(
     columns: tuple[int, int, int],
     labels: tuple[str, str, str],
     unit: str,
-    title: str,
     output_base: Path,
+    figure_core,
 ) -> list[Path]:
     global_start = min(float(segment.absolute_time[0]) for segment in segments)
-    fig, axes = plt.subplots(3, 1, figsize=(15.5, 10.5), sharex=True)
+    fig, axes_grid = figure_core.create_figure(3, legend_scope="figure")
+    axes = axes_grid[:, 0]
     legend_handles = []
     legend_labels = []
 
@@ -192,38 +189,26 @@ def plot_sensor(
                 legend_handles.append(line)
                 legend_labels.append(segment.path.name)
 
-    for axis, label in zip(axes, labels):
-        axis.set_ylabel(f"{label} ({unit})")
-        axis.grid(True, alpha=0.25)
-    axes[-1].set_xlabel("Elapsed time (min)")
+    for index, (axis, label) in enumerate(zip(axes, labels)):
+        figure_core.style_axis(
+            axis,
+            ylabel=f"{label} ({unit})",
+            xlabel="时间 (min)" if index == len(axes) - 1 else None,
+            panel_letter=chr(ord("a") + index),
+        )
 
-    legend_columns = min(6, max(1, len(legend_labels)))
-    fig.legend(
+    figure_core.add_shared_legend(
+        fig,
         legend_handles,
         legend_labels,
-        loc="upper center",
-        bbox_to_anchor=(0.5, 0.955),
-        ncol=legend_columns,
-        frameon=True,
+        legend_columns=min(6, max(1, len(legend_labels))),
     )
-    fig.suptitle(title, x=0.5, y=0.995, fontsize=14)
-    fig.subplots_adjust(top=0.88, hspace=0.20, left=0.08, right=0.985, bottom=0.07)
-
-    outputs: list[Path] = []
-    for suffix, kwargs in (
-        (".svg", {"format": "svg"}),
-        (".png", {"format": "png", "dpi": 300}),
-    ):
-        path = output_base.with_suffix(suffix)
-        fig.set_visible(True)
-        fig.savefig(path, bbox_inches="tight", **kwargs)
-        outputs.append(path)
-    figure_path = output_base.with_suffix(".fig")
-    fig.set_visible(True)
-    with figure_path.open("wb") as handle:
-        pickle.dump(fig, handle)
-    outputs.append(figure_path)
-    plt.close(fig)
+    outputs = figure_core.save_figure(
+        fig,
+        output_base,
+        include_pickle=True,
+    )
+    figure_core.plt.close(fig)
     return outputs
 
 
@@ -237,6 +222,13 @@ def main() -> int:
         output_dir.mkdir(parents=True, exist_ok=True)
         segments = [load_segment(path) for path in paths]
     except (OSError, ValueError) as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
+
+    try:
+        figure_core = load_figure_core()
+        figure_core.configure_style()
+    except RuntimeError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
 
@@ -261,18 +253,18 @@ def main() -> int:
     accel_figures = plot_sensor(
         segments,
         ACC_COLUMNS,
-        ("Acc X", "Acc Y", "Acc Z"),
+        ("加速度计 X", "加速度计 Y", "加速度计 Z"),
         "g",
-        f"{args.title_prefix} accelerometer",
         output_dir / "imu_accelerometer_all_segments",
+        figure_core,
     )
     gyro_figures = plot_sensor(
         segments,
         GYRO_COLUMNS,
-        ("Gyro X", "Gyro Y", "Gyro Z"),
+        ("陀螺仪 X", "陀螺仪 Y", "陀螺仪 Z"),
         "deg/s",
-        f"{args.title_prefix} gyroscope",
         output_dir / "imu_gyroscope_all_segments",
+        figure_core,
     )
 
     deltas = np.diff(merged_time)

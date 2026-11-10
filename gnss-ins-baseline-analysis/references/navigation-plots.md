@@ -32,14 +32,14 @@ RTKPlotStudio skill. Parse the fields defined in these Wiki pages:
 
 Use six classes and stable colors:
 
-| Class | NavPlot status | Color intent |
-| --- | --- | --- |
-| Fix | 1 | green |
-| Float | 2 | orange |
-| Diff | 3, 4 | blue |
-| Single | 5 | magenta |
-| INS | 6 | purple |
-| Other | other | gray |
+| Internal class | Display label | NavPlot status | Color intent |
+| --- | --- | --- | --- |
+| Fix | 固定解 | 1 | green |
+| Float | 浮点解 | 2 | orange |
+| Diff | 差分 | 3, 4 | blue |
+| Single | 单点 | 5 | magenta |
+| INS | INS | 6 | purple |
+| Other | 其他 | other | gray |
 
 RTK Q mapping is:
 
@@ -63,13 +63,12 @@ Create three separate figures:
 2. East/North/Up position versus elapsed time, colored by solution class;
 3. position and velocity error versus elapsed time.
 
-The error figure uses three rows and two columns:
+The error figure must cover:
 
-- left column: position error East/North/Up;
-- right column: velocity error East/North/Up.
+- position error East/North/Up;
+- velocity error East/North/Up.
 
-Keep the title above the legend. Put units in every y-axis label. Save SVG, PNG,
-and pickle-backed FIG.
+Render through `python-publication-figures` and its shared `figure_core.py`.
 
 ## Error comparison
 
@@ -132,9 +131,9 @@ Confirm:
 - malformed row counts;
 - common time overlap;
 - matched and fixed-matched row counts;
-- all six figure files exist for each figure;
+- expected figure files exist for each figure;
 - statistics and sample CSVs are non-empty;
-- title/legend order, axis units, and per-class colors by visual inspection.
+- per-class colors and plotted data by visual inspection.
 
 Do not claim a truth-referenced absolute accuracy from this comparison. It is an
 internal INS-versus-RTK consistency check unless RTK is independently validated

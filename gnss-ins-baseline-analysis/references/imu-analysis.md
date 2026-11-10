@@ -57,12 +57,9 @@ Create two independent figures:
 1. gyroscope X/Y/Z over elapsed time;
 2. accelerometer X/Y/Z over elapsed time.
 
-Every input segment must be present in each figure. Use one color line per
-segment, three vertically stacked subplots, and an external legend at the top.
-Save SVG and PNG for inspection, plus a pickle-backed `.fig` with the figure
-visible. Put the figure title above the legend. Write the unit in each y-axis
-label, for example `Acc X (g)` and `Gyro X (deg/s)`; do not append the unit to
-the figure title.
+Every input segment must be present in each figure. The plotted values and axis
+semantics are defined above; layout and export are delegated to
+`python-publication-figures`.
 
 ## Quality checks
 

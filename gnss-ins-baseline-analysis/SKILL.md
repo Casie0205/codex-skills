@@ -10,6 +10,7 @@ Status: workflow and helper scripts verified on Windows on 2026-11-09.
 ## Contents
 
 - [Purpose](#purpose)
+- [Plot styling](#plot-styling)
 - [Use CTCLib first](#use-ctclib-first)
 - [Required sequence](#required-sequence)
 - [IMU analysis](#imu-analysis)
@@ -33,6 +34,14 @@ Run a repeatable baseline analysis for CTCLib raw GNSS/INS data:
 
 Do not use this skill for RINEX-only positioning, RTKPlot files, or general
 NavPlot plotting that does not involve CTCLib GNSS/INS processing.
+
+## Plot styling
+
+Use the `python-publication-figures` skill and its `scripts/figure_core.py`
+for every figure. Do not restate or override its sizing, fonts, legend,
+panel-label, or export rules in this skill.
+
+The GNSS/INS figure set must not contain figure-level titles.
 
 ## Use CTCLib first
 
@@ -82,10 +91,7 @@ The script must produce:
 - `imu_analysis_summary.json` with segment, time, rate, gap, and temperature
   evidence.
 
-Each figure must be saved as `.svg`, `.png`, and `.fig`; set
-`figure.set_visible(True)` before saving `.fig`. Keep the legend outside the
-plot area at the top, below the figure title. Put the unit in each y-axis
-label, not in the figure title.
+Render these datasets through `python-publication-figures`.
 
 ## Calibration
 
@@ -176,7 +182,6 @@ python "<skill-root>\scripts\plot_navigation_results.py" `
   --ins-insplot "<run>\ins_insplot.txt" `
   --gnss-rtkplot "<run>\gnss_rtkplot.txt" `
   --output-dir "<stable-analysis-directory>" `
-  --data-label "<dataset label>" `
   --json
 ```
 
@@ -188,8 +193,7 @@ The script produces:
 - one fixed/all error statistics table in CSV and Markdown;
 - matched error samples and a JSON summary.
 
-Every figure is written as SVG, PNG, and pickle-backed FIG. Keep the title
-above the legend and put units in each y-axis label.
+Render these datasets through `python-publication-figures`.
 
 The current CTCLib `gnss_rtkplot.txt` ECEF format is parsed directly. Do not send
 it to the separate 18-column relative-time RTKPlot workflow.
@@ -271,8 +275,8 @@ D:\DOC\<project>\
 ```
 
 Keep parameters only in `D:\DatasetParameters`, generated results only in
-`D:\Output`, and the project summary in `D:\DOC`. Use normal text, CSV, SVG,
-PNG, and visible `.fig` artifacts.
+`D:\Output`, and the project summary in `D:\DOC`. Plot output formats are owned
+by `python-publication-figures`.
 
 ## Validation rules
 

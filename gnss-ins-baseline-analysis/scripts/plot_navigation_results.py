@@ -7,17 +7,13 @@ import argparse
 import csv
 import json
 import math
-import pickle
 import sys
 from datetime import datetime
 from pathlib import Path
 
-import matplotlib
-
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.lines import Line2D
+
+from standard_plot_bridge import load_figure_core
 
 
 GPS_EPOCH = datetime(1980, 1, 6)
@@ -31,6 +27,14 @@ STATUS_COLORS = {
     "INS": "#7570b3",
     "Other": "#777777",
 }
+STATUS_DISPLAY = {
+    "Fix": "固定解",
+    "Float": "浮点解",
+    "Diff": "差分",
+    "Single": "单点",
+    "INS": "INS",
+    "Other": "其他",
+}
 INS_STATUS_TO_CLASS = {
     1: "Fix",
     2: "Float",
@@ -40,12 +44,12 @@ INS_STATUS_TO_CLASS = {
     6: "INS",
 }
 METRIC_LABELS = (
-    ("mean", "Mean"),
-    ("std", "Standard deviation"),
-    ("rms", "RMS"),
-    ("max", "Maximum"),
-    ("min", "Minimum"),
-    ("range", "Range"),
+    ("mean", "均值"),
+    ("std", "标准差"),
+    ("rms", "均方根"),
+    ("max", "极大值"),
+    ("min", "极小值"),
+    ("range", "极差"),
     ("cep68", "CEP68"),
     ("cep95", "CEP95"),
     ("cep99", "CEP99"),
@@ -59,7 +63,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--ins-insplot", type=Path, required=True)
     parser.add_argument("--gnss-rtkplot", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
-    parser.add_argument("--data-label", default="Navigation")
     parser.add_argument("--max-match-gap", type=float, default=0.30)
     parser.add_argument("--max-rtk-gap", type=float, default=0.50)
     parser.add_argument("--max-rtk-speed", type=float, default=50.0)
@@ -248,52 +251,23 @@ def status_classes(codes: np.ndarray) -> np.ndarray:
     )
 
 
-def category_handles(categories: list[str]) -> list[Line2D]:
+def category_handles(categories: list[str], figure_core) -> list:
     return [
-        Line2D(
+        figure_core.Line2D(
             [0],
             [0],
             marker="o",
             linestyle="None",
             markersize=5,
             color=STATUS_COLORS[category],
-            label=category,
+            label=STATUS_DISPLAY[category],
         )
         for category in categories
     ]
 
 
-def save_figure(fig: plt.Figure, output_base: Path) -> list[Path]:
-    outputs = []
-    for suffix, kwargs in (
-        (".svg", {"format": "svg"}),
-        (".png", {"format": "png", "dpi": 300}),
-    ):
-        path = output_base.with_suffix(suffix)
-        fig.set_visible(True)
-        fig.savefig(path, bbox_inches="tight", **kwargs)
-        outputs.append(path)
-    fig_path = output_base.with_suffix(".fig")
-    fig.set_visible(True)
-    with fig_path.open("wb") as handle:
-        pickle.dump(fig, handle)
-    outputs.append(fig_path)
-    plt.close(fig)
-    return outputs
-
-
-def add_status_legend(fig: plt.Figure, categories: list[str]) -> None:
-    fig.legend(
-        handles=category_handles(categories),
-        loc="upper center",
-        bbox_to_anchor=(0.5, 0.955),
-        ncol=min(6, len(categories)),
-        frameon=True,
-    )
-
-
 def plot_status_scatter(
-    axis: plt.Axes,
+    axis,
     x_values: np.ndarray,
     y_values: np.ndarray,
     classes: np.ndarray,
@@ -319,21 +293,30 @@ def plot_horizontal_trajectory(
     north: np.ndarray,
     classes: np.ndarray,
     categories: list[str],
-    title: str,
     output_base: Path,
+    figure_core,
 ) -> list[Path]:
-    fig, axis = plt.subplots(figsize=(9.0, 8.0))
+    fig, axes_grid = figure_core.create_figure(1)
+    axis = axes_grid[0, 0]
     axis.plot(east, north, color="0.75", linewidth=0.45, zorder=1)
     plot_status_scatter(axis, east, north, classes, categories)
     axis.scatter([east[0]], [north[0]], marker="*", s=90, color="black", zorder=5)
-    axis.set_xlabel("East (m)")
-    axis.set_ylabel("North (m)")
-    axis.grid(True, alpha=0.25)
     axis.set_aspect("equal", adjustable="box")
-    fig.suptitle(title, x=0.5, y=0.995, fontsize=14)
-    add_status_legend(fig, categories)
-    fig.subplots_adjust(top=0.86, left=0.12, right=0.97, bottom=0.10)
-    return save_figure(fig, output_base)
+    figure_core.style_axis(
+        axis,
+        xlabel="东向 (m)",
+        ylabel="北向 (m)",
+        panel_letter="a",
+    )
+    figure_core.add_shared_legend(
+        fig,
+        category_handles(categories, figure_core),
+        [STATUS_DISPLAY[category] for category in categories],
+        legend_columns=6,
+    )
+    outputs = figure_core.save_figure(fig, output_base, include_pickle=True)
+    figure_core.plt.close(fig)
+    return outputs
 
 
 def plot_position_time(
@@ -343,21 +326,30 @@ def plot_position_time(
     up: np.ndarray,
     classes: np.ndarray,
     categories: list[str],
-    title: str,
     output_base: Path,
+    figure_core,
 ) -> list[Path]:
-    fig, axes = plt.subplots(3, 1, figsize=(15.0, 10.0), sharex=True)
+    fig, axes_grid = figure_core.create_figure(3, legend_scope="figure")
+    axes = axes_grid[:, 0]
     values = (east, north, up)
-    labels = ("East (m)", "North (m)", "Up (m)")
-    for axis, values_for_axis, ylabel in zip(axes, values, labels):
+    labels = ("东向位置 (m)", "北向位置 (m)", "天向位置 (m)")
+    for index, (axis, values_for_axis, ylabel) in enumerate(zip(axes, values, labels)):
         plot_status_scatter(axis, elapsed_s, values_for_axis, classes, categories)
-        axis.set_ylabel(ylabel)
-        axis.grid(True, alpha=0.25)
-    axes[-1].set_xlabel("Elapsed time (s)")
-    fig.suptitle(title, x=0.5, y=0.995, fontsize=14)
-    add_status_legend(fig, categories)
-    fig.subplots_adjust(top=0.88, hspace=0.18, left=0.08, right=0.985, bottom=0.07)
-    return save_figure(fig, output_base)
+        figure_core.style_axis(
+            axis,
+            ylabel=ylabel,
+            xlabel="时间 (s)" if index == len(axes) - 1 else None,
+            panel_letter=chr(ord("a") + index),
+        )
+    figure_core.add_shared_legend(
+        fig,
+        category_handles(categories, figure_core),
+        [STATUS_DISPLAY[category] for category in categories],
+        legend_columns=6,
+    )
+    outputs = figure_core.save_figure(fig, output_base, include_pickle=True)
+    figure_core.plt.close(fig)
+    return outputs
 
 
 def plot_error_time(
@@ -366,15 +358,15 @@ def plot_error_time(
     velocity_errors: tuple[np.ndarray, np.ndarray, np.ndarray],
     classes: np.ndarray,
     categories: list[str],
-    title: str,
     output_base: Path,
+    figure_core,
 ) -> list[Path]:
-    fig, axes = plt.subplots(3, 2, figsize=(15.0, 10.5), sharex=True)
+    fig, axes = figure_core.create_figure(3, ncols=2, sharex=True)
     panel_labels = iter("abcdef")
     ylabels = (
-        ("Position dE (m)", "Velocity dVE (m/s)"),
-        ("Position dN (m)", "Velocity dVN (m/s)"),
-        ("Position dU (m)", "Velocity dVU (m/s)"),
+        ("位置东向误差 (m)", "速度东向误差 (m/s)"),
+        ("位置北向误差 (m)", "速度北向误差 (m/s)"),
+        ("位置天向误差 (m)", "速度天向误差 (m/s)"),
     )
     for row in range(3):
         for column, error_values in enumerate(
@@ -390,30 +382,21 @@ def plot_error_time(
                 marker_size=3.0,
             )
             axis.axhline(0.0, color="0.55", linewidth=0.5)
-            axis.set_ylabel(ylabels[row][column])
-            axis.grid(True, alpha=0.25)
-            axis.text(
-                0.012,
-                0.982,
-                f"({next(panel_labels)})",
-                transform=axis.transAxes,
-                ha="left",
-                va="top",
-                fontsize=9,
+            figure_core.style_axis(
+                axis,
+                ylabel=ylabels[row][column],
+                xlabel="时间 (s)" if row == 2 else None,
+                panel_letter=next(panel_labels),
             )
-            if row == 2:
-                axis.set_xlabel("Elapsed time (s)")
-    fig.suptitle(title, x=0.5, y=0.995, fontsize=14)
-    add_status_legend(fig, categories)
-    fig.subplots_adjust(
-        top=0.88,
-        hspace=0.30,
-        wspace=0.20,
-        left=0.08,
-        right=0.985,
-        bottom=0.07,
+    figure_core.add_shared_legend(
+        fig,
+        category_handles(categories, figure_core),
+        [STATUS_DISPLAY[category] for category in categories],
+        legend_columns=6,
     )
-    return save_figure(fig, output_base)
+    outputs = figure_core.save_figure(fig, output_base, include_pickle=True)
+    figure_core.plt.close(fig)
+    return outputs
 
 
 def scalar_statistics(values: np.ndarray, magnitude: bool = False) -> dict[str, float]:
@@ -488,16 +471,32 @@ def write_error_statistics(
         writer.writerows(rows)
     md_path = output_dir / "navigation_error_statistics.md"
     headers = list(rows[0])
+    display_headers = ["物理量", "解集", "数量", "指标", "东向", "北向", "天向", "2D", "3D"]
+    quantity_display = {
+        "position_m": "位置 (m)",
+        "velocity_mps": "速度 (m/s)",
+    }
+    solution_display = {
+        "fixed": "固定解",
+        "all": "所有解",
+    }
     lines = [
-        "# Navigation Error Statistics",
+        "# 导航误差统计",
         "",
-        "| " + " | ".join(headers) + " |",
-        "| " + " | ".join(["---"] * 3 + ["---:"] * (len(headers) - 3)) + " |",
+        "| " + " | ".join(display_headers) + " |",
+        "| " + " | ".join(["---"] * 3 + ["---:"] * (len(display_headers) - 3)) + " |",
     ]
     for row in rows:
+        display_row = dict(row)
+        display_row["quantity"] = quantity_display.get(
+            str(row["quantity"]), str(row["quantity"])
+        )
+        display_row["solution_set"] = solution_display.get(
+            str(row["solution_set"]), str(row["solution_set"])
+        )
         formatted = []
         for header in headers:
-            value = row[header]
+            value = display_row[header]
             if isinstance(value, float):
                 formatted.append(f"{value:.6f}")
             else:
@@ -531,6 +530,8 @@ def main() -> int:
             raise ValueError(
                 f"Output directory is not empty: {output_dir}. Use --force to replace outputs."
             )
+        figure_core = load_figure_core()
+        figure_core.configure_style()
         ins = load_ins_insplot(ins_path)
         rtk = load_gnss_rtkplot(rtk_path)
         ins_data = ins["data"]
@@ -664,8 +665,8 @@ def main() -> int:
             ins_enu[:, 1],
             classes,
             categories,
-            f"{args.data_label} horizontal trajectory by solution type",
             output_dir / "navigation_trajectory_by_status",
+            figure_core,
         )
         time_outputs = plot_position_time(
             (ins_time - ins_time[0]),
@@ -674,8 +675,8 @@ def main() -> int:
             ins_enu[:, 2],
             classes,
             categories,
-            f"{args.data_label} position time series by solution type",
             output_dir / "navigation_time_by_status",
+            figure_core,
         )
         error_outputs = plot_error_time(
             elapsed[valid_plot],
@@ -691,8 +692,8 @@ def main() -> int:
             ),
             matched_classes[valid_plot],
             categories,
-            f"{args.data_label} INS minus RTK errors",
             output_dir / "navigation_error_time",
+            figure_core,
         )
 
         statistics_rows, statistics_csv, statistics_md = write_error_statistics(
@@ -784,7 +785,7 @@ def main() -> int:
             json.dumps(summary, indent=2, ensure_ascii=False) + "\n",
             encoding="utf-8",
         )
-    except (OSError, ValueError) as exc:
+    except (OSError, RuntimeError, ValueError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
 
