@@ -4,6 +4,7 @@
 
 - [Calibration inputs](#calibration-inputs)
 - [Default calibration values](#default-calibration-values)
+- [15-state baseline model](#15-state-baseline-model)
 - [ARW and VRW confirmation](#arw-and-vrw-confirmation)
 - [Sensor relationships](#sensor-relationships)
 - [CALIB run](#calib-run)
@@ -48,6 +49,27 @@ Every active parameter line in the source config must have an ASCII English
 inline `#` comment describing its meaning and unit. Do not use Chinese text in
 an inline parameter comment because some CTCLib builds cannot parse such a
 single parameter line.
+
+## 15-state baseline model
+
+The baseline navigation state is fixed at 15 dimensions:
+
+| State block | Dimensions | Required baseline switch |
+| --- | ---: | --- |
+| Attitude | 3 | propagated by the filter |
+| Velocity | 3 | propagated by the filter |
+| Position | 3 | propagated by the filter |
+| Gyro bias | 3 | `est_gyo_bias = 1,1,1` |
+| Accelerometer bias | 3 | `est_acc_bias = 1,1,1` |
+
+Keep both bias-estimation switches enabled in every baseline calibration,
+final navigation, VIO-on, and VIO-off configuration. Disabling either switch
+changes the state model and invalidates comparison with the 15-state baseline.
+
+Lever arms, installation angles, scale factors, cross-coupling, VIO extrinsics,
+VIO velocity scale, and VIO delay are additional states. Keep their configured
+values fixed and their `est_*` switches at zero unless the user explicitly
+requests those states in a separate experiment.
 
 ## ARW and VRW confirmation
 

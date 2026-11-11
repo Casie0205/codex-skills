@@ -15,6 +15,7 @@ Status: workflow and helper scripts verified on Windows on 2026-11-10.
 - [Required sequence](#required-sequence)
 - [IMU analysis](#imu-analysis)
 - [Calibration](#calibration)
+- [15-state baseline model](#15-state-baseline-model)
 - [Apply calibration and rerun](#apply-calibration-and-rerun)
 - [Navigation result plots](#navigation-result-plots)
 - [Output naming](#output-naming)
@@ -100,6 +101,22 @@ before creating a calibration config.
 
 Ask the user to confirm `gyo_arw` and `acc_vrw` before running the calibration.
 Do not silently reuse another project's noise values.
+
+## 15-state baseline model
+
+The baseline GNSS/INS model is 15-dimensional: 3 attitude, 3 velocity,
+3 position, 3 gyro biases, and 3 accelerometer biases. Always keep both bias
+estimation switches enabled in baseline configurations:
+
+```text
+est_gyo_bias = 1,1,1
+est_acc_bias = 1,1,1
+```
+
+Do not disable gyro or accelerometer bias estimation merely to simplify a
+baseline run. Lever arms, installation angles, scale factors, cross-coupling,
+VIO extrinsics, VIO scale, and VIO delay remain fixed and disabled unless the
+user explicitly requests those additional states.
 
 Start from
 [assets/navigation-calibration.ctccfg](assets/navigation-calibration.ctccfg).
