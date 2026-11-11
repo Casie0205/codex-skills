@@ -7,6 +7,7 @@
 - [1. 输出位置](#1-输出位置)
 - [2. 必需文件](#2-必需文件)
 - [3. 内容格式](#3-内容格式)
+  - [3.1 截图友好报告](#31-截图友好报告)
 - [4. 补丁生成](#4-补丁生成)
 - [5. 回传检查](#5-回传检查)
 
@@ -32,9 +33,9 @@ D:\Output\cloud-code-delivery\<task_id>\
 
 | 状态 | 必需文件 | 补丁要求 |
 | --- | --- | --- |
-| `DONE` + `change_set: code` | `result.md`、`changed-files.txt`、`verification.log`、`cloud-code.patch` | 必须有提交和可应用补丁 |
-| `DONE` + `change_set: none` | `result.md`、`changed-files.txt`（`NONE`）、`verification.log` | 不要求提交或补丁 |
-| `PARTIAL` | 可写时生成 `result.md`、`changed-files.txt`、`verification.log`；不可写时只做最终回复 | 有代码提交时必须生成补丁 |
+| `DONE` + `change_set: code` | `result.md`、`changed-files.txt`、`verification.log`、`cloud-code.patch`、`development-result.json`、`development-result.html` | 必须有提交和可应用补丁 |
+| `DONE` + `change_set: none` | `result.md`、`changed-files.txt`（`NONE`）、`verification.log`、`development-result.json`、`development-result.html` | 不要求提交或补丁 |
+| `PARTIAL` | 可写时生成 `result.md`、`changed-files.txt`、`verification.log`、`development-result.json`、`development-result.html`；若报告渲染本身失败，允许缺少失败产物，但必须在 `result.md` 和 `NOT VERIFIED` 记录命令与错误；不可写时只做最终回复 | 有代码提交时必须生成补丁 |
 | `BLOCKED` | 可写时生成 `result.md`；不可写时只做最终回复 | 不要求补丁 |
 
 任何状态都不得创建空文件或伪造内容。无修改时 `changed-files.txt` 写一行 `NONE`。
@@ -113,6 +114,25 @@ test-details.log
 命令、退出码和关键输出，不手工改成成功状态。`cloud-code.patch` 必须能从任务基线提交
 应用。没有文档差异时，`result.md` 写 `DOC-DISCREPANCY: none`。
 
+### 3.1 截图友好报告
+
+完成上述结果文件后，必须使用 `cloud-dev-result-report` 技能生成：
+
+```text
+development-result.json
+development-result.html
+```
+
+报告以 `result.md`、`changed-files.txt`、`verification.log`、存在代码修改时的
+`cloud-code.patch`、可用的 `review.md`、实际 Git 提交和测试输出为证据。HTML 必须
+自包含、无外部资源依赖、状态与 `result.md` 一致，并适合用户直接浏览和截图。报告字段
+和渲染命令见
+`../../cloud-dev-result-report/SKILL.md` 与
+`../../cloud-dev-result-report/references/report-schema.md`。
+
+`DONE` 且输出目录可写时，缺少任一报告文件不得标记 `DONE`。`PARTIAL` 只有在报告渲染
+本身失败时才能缺少对应报告产物，并必须写明缺失原因。
+
 ## 4. 补丁生成
 
 `change_set: code` 的 `DONE`，或存在代码提交的 `PARTIAL`，使用完整提交范围生成补丁：
@@ -147,6 +167,10 @@ git diff --name-only --output="<output_path>\changed-files.txt" <base_commit>..<
 - [ ] 执行过命令时 `verification.log` 含实际命令和退出码；
 - [ ] `DONE` + `change_set: code` 的 `cloud-code.patch` 覆盖全部本任务提交且非空；
 - [ ] `DONE` + `change_set: none` 的 `changed-files.txt` 为 `NONE` 且不伪造补丁；
+- [ ] `DONE` 已生成非空 `development-result.json` 和 `development-result.html`；
+  可写 `PARTIAL` 已生成报告，或已记录报告渲染失败原因和缺失产物；
+- [ ] 报告状态与 `result.md` 一致，`DONE` 的验收和验证项全部为 `PASS + exit 0`；
+- [ ] HTML 自包含，无外部 CSS、JavaScript、字体、图片或网络依赖；
 - [ ] 每次任务都检查项目上下文，并记录 `DOC-DISCREPANCY` 或明确写 `none`；
 - [ ] 非 `none` 的 `DOC-DISCREPANCY` 包含 `confirmed`、`corrected` 或 `open` 状态；
 - [ ] 输出路径不在本地只读挂载内；

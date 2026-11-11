@@ -38,6 +38,7 @@ description: Execute one code-development task on an offline cloud computer that
 5. 任务单指定的项目文档、构建说明和测试说明。
 6. [execution-gates.md](references/execution-gates.md)。
 7. [result-contract.md](references/result-contract.md)。
+8. 完成结果包后读取 `../cloud-dev-result-report/SKILL.md` 并生成截图友好报告。
 
 任务单缺少必需章节、路径不存在或仓库与任务单不一致时，停止修改并报告
 `BLOCKED`。不要通过猜测补全任务单。
@@ -175,6 +176,11 @@ git show --stat --oneline <result_commit>
 写入 `output_path`。任何本任务新建源码文件或未被忽略的构建产物只要仍出现在未跟踪
 清单中，就不得标记 `DONE`；应先补做验证和提交。不得尝试写入本地挂载目录。
 
+结果包生成后必须使用 `cloud-dev-result-report` 技能，从 `result.md`、变更清单、验证日志、
+补丁、代码审查和实际 Git 提交生成 `development-result.json` 与
+`development-result.html`。HTML 是交付物的一部分，不是可选摘要；报告状态、提交、测试
+证据和未验证项必须与原始结果一致。报告生成失败时按 `result-contract.md` 处理状态。
+
 ## 6. 停止条件
 
 出现任一项时停止，不继续猜测：
@@ -201,6 +207,8 @@ result.md
 changed-files.txt
 verification.log
 cloud-code.patch
+development-result.json
+development-result.html
 ```
 
 `DONE` 且 `change_set: none` 时生成：
@@ -209,6 +217,8 @@ cloud-code.patch
 result.md
 changed-files.txt
 verification.log
+development-result.json
+development-result.html
 ```
 
 后者的 `changed-files.txt` 写 `NONE`，不要求提交或补丁。
@@ -226,7 +236,7 @@ verification.log
 STATUS: DONE | PARTIAL | BLOCKED
 TASK: <task_id>
 COMMIT: <base..result or none>
-FILES: <changed paths>
+FILES: <changed repository paths and generated report artifacts; otherwise "unavailable">
 VERIFIED: <command and observed result>
 NOT VERIFIED: <items or none>
 RISK: <remaining risk or none>
@@ -237,8 +247,8 @@ DOC-DISCREPANCY: none | <STATUS: confirmed | corrected | open; document; claim; 
 
 状态判定：
 
-- `DONE`：全部验收通过，没有本任务未跟踪文件。代码有修改时必须已提交并生成补丁；
-  确认无需修改时 `change_set` 为 `none`，不要求提交或补丁。
+- `DONE`：全部验收通过，没有本任务未跟踪文件，并已生成必需的报告产物。代码有修改时
+  必须已提交并生成补丁；确认无需修改时 `change_set` 为 `none`，不要求提交或补丁。
 - `PARTIAL`：本任务代码修改已全部提交，但验收未全部通过，或结果包无法写入。
 - `BLOCKED`：缺少输入、环境或安全检查失败，或仍有本任务代码未提交。已有部分提交
   不改变该判定。
@@ -252,3 +262,4 @@ DOC-DISCREPANCY: none | <STATUS: confirmed | corrected | open; document; claim; 
 - [execution-gates.md](references/execution-gates.md)：阶段门禁、Git 安全、模块边界和低能力模型约束。
 - [result-contract.md](references/result-contract.md)：输出文件、补丁格式和回传检查。
 - [doc-discrepancy.md](references/doc-discrepancy.md)：本地文档与云电脑源码冲突时的记录格式。
+- `../cloud-dev-result-report/SKILL.md`：把结果包生成自包含、可截图 HTML 报告。

@@ -23,12 +23,13 @@
 
 ## 2. 仓库与环境
 
-- local_input_root: \\LOCAL-PC\ReadOnly\DOC
+- local_input_root: P:\DOC
+- local_drive_mapping: C: -> O:, D: -> P:
 - repo_path: D:\Code\demo
 - branch: main
 - project: demo
 - project_context_paths:
-  - \\LOCAL-PC\ReadOnly\DOC\demo\README.md
+  - P:\DOC\demo\README.md
 - doc_authority: cloud-code-first
 - os: Windows 11
 - toolchain: Visual Studio 2019 / v142
@@ -47,7 +48,7 @@
   - D:\Code\demo\tests\config
 - forbidden_paths:
   - D:\Code\demo\third_party
-  - \\LOCAL-PC\ReadOnly\DOC
+  - P:\DOC
 - non_goals:
   - 不修改其他配置字段的默认值
   - 不重构配置解析器
@@ -57,7 +58,7 @@
 - entrypoints:
   - D:\Code\demo\src\config\ConfigParser.cpp：读取并校验配置
 - related_docs:
-  - D:\DOC\demo\config-format.md：字段定义
+  - P:\DOC\demo\config-format.md：字段定义
 - current_behavior: 缺字段时返回空指针并导致后续解引用
 - desired_behavior: 缺字段时生成默认值并记录一条警告
 - known_constraints:
@@ -85,6 +86,9 @@ ctest --test-dir "D:\Output\cloud-code-build\fix-config-default" -C Debug --outp
   - changed-files.txt
   - verification.log
   - cloud-code.patch
+  - development-result.json
+  - development-result.html
+- screenshot_report_skill: cloud-dev-result-report
 - commit_policy: fix prefix; stage only src\config and tests\config files changed by this task
 - doc_discrepancy_report: required
 - cloud_result_transfer: manual-copy

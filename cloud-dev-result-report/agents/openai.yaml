@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cloud Dev Result Report"
+  short_description: "Self-contained HTML reports for cloud development results"
+  default_prompt: "Use $cloud-dev-result-report to generate a screenshot-friendly development result report from the verified task bundle."

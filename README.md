@@ -16,6 +16,7 @@ GNSS workflows, report generation, technical writing, Word equation conversion, 
 | [`academic-report`](academic-report/SKILL.md) | Create and revise print-ready academic-style HTML progress reports with figures, tables, and A4 print output. |
 | [`build-modular-feature`](build-modular-feature/SKILL.md) | Extend existing codebases with clear module boundaries, thin entrypoints, and focused validation and review. |
 | [`cloud-code-delivery`](cloud-code-delivery/SKILL.md) | Run one bounded code-development task on an offline cloud computer with read-only project context, real verification, Git commits, document-discrepancy reporting, and a cloud-side result bundle. |
+| [`cloud-dev-result-report`](cloud-dev-result-report/SKILL.md) | Generate a self-contained, screenshot-friendly HTML report from a verified cloud development result bundle. |
 | [`convert-word-equations-to-mathtype`](convert-word-equations-to-mathtype/SKILL.md) | Convert native Word OMML equations into editable inline MathType objects using a MathML-first workflow and preservation checks. |
 | [`cpp-code-navigation`](cpp-code-navigation/SKILL.md) | Trace C and C++ symbols, callers, signatures, and include ownership using semantic evidence before editing. |
 | [`create-cloud-computer-instructions`](create-cloud-computer-instructions/SKILL.md) | Write standalone offline instruction documents for an external cloud computer under `D:\DOC`, separate from local Codex skills and commands. |

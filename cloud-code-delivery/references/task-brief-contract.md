@@ -41,6 +41,7 @@
 | --- | --- |
 | `task_id` | 唯一、稳定，仅使用字母、数字、下划线和连字符 |
 | `local_input_root` | 本地只读挂载根目录，必须明确标记禁止写入 |
+| `local_drive_mapping` | 固定写为 `C: -> O:, D: -> P:`，本地上下文路径使用云电脑映射盘 |
 | `repo_path` | 云电脑上的代码仓库绝对路径 |
 | `branch` | 预期分支；不匹配时停止 |
 | `build_root` | 云电脑上可写的构建输出目录；位于仓库内时必须被 Git 忽略，否则必须使用外部独立目录 |
@@ -56,6 +57,7 @@
 | `network` | 固定为 `forbidden` |
 | `doc_authority` | 固定为 `cloud-code-first` |
 | `commit_policy` | 提交信息前缀和允许暂存的路径 |
+| `screenshot_report_skill` | 固定为 `cloud-dev-result-report` |
 
 路径应使用目标操作系统的格式。Windows 路径在 Markdown 代码块中保留反斜杠。
 
@@ -75,6 +77,7 @@
 - [ ] `task_id`、`local_input_root`、`repo_path`、`branch`、`output_path`、
   `build_root`、`network`、`project`、`project_context_paths`、`doc_authority` 和
   `commit_policy` 已填写；
+- [ ] `local_drive_mapping` 和 `screenshot_report_skill` 已填写；
 - [ ] `allowed_paths`、`forbidden_paths`、`non_goals`、验收条件和验证命令均已填写；
 - [ ] `network` 的值严格为 `forbidden`；
 - [ ] 全文没有 `{{...}}` 占位符；
