@@ -43,6 +43,9 @@
 | `local_input_root` | 本地只读挂载根目录，必须明确标记禁止写入 |
 | `repo_path` | 云电脑上的代码仓库绝对路径 |
 | `branch` | 预期分支；不匹配时停止 |
+| `build_root` | 云电脑上可写的构建输出目录；位于仓库内时必须被 Git 忽略，否则必须使用外部独立目录 |
+| `project` | 云电脑项目标识，例如 `ctclib` |
+| `project_context_paths` | 云电脑可读取的本地项目上下文文档绝对路径 |
 | `target` | 用户可观察的结果，不写实现方案 |
 | `non_goals` | 明确排除项，防止范围扩张 |
 | `allowed_paths` | 允许修改的文件或目录 |
@@ -51,6 +54,7 @@
 | `verify_commands` | 可复制执行的完整命令 |
 | `output_path` | 云电脑内结果目录，不得位于本地只读挂载 |
 | `network` | 固定为 `forbidden` |
+| `doc_authority` | 固定为 `cloud-code-first` |
 | `commit_policy` | 提交信息前缀和允许暂存的路径 |
 
 路径应使用目标操作系统的格式。Windows 路径在 Markdown 代码块中保留反斜杠。
@@ -69,7 +73,8 @@
 - [ ] 8 个必需编号 `##` 章节全部存在；
 - [ ] 每个章节都有实际内容；
 - [ ] `task_id`、`local_input_root`、`repo_path`、`branch`、`output_path`、
-  `network` 和 `commit_policy` 已填写；
+  `build_root`、`network`、`project`、`project_context_paths`、`doc_authority` 和
+  `commit_policy` 已填写；
 - [ ] `allowed_paths`、`forbidden_paths`、`non_goals`、验收条件和验证命令均已填写；
 - [ ] `network` 的值严格为 `forbidden`；
 - [ ] 全文没有 `{{...}}` 占位符；

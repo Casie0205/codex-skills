@@ -1,0 +1,4 @@
+interface:
+  display_name: "proj - Project Knowledge Sync"
+  short_description: "Merge cloud code reviews into local project docs"
+  default_prompt: "Use $project-knowledge-sync to merge evidence-backed cloud review findings into the local project framework documents."

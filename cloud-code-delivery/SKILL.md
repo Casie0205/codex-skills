@@ -33,10 +33,11 @@ description: Execute one code-development task on an offline cloud computer that
 
 1. 任务单本身。
 2. [task-brief-contract.md](references/task-brief-contract.md)。
-3. 仓库根目录最近的 `AGENTS.md`，不存在时读取 `README.md`。
-4. 任务单指定的项目文档、构建说明和测试说明。
-5. [execution-gates.md](references/execution-gates.md)。
-6. [result-contract.md](references/result-contract.md)。
+3. 任务单中的 `project_context_paths`。
+4. 仓库根目录最近的 `AGENTS.md`，不存在时读取 `README.md`。
+5. 任务单指定的项目文档、构建说明和测试说明。
+6. [execution-gates.md](references/execution-gates.md)。
+7. [result-contract.md](references/result-contract.md)。
 
 任务单缺少必需章节、路径不存在或仓库与任务单不一致时，停止修改并报告
 `BLOCKED`。不要通过猜测补全任务单。
@@ -44,11 +45,12 @@ description: Execute one code-development task on an offline cloud computer that
 ## 3. 环境契约
 
 - 本地挂载目录只读。任务单中的 `local_input_root` 及其所有子目录禁止写入。
-- 所有修改只允许发生在任务单指定的 `repo_path` 和 `output_path` 内。
+- 所有修改只允许发生在任务单指定的 `repo_path`、`build_root` 和 `output_path` 内。
 - 默认输出目录为 `D:\Output\cloud-code-delivery\<task_id>`；任务单可覆盖。
 - 默认禁止联网。依赖必须来自仓库、云电脑缓存或任务单列出的本地离线目录。
 - 构建、测试、格式化和静态检查必须使用任务单给出的完整命令。命令缺失时停止，不自行
   猜测或改用未授权入口。
+- 本地项目上下文是只读输入，不是当前源码的替代品。实际源码、构建和运行结果优先。
 - 不读取、复制、打印或提交密钥、令牌、证书、个人凭据和无关用户数据。
 
 ## 4. 硬性规则
@@ -59,6 +61,8 @@ description: Execute one code-development task on an offline cloud computer that
 - 主入口保持薄层。新行为放入职责单一的模块；主文件只做解析、调度和连接。
 - 修改已有功能时，检查旧分支、旧参数和旧路径是否应删除。不得长期保留两套可切换
   实现，除非任务单明确要求兼容。
+- 本地文档与源码冲突时，不得静默沿用错误描述。必须在结果中记录
+  `DOC-DISCREPANCY`，给出源码证据和建议修正。
 - 不得执行 `git reset --hard`、`git clean`、强制推送、批量回滚或删除未知文件。
 - 不得使用 `git add -A` 或 `git add .`。只按显式路径暂存本任务修改的文件。
 - 开工前记录 `git status --short`、`git diff --cached --name-only` 和
@@ -77,10 +81,14 @@ description: Execute one code-development task on an offline cloud computer that
 
 - 8 个必需编号 `##` 章节全部存在且非空；
 - `task_id`、`local_input_root`、`repo_path`、`branch`、`output_path`、
-  `network` 和 `commit_policy` 已填写；
+  `build_root`、`network`、`project`、`project_context_paths`、`doc_authority` 和
+  `commit_policy` 已填写；
 - `allowed_paths`、`forbidden_paths`、`non_goals`、验收条件和验证命令均已填写；
 - 文件中没有 `{{...}}` 占位符；
-- 本地只读根、云电脑仓库、构建根和输出目录不是同一个位置。
+- `local_input_root` 与所有云电脑可写路径分离；`build_root` 必须在 `repo_path` 内，或是
+  任务单明确授权的独立可写构建目录。
+- `build_root` 位于 `repo_path` 内时，先运行 `git check-ignore -q -- "<build_root>"`。
+  未被 Git 忽略时停止，要求任务单改为仓库外的构建目录或已有忽略目录。
 
 任一项不满足时停止。
 
@@ -94,6 +102,7 @@ description: Execute one code-development task on an offline cloud computer that
 - `git ls-files --others --exclude-standard`；
 - 入口文件、目标模块、相邻实现和测试；
 - 实际构建根、配置文件、生成目录和已有失败基线。
+- 项目上下文文档存在且可读；发现与源码冲突时记录，不在本地写回。
 
 索引非空时立即停止。现有未提交修改或未跟踪文件只要与允许修改路径重叠，立即停止并
 报告重叠文件。
@@ -145,6 +154,8 @@ git ls-files --others --exclude-standard
 无关格式化。新建文件必须出现在 `git status --short` 或未跟踪文件清单中。审查发现的
 问题先修复，再重新验证。
 
+列出本地项目文档与源码的已确认差异；没有差异时明确写 `DOC-DISCREPANCY: none`。
+
 ### 5.7 提交与回传
 
 只暂存本任务修改的文件：
@@ -161,8 +172,8 @@ git show --stat --oneline <result_commit>
 
 提交前确认暂存清单只含任务允许路径内的文件。出现任何无关文件时不要提交，输出
 `BLOCKED` 并保留现场。提交成功后从 `<base_commit>..<result_commit>` 生成补丁和结果包，
-写入 `output_path`。任何本任务新建文件只要仍出现在未跟踪清单中，就不得标记 `DONE`；
-应先补做验证和提交。不得尝试写入本地挂载目录。
+写入 `output_path`。任何本任务新建源码文件或未被忽略的构建产物只要仍出现在未跟踪
+清单中，就不得标记 `DONE`；应先补做验证和提交。不得尝试写入本地挂载目录。
 
 ## 6. 停止条件
 
@@ -183,7 +194,7 @@ git show --stat --oneline <result_commit>
 
 ## 7. 交付物
 
-`DONE` 至少生成：
+`DONE` 且 `change_set: code` 时生成：
 
 ```text
 result.md
@@ -191,6 +202,16 @@ changed-files.txt
 verification.log
 cloud-code.patch
 ```
+
+`DONE` 且 `change_set: none` 时生成：
+
+```text
+result.md
+changed-files.txt
+verification.log
+```
+
+后者的 `changed-files.txt` 写 `NONE`，不要求提交或补丁。
 
 文件格式和字段见 [result-contract.md](references/result-contract.md)。输出目录不可写
 时不得声称回传完成。若代码修改已经提交，但结果文件无法写入，使用 `PARTIAL`；若仍
@@ -211,11 +232,13 @@ NOT VERIFIED: <items or none>
 RISK: <remaining risk or none>
 NEXT: <one concrete action or none>
 OUTPUT: <cloud output path>
+DOC-DISCREPANCY: none | <STATUS: confirmed | corrected | open; document; claim; source evidence; correction>
 ```
 
 状态判定：
 
-- `DONE`：产生并提交代码修改，全部验收通过，没有本任务未跟踪文件，结果包完整。
+- `DONE`：全部验收通过，没有本任务未跟踪文件。代码有修改时必须已提交并生成补丁；
+  确认无需修改时 `change_set` 为 `none`，不要求提交或补丁。
 - `PARTIAL`：本任务代码修改已全部提交，但验收未全部通过，或结果包无法写入。
 - `BLOCKED`：缺少输入、环境或安全检查失败，或仍有本任务代码未提交。已有部分提交
   不改变该判定。
@@ -228,3 +251,4 @@ OUTPUT: <cloud output path>
 - [task-brief-example.md](references/task-brief-example.md)：只用于理解字段粒度的示例，不得执行其中的示例路径或命令。
 - [execution-gates.md](references/execution-gates.md)：阶段门禁、Git 安全、模块边界和低能力模型约束。
 - [result-contract.md](references/result-contract.md)：输出文件、补丁格式和回传检查。
+- [doc-discrepancy.md](references/doc-discrepancy.md)：本地文档与云电脑源码冲突时的记录格式。

@@ -32,7 +32,8 @@ D:\Output\cloud-code-delivery\<task_id>\
 
 | 状态 | 必需文件 | 补丁要求 |
 | --- | --- | --- |
-| `DONE` | `result.md`、`changed-files.txt`、`verification.log`、`cloud-code.patch` | 必须有提交和可应用补丁 |
+| `DONE` + `change_set: code` | `result.md`、`changed-files.txt`、`verification.log`、`cloud-code.patch` | 必须有提交和可应用补丁 |
+| `DONE` + `change_set: none` | `result.md`、`changed-files.txt`（`NONE`）、`verification.log` | 不要求提交或补丁 |
 | `PARTIAL` | 可写时生成 `result.md`、`changed-files.txt`、`verification.log`；不可写时只做最终回复 | 有代码提交时必须生成补丁 |
 | `BLOCKED` | 可写时生成 `result.md`；不可写时只做最终回复 | 不要求补丁 |
 
@@ -96,15 +97,25 @@ test-details.log
 - risks:
 - unresolved:
 - next_action:
+
+## 文档差异
+
+- DOC-DISCREPANCY:
+  - status: confirmed | corrected | open
+  - local_document:
+  - local_claim:
+  - source_evidence:
+  - observed_behavior:
+  - suggested_correction:
 ```
 
 `changed-files.txt` 每行一个仓库相对路径，或仅写 `NONE`。`verification.log` 保存原始
 命令、退出码和关键输出，不手工改成成功状态。`cloud-code.patch` 必须能从任务基线提交
-应用。
+应用。没有文档差异时，`result.md` 写 `DOC-DISCREPANCY: none`。
 
 ## 4. 补丁生成
 
-`DONE` 或存在代码提交的 `PARTIAL` 使用完整提交范围生成补丁：
+`change_set: code` 的 `DONE`，或存在代码提交的 `PARTIAL`，使用完整提交范围生成补丁：
 
 ```powershell
 git diff --binary --output="<output_path>\cloud-code.patch" <base_commit>..<result_commit>
@@ -134,7 +145,10 @@ git diff --name-only --output="<output_path>\changed-files.txt" <base_commit>..<
 - [ ] `result.md` 的状态与验证证据一致；
 - [ ] 有修改时 `changed-files.txt` 与实际提交范围一致，无修改时明确写 `NONE`；
 - [ ] 执行过命令时 `verification.log` 含实际命令和退出码；
-- [ ] `DONE` 的 `cloud-code.patch` 覆盖全部本任务提交且非空；
+- [ ] `DONE` + `change_set: code` 的 `cloud-code.patch` 覆盖全部本任务提交且非空；
+- [ ] `DONE` + `change_set: none` 的 `changed-files.txt` 为 `NONE` 且不伪造补丁；
+- [ ] 每次任务都检查项目上下文，并记录 `DOC-DISCREPANCY` 或明确写 `none`；
+- [ ] 非 `none` 的 `DOC-DISCREPANCY` 包含 `confirmed`、`corrected` 或 `open` 状态；
 - [ ] 输出路径不在本地只读挂载内；
 - [ ] 未包含密钥、凭据、缓存和无关文件；
 - [ ] 最终回复列出提交范围、验证结果和残余风险。

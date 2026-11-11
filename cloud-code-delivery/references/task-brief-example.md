@@ -26,9 +26,13 @@
 - local_input_root: \\LOCAL-PC\ReadOnly\DOC
 - repo_path: D:\Code\demo
 - branch: main
+- project: demo
+- project_context_paths:
+  - \\LOCAL-PC\ReadOnly\DOC\demo\README.md
+- doc_authority: cloud-code-first
 - os: Windows 11
 - toolchain: Visual Studio 2019 / v142
-- build_root: D:\Code\demo\demo.sln
+- build_root: D:\Output\cloud-code-build\fix-config-default
 - output_path: D:\Output\cloud-code-delivery\fix-config-default
 - network: forbidden
 
@@ -68,8 +72,9 @@
 ## 7. 验证
 
 ```powershell
-& "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe" "D:\Code\demo\demo.sln" /t:Rebuild /p:Configuration=Debug /p:Platform=x64
-ctest --test-dir "D:\Code\demo\build" --output-on-failure
+cmake -S "D:\Code\demo" -B "D:\Output\cloud-code-build\fix-config-default" -G "Visual Studio 16 2019" -A x64
+cmake --build "D:\Output\cloud-code-build\fix-config-default" --config Debug
+ctest --test-dir "D:\Output\cloud-code-build\fix-config-default" -C Debug --output-on-failure
 ```
 
 ## 8. 回传
@@ -81,4 +86,6 @@ ctest --test-dir "D:\Code\demo\build" --output-on-failure
   - verification.log
   - cloud-code.patch
 - commit_policy: fix prefix; stage only src\config and tests\config files changed by this task
+- doc_discrepancy_report: required
+- cloud_result_transfer: manual-copy
 - local_write_policy: forbidden
