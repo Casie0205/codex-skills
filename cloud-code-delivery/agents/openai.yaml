@@ -1,0 +1,4 @@
+interface:
+  display_name: "clou - Cloud Code Delivery"
+  short_description: "Run one verified code task on an offline cloud computer"
+  default_prompt: "Read the local task brief, execute only the requested code change, verify it with real commands, commit it, and write the result bundle inside the cloud workspace."
