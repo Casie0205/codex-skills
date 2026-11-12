@@ -17,6 +17,7 @@ Status: workflow and helper scripts verified on Windows on 2026-11-12.
 - [Calibration](#calibration)
 - [15-state baseline model](#15-state-baseline-model)
 - [Apply calibration and rerun](#apply-calibration-and-rerun)
+- [Independent error-state sweep](#independent-error-state-sweep)
 - [Navigation result plots](#navigation-result-plots)
 - [Output naming](#output-naming)
 - [Resume without repeating](#resume-without-repeating)
@@ -192,6 +193,28 @@ observable groups are found. Some CTCLib builds may rewrite
 `method_adaptive_calib` in their generated `ctclib.ctccfg`; in that case verify
 that the intended `est_*` switches remain enabled and inspect the continuing
 state trajectory in `dr_est.prodef`.
+
+## Independent error-state sweep
+
+When testing whether additional error states are observable, run one new group
+at a time. Keep the already accepted calibration groups enabled unless the
+user explicitly asks to isolate them differently. Use a manifest that records
+each experiment name, config path, and output directory.
+
+Summarize the resulting `dr_est.prodef` files with:
+
+```powershell
+python "<skill-root>\scripts\analyze_calibration_observability.py" `
+  --manifest "<experiment-manifest.json>" `
+  --output-dir "<analysis-output-directory>" `
+  --window-seconds 30
+```
+
+The script reports first-change time, final-window value and STD, total range,
+maximum single-sample step, and the maximum step as a fraction of the full
+range. Use these as observability evidence only. A state that leaves its
+initial value is numerically observable but is not automatically accurate or
+acceptable for writeback.
 
 ## Navigation result plots
 
