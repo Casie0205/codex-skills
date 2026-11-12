@@ -3,6 +3,11 @@ Set-StrictMode -Version 2.0
 $script:DefaultCtclibHome = 'D:\Code\ctclib_exe'
 $script:DefaultOutputRoot = 'D:\Output'
 $script:LegacyOutputRoot = 'D:\Output\ctclib'
+$script:CtclibRequiredFiles = @(
+    'ctclib_decode.exe',
+    'ctclib_app.exe',
+    'Decrypter.dll'
+)
 
 function Get-CtclibSafeName {
     param([Parameter(Mandatory)][string]$Value)
@@ -50,6 +55,53 @@ function Resolve-CtclibDatasetOutputPath {
     return $fullPath
 }
 
+function Test-CtclibInstallDirectory {
+    param([Parameter(Mandatory)][string]$Path)
+
+    if (-not (Test-Path -LiteralPath $Path -PathType Container)) {
+        return $false
+    }
+    foreach ($fileName in $script:CtclibRequiredFiles) {
+        if (-not (Test-Path -LiteralPath (Join-Path $Path $fileName) -PathType Leaf)) {
+            return $false
+        }
+    }
+    return $true
+}
+
+function Get-CtclibInstallVersionInfo {
+    param([Parameter(Mandatory)][string]$InstallPath)
+
+    $segments = @(
+        (Resolve-Path -LiteralPath $InstallPath).Path -split '[\\/]' |
+            Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+    )
+    for ($i = $segments.Count - 1; $i -ge 0; $i--) {
+        $match = [regex]::Match(
+            $segments[$i],
+            '^[Vv](\d+(?:\.\d+)*)(?:[^\d].*)?$'
+        )
+        if (-not $match.Success) {
+            continue
+        }
+
+        $numbers = $match.Groups[1].Value
+        $sortParts = @(
+            foreach ($part in $numbers.Split('.')) {
+                '{0:D10}' -f [long]$part
+            }
+        )
+        return [pscustomobject]@{
+            Version    = 'V' + $numbers
+            VersionKey = $sortParts -join '.'
+        }
+    }
+    return [pscustomobject]@{
+        Version    = ''
+        VersionKey = ''
+    }
+}
+
 function Resolve-CtclibEnvironment {
     [CmdletBinding()]
     param([string]$CtclibHome)
@@ -68,19 +120,59 @@ function Resolve-CtclibEnvironment {
         throw "ctclib home directory not found: $candidate"
     }
 
-    $homePath = (Resolve-Path -LiteralPath $candidate).Path
+    $rootPath = (Resolve-Path -LiteralPath $candidate).Path
+    if (Test-CtclibInstallDirectory -Path $rootPath) {
+        $candidateDirectories = @($rootPath)
+    }
+    else {
+        $candidateDirectories = @(
+            Get-ChildItem `
+                -LiteralPath $rootPath `
+                -Filter 'ctclib_decode.exe' `
+                -File `
+                -Recurse `
+                -ErrorAction SilentlyContinue |
+                ForEach-Object { Split-Path -Parent $_.FullName } |
+                Sort-Object -Unique |
+                Where-Object { Test-CtclibInstallDirectory -Path $_ }
+        )
+    }
+    if ($candidateDirectories.Count -eq 0) {
+        throw (
+            "No complete CTCLib installation found under '$rootPath'. " +
+            'Each installation must contain ctclib_decode.exe, ' +
+            'ctclib_app.exe, and Decrypter.dll in the same directory.'
+        )
+    }
+
+    $installations = @(
+        foreach ($directory in $candidateDirectories) {
+            $versionInfo = Get-CtclibInstallVersionInfo -InstallPath $directory
+            [pscustomobject]@{
+                Home       = $directory
+                Version    = $versionInfo.Version
+                VersionKey = $versionInfo.VersionKey
+            }
+        }
+    )
+    $selected = @(
+        $installations |
+            Sort-Object -Property @(
+                @{ Expression = { $_.VersionKey }; Descending = $true },
+                @{ Expression = { $_.Home }; Descending = $false }
+            )
+    )[0]
+
+    $homePath = $selected.Home
     $decodeExe = Join-Path $homePath 'ctclib_decode.exe'
     $appExe = Join-Path $homePath 'ctclib_app.exe'
     $decrypterDll = Join-Path $homePath 'Decrypter.dll'
 
-    foreach ($path in @($decodeExe, $appExe, $decrypterDll)) {
-        if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
-            throw "Required ctclib file not found: $path"
-        }
-    }
-
     [pscustomobject]@{
         Home         = $homePath
+        Root         = $rootPath
+        Version      = $selected.Version
+        CandidateCount = $installations.Count
         DecodeExe    = $decodeExe
         AppExe       = $appExe
         DecrypterDll = $decrypterDll

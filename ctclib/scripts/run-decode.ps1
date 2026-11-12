@@ -44,6 +44,9 @@ if ((Test-Path -LiteralPath $expectedOutput) -and -not $Force) {
 if ($PlanOnly) {
     $summary = [pscustomobject]@{
         Status         = 'planned'
+        CtclibInstallDir = $environment.Home
+        CtclibVersion  = $environment.Version
+        CtclibCandidateCount = $environment.CandidateCount
         DecodeExe      = $environment.DecodeExe
         InputFile      = $inputPath
         Workspace      = $Workspace
@@ -138,6 +141,9 @@ $success = (
 )
 $summary = [pscustomobject]@{
     Status          = if ($success) { 'success' } elseif ($result.TimedOut) { 'timed_out' } elseif ($result.OutputDrainTimedOut) { 'output_drain_timed_out' } else { 'failed' }
+    CtclibInstallDir = $environment.Home
+    CtclibVersion   = $environment.Version
+    CtclibCandidateCount = $environment.CandidateCount
     DecodeExe       = $environment.DecodeExe
     InputFile       = $inputPath
     ExecutionInput  = $staged.ExecutionPath

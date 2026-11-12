@@ -69,6 +69,9 @@ $derivedConfig = Join-Path $RunRoot 'ctclib.derived.ctccfg'
 if ($PlanOnly) {
     $summary = [pscustomobject]@{
         Status          = 'planned'
+        CtclibInstallDir = $environment.Home
+        CtclibVersion   = $environment.Version
+        CtclibCandidateCount = $environment.CandidateCount
         AppExe          = $environment.AppExe
         SourceConfig    = $configPath
         NavigationInput = $inputPath
@@ -208,6 +211,9 @@ else {
 
 $summary = [pscustomobject]@{
     Status          = $status
+    CtclibInstallDir = $environment.Home
+    CtclibVersion   = $environment.Version
+    CtclibCandidateCount = $environment.CandidateCount
     AppExe          = $environment.AppExe
     SourceConfig    = $configPath
     DerivedConfig   = $derivedConfig

@@ -20,7 +20,7 @@ GNSS workflows, report generation, technical writing, Word equation conversion, 
 | [`convert-word-equations-to-mathtype`](convert-word-equations-to-mathtype/SKILL.md) | Convert native Word OMML equations into editable inline MathType objects using a MathML-first workflow and preservation checks. |
 | [`cpp-code-navigation`](cpp-code-navigation/SKILL.md) | Trace C and C++ symbols, callers, signatures, and include ownership using semantic evidence before editing. |
 | [`create-cloud-computer-instructions`](create-cloud-computer-instructions/SKILL.md) | Write standalone offline instruction documents for an external cloud computer under `D:\DOC`, separate from local Codex skills and commands. |
-| [`ctclib`](ctclib/SKILL.md) | Decode raw GNSS/INS data with `ctclib_decode.exe` and run navigation post-processing with `ctclib_app.exe`. |
+| [`ctclib`](ctclib/SKILL.md) | Decode CTCLib raw GNSS/INS data, run navigation post-processing, and auto-discover versioned installations under `D:\Code\ctclib_exe`. |
 | [`gnss-analysishub`](gnss-analysishub/SKILL.md) | Support GNSS conversion, QC, AnalysisHub processing, plotting, reports, and troubleshooting. |
 | [`gnss-ins-baseline-analysis`](gnss-ins-baseline-analysis/SKILL.md) | Analyze split CTCLib IMU data, calibrate observable states, run final navigation, and plot status-colored INS-versus-RTK errors. |
 | [`humanizer`](humanizer/SKILL.md) | Rewrite AI-sounding prose while preserving facts, data, and the writer's intended meaning. |

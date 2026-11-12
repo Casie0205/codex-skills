@@ -13,8 +13,11 @@
 已验证的命令形式：
 
 ```powershell
-& "D:\Code\ctclib_exe\ctclib_decode.exe" -b "<absolute-input-path>"
+& "<resolved-ctclib_decode.exe>" -b "<absolute-input-path>"
 ```
+
+`<resolved-ctclib_decode.exe>` 必须由 skill 的路径解析流程从
+`D:\Code\ctclib_exe` 下自动定位，不能写死版本子目录。
 
 - `-b` 表示批次处理。
 - 输入路径使用绝对路径。实测相对路径 `.\\file.bin` 会直接失败。

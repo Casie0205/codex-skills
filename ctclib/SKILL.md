@@ -5,7 +5,7 @@ description: Use when the user wants to decode CTCLib raw GNSS/INS data with ctc
 
 # CTCLib
 
-Status: verified on Windows on 2026-11-09.
+Status: verified on Windows on 2026-11-12.
 
 ## Contents
 
@@ -31,19 +31,32 @@ Prefer the packaged scripts over rebuilding ad hoc command lines.
 
 ## Locate executables
 
-Resolve the program directory in this order:
+Resolve the installation directory in this order:
 
 1. `-CtclibHome`.
 2. Environment variable `CTCLIB_HOME`.
-3. Default directory `D:\Code\ctclib_exe`.
+3. Default installation root `D:\Code\ctclib_exe`.
 
-The directory must contain:
+The supplied directory may be either:
+
+- the installation root containing one or more version directories; or
+- an exact directory that directly contains the executables.
+
+When given a root, search recursively for directories that contain all required
+files. If several complete installations exist, select the one with the highest
+numeric version directory. Pass an exact executable directory in `-CtclibHome`
+or `CTCLIB_HOME` when a specific build must be used.
+
+Each resolved installation directory must contain:
 
 ```text
 ctclib_decode.exe
 ctclib_app.exe
 Decrypter.dll
 ```
+
+Do not assume a fixed release subdirectory under `D:\Code\ctclib_exe`; package
+layouts can change between releases.
 
 `ctclib_app.exe` cannot start without `Decrypter.dll`. Registration is stored
 under:
