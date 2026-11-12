@@ -5,7 +5,7 @@ description: Use when analyzing CTCLib GNSS/INS data end to end, including split
 
 # GNSS/INS Baseline Analysis
 
-Status: workflow and helper scripts verified on Windows on 2026-11-10.
+Status: workflow and helper scripts verified on Windows on 2026-11-12.
 
 ## Contents
 
@@ -30,8 +30,10 @@ Run a repeatable baseline analysis for CTCLib raw GNSS/INS data:
 1. decode raw data;
 2. analyze all split IMU NavPlot files;
 3. run a calibration solve;
-4. copy only observable calibration states into a new config;
-5. run the final navigation solve with estimation disabled.
+4. copy observable calibration values and their last-window STD into a new
+   config as priors;
+5. keep the calibrated estimation switches enabled;
+6. run the final navigation solve with continuous estimation.
 
 Do not use this skill for RINEX-only positioning, RTKPlot files, or general
 NavPlot plotting that does not involve CTCLib GNSS/INS processing.
@@ -62,8 +64,9 @@ or executables are unavailable, stop and report the missing dependency.
 3. Confirm ARW and VRW with the user.
 4. Build a CALIB config and run `ins_mode=1`.
 5. Inspect `dr_est.prodef`; treat states that never update as unobservable.
-6. Write observable final values and their last-window STD into a new config.
-7. Disable estimation and run `ins_mode=0`.
+6. Write observable values and their last-window STD into a new config as
+   priors while preserving the source estimation switches.
+7. Run `ins_mode=0` with the calibrated states still enabled.
 8. Generate trajectory, position-time, and INS-versus-RTK error outputs.
 9. Validate the produced navigation rows and update the project Markdown report.
 
@@ -177,8 +180,8 @@ The script:
 - uses the last 30 seconds by default;
 - writes the median final value and median final STD for observable groups;
 - leaves unobservable values unchanged;
-- turns all related `est_*` switches off;
-- sets `ins_mode=0` and `method_adaptive_calib=0`;
+- preserves the source `est_*` masks, so calibrated states remain enabled;
+- sets `ins_mode=0`;
 - writes CSV and JSON application reports beside the output config.
 
 Review the report before running the final solve. A value that remains at its
@@ -187,8 +190,8 @@ initial value is not a successful calibration.
 The script exits with status `3` and does not write the final config when no
 observable groups are found. Some CTCLib builds may rewrite
 `method_adaptive_calib` in their generated `ctclib.ctccfg`; in that case verify
-that all related `est_*` switches are still zero and that the calibrated values
-remain constant in `dr_est.prodef`.
+that the intended `est_*` switches remain enabled and inspect the continuing
+state trajectory in `dr_est.prodef`.
 
 ## Navigation result plots
 
@@ -325,3 +328,5 @@ by `standard-plotting`.
   `gnss_novatel.ASC` before concluding that the solver failed.
 - Update the project Markdown report with decoded data, analysis outputs,
   calibration observability, final config, and navigation validation.
+- The final NAV must use the calibrated values and last-window STD as priors.
+  Do not disable estimation after applying calibration.

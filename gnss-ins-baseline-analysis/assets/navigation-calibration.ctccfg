@@ -23,7 +23,7 @@ log_level = 0, 5 # [enum] stdout,file log level; 0:default, 5:debug
 method_dr = 2 # [int] dead-reckoning processing method
 method_align_velyaw = 1 # [bool] use velocity yaw during alignment
 method_align_velyaw_min = 0.2 # [m/s] minimum speed for velocity yaw alignment
-method_adaptive_calib = 1 # [bool] enable adaptive calibration in CALIB mode
+method_adaptive_calib = 1 # [bool] enable calibration estimation for CALIB and continuous final NAV
 method_use_navsol = 0 # [bool] use receiver navigation solution
 method_vio_yaw = 0 # [bool] VIO yaw update is disabled by default
 

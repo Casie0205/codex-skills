@@ -140,17 +140,18 @@ Use `scripts/apply_calibration.py`.
 - angle groups use a wrapped circular median;
 - only observable groups are written back;
 - unobservable values remain unchanged;
-- all corresponding `est_*` switches are disabled;
+- all source `est_*` masks are preserved, so calibrated states remain enabled;
 - the output config uses `ins_mode=0`.
 
 Review the generated application CSV and JSON before running navigation.
 If no group is observable, the report status is `no_observable_states`, the
 script exits non-zero, and no final config is written.
 
-Some CTCLib builds rewrite `method_adaptive_calib=0` back to `1` in their
-generated output config. Verify that all `est_*` switches remain zero and that
-the selected values are constant in `dr_est.prodef`; otherwise do not treat the
-navigation config as fixed-parameter.
+Some CTCLib builds rewrite `method_adaptive_calib` in their generated output
+config. The final workflow does not disable estimation: verify that the
+intended `est_*` switches remain enabled, that the calibrated values are used
+as the initial state, and that the continuing `dr_est.prodef` trajectory
+remains stable.
 
 ## Final navigation
 
@@ -162,7 +163,7 @@ Run the output config through the `ctclib` solve workflow. Validate:
 - first and last SOW;
 - status distribution;
 - valid latitude/longitude/height;
-- actual config values and disabled estimate flags.
+- actual config values, last-window prior STD, and enabled estimate flags.
 
 Some CTCLib builds leave `ins_novatel.ASC` empty and write valid
 `#INSPVAXA` navigation rows to `gnss_novatel.ASC`. Inspect the data rather than

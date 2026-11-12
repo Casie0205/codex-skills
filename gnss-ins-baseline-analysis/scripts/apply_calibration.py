@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Apply observable DR calibration states to a normalized CTCLib config."""
+"""Apply observable DR calibration states as priors and preserve estimation."""
 
 from __future__ import annotations
 
@@ -103,7 +103,10 @@ COMMENTS = {
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Identify observable calibration states, write final values/std, and disable estimation."
+        description=(
+            "Identify observable calibration states, write their last-window "
+            "value/std as priors, and preserve estimation switches."
+        )
     )
     parser.add_argument("--dr-est", type=Path, required=True)
     parser.add_argument("--config", type=Path, required=True)
@@ -349,9 +352,6 @@ def main() -> int:
                     f"{group.config_key}_std",
                     format_vector(final_std),
                 )
-            set_config_value(
-                lines, entries, section_end, f"est_{group.config_key}", "0,0,0"
-            )
             result = {
                 "group": group.config_key,
                 "status": status,
@@ -379,7 +379,6 @@ def main() -> int:
             )
 
         set_config_value(lines, entries, section_end, "ins_mode", "0")
-        set_config_value(lines, entries, section_end, "method_adaptive_calib", "0")
         vio_observable = bool(observable_groups & {"lever_imu2vio", "install_car2vio"})
         if not vio_observable:
             set_config_value(lines, entries, section_end, "method_vio_yaw", "0")
@@ -402,6 +401,7 @@ def main() -> int:
             "window_seconds": args.window_seconds,
             "window_samples": window_samples,
             "observable_groups": sorted(observable_groups),
+            "estimation_policy": "preserve_source_switches",
             "groups": group_results,
             "outputs": {"csv": str(csv_path), "json": str(json_path)},
         }
