@@ -177,6 +177,8 @@ After navigation, verify:
 - exit code is `0`;
 - the output directory contains `ins_novatel.ASC` or the current build's
   equivalent primary result;
+- for `gimode = 4`, accept a non-empty, fresh `gnss_rtkplot.txt` as the
+  primary GNSS-only result; `ins_novatel.ASC` is not expected;
 - `ctclib.ctccfg`, when present, confirms the actual input and output paths;
 - GNSS interruption checks use measured status transitions in
   `ins_novatel.ASC`, not only the config text.

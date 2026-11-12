@@ -165,12 +165,15 @@ $assessedInventory = @(
         }
     }
 )
+$gimodeValue = Get-CtclibConfigValue -ConfigFile $derivedConfig -Section 'ctclib' -Key 'gimode'
+$isGnssOnly = ($gimodeValue -eq '4')
 $keyNames = @(
     'ins_insplot.txt',
     'ins_novatel.ASC',
     'ins_fastsol.txt',
     'gnss_integsol.txt',
     'gnss_novatel.ASC',
+    'gnss_rtkplot.txt',
     'ins_integsol.txt',
     'ctclib.ctccfg'
 )
@@ -181,7 +184,12 @@ $keyFiles = @(
         }
 )
 $freshKeyFiles = @($keyFiles | Where-Object { $_.Fresh })
-$primaryNames = @('ins_novatel.ASC', 'ins_insplot.txt', 'ins_fastsol.txt', 'gnss_integsol.txt')
+$primaryNames = if ($isGnssOnly) {
+    @('gnss_rtkplot.txt', 'gnss_novatel.ASC')
+}
+else {
+    @('ins_novatel.ASC', 'ins_insplot.txt', 'ins_fastsol.txt', 'gnss_integsol.txt')
+}
 $primaryFiles = @(
     $freshKeyFiles |
         Where-Object { $primaryNames -contains (Split-Path -Leaf $_.Path) }

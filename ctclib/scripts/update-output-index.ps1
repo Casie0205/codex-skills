@@ -117,7 +117,7 @@ function Get-OutputKind {
         return 'PROBE / IMU defaults'
     }
     if ($signature -match 'gnss-only') {
-        return 'NAV / historical GNSS-only'
+        return 'NAV / GNSS-only comparison baseline'
     }
     if ($signature -match 'basic.*vio') {
         return 'NAV / historical basic'
@@ -136,6 +136,9 @@ function Get-RetentionLabel {
 
     if ($Kind -match 'official VIO') {
         return 'KEEP / current formal navigation'
+    }
+    if ($Kind -match 'comparison baseline') {
+        return 'KEEP / comparison baseline'
     }
     if ($Kind -match '^DECODE') {
         return 'KEEP / input provenance'
