@@ -37,8 +37,11 @@ parity from a convenient local target.
 For every new implementation file, find every project that compiles a translation unit
 which calls or references it. Use:
 
+Resolve `$PYTHON` and `$PYTHON_ARGS` with
+[windows-shell-policy.md](windows-shell-policy.md) before running the commands.
+
 ```powershell
-python "<skill-root>\scripts\check_project_source_coverage.py" `
+& $PYTHON @PYTHON_ARGS "<skill-root>\scripts\check_project_source_coverage.py" `
   --repo "<repo_path>" `
   --project-root "<repo_path>\proj" `
   --anchor-source "<repository-relative anchor source>" `
@@ -110,7 +113,7 @@ not define.
 For the IMU time-alignment change:
 
 ```powershell
-python "<skill-root>\scripts\check_project_source_coverage.py" `
+& $PYTHON @PYTHON_ARGS "<skill-root>\scripts\check_project_source_coverage.py" `
   --repo "D:\Code\ctclib-nav" `
   --project-root "D:\Code\ctclib-nav\proj" `
   --anchor-source "proj\ctclib_app\src\DataDecoder\DataDecoder.c" `

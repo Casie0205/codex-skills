@@ -33,15 +33,16 @@ description: Execute one code-development task on an offline cloud computer that
 
 1. 任务单本身。
 2. [task-brief-contract.md](references/task-brief-contract.md)。
-3. 任务单中的 `project_context_paths`。
-4. 仓库根目录最近的 `AGENTS.md`，不存在时读取 `README.md`。
-5. 任务单指定的项目文档、构建说明和测试说明。
-6. [review-policy.md](references/review-policy.md)。
-7. [execution-gates.md](references/execution-gates.md)。
-8. [result-contract.md](references/result-contract.md)。
-9. 涉及共享来源、新增源文件、`.vcxproj` 或服务器部署目标时，读取
+3. [windows-shell-policy.md](references/windows-shell-policy.md)。
+4. 任务单中的 `project_context_paths`。
+5. 仓库根目录最近的 `AGENTS.md`，不存在时读取 `README.md`。
+6. 任务单指定的项目文档、构建说明和测试说明。
+7. [review-policy.md](references/review-policy.md)。
+8. [execution-gates.md](references/execution-gates.md)。
+9. [result-contract.md](references/result-contract.md)。
+10. 涉及共享来源、新增源文件、`.vcxproj` 或服务器部署目标时，读取
    [server-build-parity.md](references/server-build-parity.md)。
-10. 完成结果包后读取 `../cloud-dev-result-report/SKILL.md` 并生成截图友好报告。
+11. 完成结果包后读取 `../cloud-dev-result-report/SKILL.md` 并生成截图友好报告。
 
 任务单缺少必需章节、`repo_path` 或必需源码不存在时，停止修改并报告 `BLOCKED`。
 任务单列出的 solution/project 位置与仓库不同、但能唯一定位对应服务器 target 时，
@@ -136,6 +137,15 @@ description: Execute one code-development task on an offline cloud computer that
 
 - 文字搜索只用于定位候选；C/C++ 符号、重载、宏、模板和包含关系必须结合语言服务、
   编译数据库或实际编译确认。
+- 文件优先使用 `Read`、`Edit` 和 `Write` 工具。禁止用 PowerShell 代替 `Read`；
+  `Edit` 连续两次失败时停止重试，按 [windows-shell-policy.md](references/windows-shell-policy.md)
+  检查编码、BOM、tab 和换行，再使用 `scripts/replace_literal.py` 做精确替换。
+  helper 返回 `no_match`、`count_mismatch`、`mixed_newlines`、`ambiguous_encoding`
+  或 `error` 时停止并报告，不得再改用 `Write` 重写整个文件。
+- Windows shell 只使用一种原生执行方式。不得在 Bash 中嵌套
+  `powershell -Command`。复杂命令写入 `.ps1` 或 `.py` 文件后执行。
+- Python 探测顺序为 `python`、`py -3`、`python3`。不得因为 `python3` 不存在就断定
+  Python 不可用。
 - 先修改最小根因，再处理由其直接导致的问题。
 - 新功能或独立流程必须拆成独立模块；不得继续扩张最大的现有文件。
 - 只修改任务范围内的文件。发现无关缺陷时记录到结果中，不顺便修复。
@@ -180,7 +190,7 @@ git ls-files --others --exclude-standard
 共享来源或项目文件发生变化时，先运行来源覆盖检查，再执行完整构建矩阵：
 
 ```powershell
-python "<skill-root>\scripts\check_project_source_coverage.py" `
+& $PYTHON @PYTHON_ARGS "<skill-root>\scripts\check_project_source_coverage.py" `
   --repo "<repo_path>" `
   --project-root "<repo_path>\proj" `
   --anchor-source "<consumer source>" `
@@ -296,6 +306,7 @@ DOC-DISCREPANCY: none | <STATUS: confirmed | corrected | open; document; claim; 
 
 - [task-brief-contract.md](references/task-brief-contract.md)：任务单字段、示例和缺失判定。
 - [task-brief-example.md](references/task-brief-example.md)：只用于理解字段粒度的示例，不得执行其中的示例路径或命令。
+- [windows-shell-policy.md](references/windows-shell-policy.md)：Windows shell 选择、Python 探测、文件编辑失败升级和验证规则。
 - [review-policy.md](references/review-policy.md)：提交前的 diff 审查范围、subagent 与主线程回退方式，以及 `review.md` 合同。
 - [execution-gates.md](references/execution-gates.md)：阶段门禁、Git 安全、模块边界和低能力模型约束。
 - [result-contract.md](references/result-contract.md)：输出文件、补丁格式和回传检查。
