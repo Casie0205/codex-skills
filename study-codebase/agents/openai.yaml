@@ -1,0 +1,4 @@
+interface:
+  display_name: "stud - Codebase Study"
+  short_description: "Read-only code study reports for cloud computers"
+  default_prompt: "Use $study-codebase to explain one code flow and generate screenshot-friendly HTML plus copy-friendly Markdown study notes."
