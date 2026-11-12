@@ -214,9 +214,11 @@ python "<skill-root>\scripts\analyze_calibration_observability.py" `
 
 The script reports first-change time, final-window value and STD, total range,
 maximum single-sample step, and the maximum step as a fraction of the full
-range. Use these as observability evidence only. A state that leaves its
-initial value is numerically observable but is not automatically accurate or
-acceptable for writeback.
+range. The CSV reports observability per axis, and distinguishes samples that
+deviate from the initial value from adjacent transitions that actually change.
+Use these as observability evidence only. A state that leaves its initial value
+is numerically observable but is not automatically accurate or acceptable for
+writeback.
 
 ## Joint observable-state framework
 

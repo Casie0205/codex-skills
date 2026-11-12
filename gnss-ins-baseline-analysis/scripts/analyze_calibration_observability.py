@@ -6,7 +6,6 @@ from __future__ import annotations
 import argparse
 import csv
 import json
-import math
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -228,15 +227,31 @@ def summarize_group(
         where=ranges > tolerance,
     )
     changed = np.any(np.abs(values - values[0]) > tolerance, axis=1)
+    changed_transitions = np.any(np.abs(steps) > tolerance, axis=1)
     first_change = first_change_elapsed(deltas, elapsed, tolerance)
     observable = bool(
         np.max(np.abs(deltas)) > tolerance or np.max(ranges) > tolerance
     )
     axis_results = []
     for axis, column in enumerate(group.columns):
+        axis_changed = np.abs(deltas[:, axis]) > tolerance
+        axis_changed_transitions = np.abs(steps[:, axis]) > tolerance
+        axis_observable = bool(
+            np.max(np.abs(deltas[:, axis])) > tolerance
+            or ranges[axis] > tolerance
+        )
+        axis_first_change = first_change_elapsed(
+            deltas[:, axis : axis + 1], elapsed, tolerance
+        )
         axis_results.append(
             {
                 "axis": column,
+                "observable": axis_observable,
+                "changed_samples": int(np.count_nonzero(axis_changed)),
+                "changed_transitions": int(
+                    np.count_nonzero(axis_changed_transitions)
+                ),
+                "first_change_elapsed_s": axis_first_change,
                 "initial": float(initial[axis]),
                 "final_median": float(final[axis]),
                 "final_std_median": float(final_std[axis]),
@@ -258,6 +273,7 @@ def summarize_group(
         "group": group.name,
         "observable": observable,
         "changed_samples": int(np.count_nonzero(changed)),
+        "changed_transitions": int(np.count_nonzero(changed_transitions)),
         "first_change_elapsed_s": first_change,
         "largest_step_axis": group.columns[largest_axis],
         "largest_step_abs": float(max_steps[largest_axis]),
@@ -327,7 +343,14 @@ def main() -> int:
             "target_group",
             "group",
             "axis",
+            "group_observable",
+            "group_changed_samples",
+            "group_changed_transitions",
+            "group_first_change_elapsed_s",
             "observable",
+            "changed_samples",
+            "changed_transitions",
+            "first_change_elapsed_s",
             "initial",
             "final_median",
             "final_std_median",
@@ -338,8 +361,6 @@ def main() -> int:
             "max_step_abs",
             "max_step_elapsed_s",
             "max_step_fraction_of_range",
-            "first_change_elapsed_s",
-            "changed_samples",
         )
         writer = csv.DictWriter(handle, fieldnames=fields)
         writer.writeheader()
@@ -351,7 +372,24 @@ def main() -> int:
                         "target_group": result["target_group"],
                         "group": result["group"],
                         "axis": axis["axis"],
-                        "observable": str(result["observable"]).lower(),
+                        "group_observable": str(result["observable"]).lower(),
+                        "group_changed_samples": result["changed_samples"],
+                        "group_changed_transitions": result[
+                            "changed_transitions"
+                        ],
+                        "group_first_change_elapsed_s": (
+                            ""
+                            if result["first_change_elapsed_s"] is None
+                            else f"{result['first_change_elapsed_s']:.9g}"
+                        ),
+                        "observable": str(axis["observable"]).lower(),
+                        "changed_samples": axis["changed_samples"],
+                        "changed_transitions": axis["changed_transitions"],
+                        "first_change_elapsed_s": (
+                            ""
+                            if axis["first_change_elapsed_s"] is None
+                            else f"{axis['first_change_elapsed_s']:.9g}"
+                        ),
                         "initial": f"{axis['initial']:.9g}",
                         "final_median": f"{axis['final_median']:.9g}",
                         "final_std_median": f"{axis['final_std_median']:.9g}",
@@ -364,12 +402,6 @@ def main() -> int:
                         "max_step_fraction_of_range": (
                             f"{axis['max_step_fraction_of_range']:.9g}"
                         ),
-                        "first_change_elapsed_s": (
-                            ""
-                            if result["first_change_elapsed_s"] is None
-                            else f"{result['first_change_elapsed_s']:.9g}"
-                        ),
-                        "changed_samples": result["changed_samples"],
                     }
                 )
     print(
