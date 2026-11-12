@@ -1,4 +1,4 @@
 interface:
-  display_name: "Structured MD Docs"
+  display_name: "doc - Structured MD Docs"
   short_description: "Structure-first Markdown documentation maintenance"
   default_prompt: "Use $structured-md-docs to place new material in the right section and update the document structure."

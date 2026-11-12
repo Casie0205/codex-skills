@@ -1,4 +1,4 @@
 interface:
-  display_name: "Navplot Coordinate Conversion"
+  display_name: "navenu - Navplot Coordinate Conversion"
   short_description: "Convert NavPlot lat/lon/height to metric ENU motion"
   default_prompt: "Use $navplot-coordinate-conversion to convert NavPlot latitude, longitude, and height into local ENU metres and cumulative travel distances."

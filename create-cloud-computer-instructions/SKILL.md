@@ -5,6 +5,13 @@ description: Create and maintain standalone instruction documents for an externa
 
 # Create Cloud Computer Instructions
 
+## Contents
+
+- [Storage Rules](#storage-rules)
+- [Workflow](#workflow)
+- [Boundaries](#boundaries)
+- [Reference](#reference)
+
 A cloud computer is an external AI environment that receives files by copying and is
 usually offline. A cloud-computer Markdown file is a standalone instruction deliverable,
 not a local Codex skill, command, or project document.
@@ -21,9 +28,9 @@ not a local Codex skill, command, or project document.
   without repacking it.
 - A cloud-computer skill must contain `SKILL.md` at its root and any scripts or agents
   directories beside it.
-- Skill directory names may be descriptive, but their first two to four characters must
-  be unique across installed cloud-computer skills. Keep the short prefix in
-  `display_name` so the user can type a few letters and lock the intended skill.
+- Skill directory names use the canonical names from the maintained skill library. When
+  canonical names share a word stem, keep a unique short prefix (typically three to six
+  characters) in `display_name` so the user can narrow the skill list quickly.
 - Use lowercase English, digits, and hyphens in file names.
 - Keep every Markdown file below 10,000 characters. Start splitting when a file exceeds
   roughly 8,000 characters.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "ctc - CTCLib Post-process Test"
+  short_description: "Run controlled CTCLib post-processing config tests"
+  default_prompt: "Use $ctc-postprocess-test to run a controlled CTCLib post-processing test and verify its output files."

@@ -1,4 +1,4 @@
 interface:
-  display_name: "Navigation Output Analysis"
+  display_name: "navout - Navigation Output Analysis"
   short_description: "Analyze NavPlot ins_insplot.txt columns and run quality"
   default_prompt: "Use $navigation-output-analysis to inspect the current run's ins_insplot.txt and report its time range, statuses, columns, and data limits."

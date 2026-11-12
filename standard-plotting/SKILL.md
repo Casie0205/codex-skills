@@ -21,7 +21,8 @@ force across report, paper, analysis, and presentation contexts.
 
 1. Resolve the input data and confirm the plotted columns, units, and time basis. If
    NavPlot positions are stored as latitude/longitude/height and the requested plot is a
-   metric displacement, run `scripts/convert_navplot_enu.py` first.
+   metric displacement, use the `navplot-coordinate-conversion` skill first and plot the
+   resulting `elapsed_s`, `east_m`, `north_m`, and `up_m` columns.
 2. Read [references/figure-spec.md](references/figure-spec.md) before creating or
    changing a multi-panel figure.
 3. Start from [scripts/plotting_template.py](scripts/plotting_template.py). Preserve its
@@ -69,5 +70,3 @@ as an in-figure title.
 - `scripts/plotting_template.py`: tested runnable template covering both legend modes.
 - `scripts/check_ylabel_alignment.py`: regression check for y-label 90-degree
   rotation and rendered bbox centering.
-- `scripts/convert_navplot_enu.py`: converts NavPlot latitude/longitude/height to local
-  ENU metres and writes a CSV ready for plotting.

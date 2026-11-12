@@ -24,8 +24,8 @@ Read only from the task's `output_path` and the verified repository state:
 - `result.md`
 - `changed-files.txt`
 - `verification.log`
+- `review.md` when `change_set: code`
 - `cloud-code.patch` when `change_set: code`
-- `review.md` when available
 - `git show --stat`, selected `git diff`, and current `git status`
 
 Do not use console claims that are absent from these artifacts. Redact secrets, tokens,
@@ -78,9 +78,10 @@ or network dependencies. Keep one report per task and write it only under `outpu
 ## Status Rules
 
 - The report status must exactly match `result.md`.
-- `DONE` requires committed task changes, at least one acceptance criterion and one
-  verification record, and every acceptance/verification result must be `PASS` with exit
-  code `0`.
+- `DONE` with `change_set: code` requires committed task changes. `change_set: none`
+  requires `changed-files.txt` to contain `NONE` and does not require a commit. Every
+  `DONE` requires at least one acceptance criterion and one verification record, and every
+  acceptance/verification result must be `PASS` with exit code `0`.
 - `PARTIAL` must name every failed or unverified acceptance item.
 - `BLOCKED` must name the missing input, environment issue, unsafe Git state, or uncommitted
   code that caused the stop.

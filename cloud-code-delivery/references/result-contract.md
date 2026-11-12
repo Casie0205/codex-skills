@@ -1,6 +1,6 @@
 # Result Contract
 
-状态：active | 更新日期：2026-11-11
+状态：active | 更新日期：2026-11-12
 
 ## 目录
 
@@ -34,10 +34,10 @@ D:\Output\cloud-code-delivery\<task_id>\
 
 | 状态 | 必需文件 | 补丁要求 |
 | --- | --- | --- |
-| `DONE` + `change_set: code` | `result.md`、`changed-files.txt`、`verification.log`、`cloud-code.patch`、`development-result.json`、`development-result.html` | 必须有提交和可应用补丁 |
+| `DONE` + `change_set: code` | `result.md`、`changed-files.txt`、`verification.log`、`review.md`、`cloud-code.patch`、`development-result.json`、`development-result.html` | 必须有提交和可应用补丁 |
 | `DONE` + `change_set: none` | `result.md`、`changed-files.txt`（`NONE`）、`verification.log`、`development-result.json`、`development-result.html` | 不要求提交或补丁 |
-| `PARTIAL` | 可写时生成 `result.md`、`changed-files.txt`、`verification.log`、`development-result.json`、`development-result.html`；若报告渲染本身失败，允许缺少失败产物，但必须在 `result.md` 和 `NOT VERIFIED` 记录命令与错误；不可写时只做最终回复 | 有代码提交时必须生成补丁 |
-| `BLOCKED` | 可写时生成 `result.md`；不可写时只做最终回复 | 不要求补丁 |
+| `PARTIAL` | 可写时生成 `result.md`、`changed-files.txt`、`verification.log`、`development-result.json`、`development-result.html`；有代码提交时还必须生成 `review.md`；若报告渲染本身失败，允许缺少失败产物，但必须在 `result.md` 和 `NOT VERIFIED` 记录命令与错误；不可写时只做最终回复 | 有代码提交时必须生成补丁 |
+| `BLOCKED` | 可写时生成 `result.md`；若存在代码修改，另生成 `review.md`；不可写时只做最终回复 | 不要求补丁 |
 
 任何状态都不得创建空文件或伪造内容。无修改时 `changed-files.txt` 写一行 `NONE`。
 若输出 `verification.log` 但未执行验证，则写 `NOT RUN: <reason>`；`BLOCKED` 且输出目录
@@ -50,7 +50,6 @@ D:\Output\cloud-code-delivery\<task_id>\
 可选文件：
 
 ```text
-review.md
 test-details.log
 ```
 
@@ -186,6 +185,7 @@ git diff --name-only --output="<output_path>\changed-files.txt" <base_commit>..<
 - [ ] `result.md` 的状态与验证证据一致；
 - [ ] 有修改时 `changed-files.txt` 与实际提交范围一致，无修改时明确写 `NONE`；
 - [ ] 执行过命令时 `verification.log` 含实际命令和退出码；
+- [ ] 有代码修改时 `review.md` 记录实际审查方式、范围、发现和残余风险；
 - [ ] `DONE` + `change_set: code` 的 `cloud-code.patch` 覆盖全部本任务提交且非空；
 - [ ] `DONE` + `change_set: none` 的 `changed-files.txt` 为 `NONE` 且不伪造补丁；
 - [ ] `DONE` 已生成非空 `development-result.json` 和 `development-result.html`；

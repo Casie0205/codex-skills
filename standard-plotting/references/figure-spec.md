@@ -23,8 +23,9 @@
 
 导航输出的默认数据源是运行输出目录中的 `ins_insplot.txt`。绘图前先确认列定义。
 如果第 3 至 5 列是经纬高，而绘图主题是米制位移或轨迹，必须先运行
-`scripts/convert_navplot_enu.py`，再使用生成 CSV 中的 `elapsed_s`、`east_m`、
-`north_m`、`up_m`。不得把经纬度直接当作 E/N 米制坐标。
+`navplot-coordinate-conversion` skill，再使用生成 CSV 中的 `elapsed_s`、`east_m`、
+`north_m`、`up_m`。不得把经纬度直接当作 E/N 米制坐标，也不要在绘图 skill 中维护
+第二份转换脚本。
 
 ## 2. 依赖
 

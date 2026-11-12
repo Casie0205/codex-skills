@@ -120,6 +120,19 @@ class RenderResultReportTests(unittest.TestCase):
             self.assertNotIn("{{", document)
             self.assertNotRegex(document, r'(src|href)="https?://')
 
+    def test_accepts_done_no_change_with_none_commit(self) -> None:
+        data = fixture()
+        data["task"]["change_set"] = "none"
+        data["task"]["result_commit"] = "none"
+        data["changes"] = {}
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            result = self.run_renderer(data, root)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            document = (root / "report.html").read_text(encoding="utf-8")
+            self.assertIn("Change set", document)
+            self.assertIn("none", document)
+
     def test_rejects_failed_verification_for_done(self) -> None:
         data = fixture()
         data["verification"][0]["result"] = "FAIL"

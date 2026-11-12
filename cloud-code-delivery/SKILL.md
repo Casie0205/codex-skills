@@ -24,8 +24,8 @@ description: Execute one code-development task on an offline cloud computer that
 在一个云电脑工作区内完成一个边界明确的代码任务，并通过真实构建或测试证据证明
 结果。任务输入来自本地电脑的单向只读文档，代码和输出只写入云电脑工作区。
 
-本技能不负责多项任务并行、只读代码审查、联网调研、生产部署、密钥操作或跨机器自动
-回传。
+本技能不作为独立的只读代码研究入口，也不负责多项任务并行、联网调研、生产部署、
+密钥操作或跨机器自动回传。
 
 ## 2. 读取顺序
 
@@ -36,11 +36,12 @@ description: Execute one code-development task on an offline cloud computer that
 3. 任务单中的 `project_context_paths`。
 4. 仓库根目录最近的 `AGENTS.md`，不存在时读取 `README.md`。
 5. 任务单指定的项目文档、构建说明和测试说明。
-6. [execution-gates.md](references/execution-gates.md)。
-7. [result-contract.md](references/result-contract.md)。
-8. 涉及共享来源、新增源文件、`.vcxproj` 或服务器部署目标时，读取
+6. [review-policy.md](references/review-policy.md)。
+7. [execution-gates.md](references/execution-gates.md)。
+8. [result-contract.md](references/result-contract.md)。
+9. 涉及共享来源、新增源文件、`.vcxproj` 或服务器部署目标时，读取
    [server-build-parity.md](references/server-build-parity.md)。
-9. 完成结果包后读取 `../cloud-dev-result-report/SKILL.md` 并生成截图友好报告。
+10. 完成结果包后读取 `../cloud-dev-result-report/SKILL.md` 并生成截图友好报告。
 
 任务单缺少必需章节、`repo_path` 或必需源码不存在时，停止修改并报告 `BLOCKED`。
 任务单列出的 solution/project 位置与仓库不同、但能唯一定位对应服务器 target 时，
@@ -75,6 +76,8 @@ description: Execute one code-development task on an offline cloud computer that
 - 禁止编造构建结果、测试结果、文件路径、版本号或完成状态。
 - 每次可验证的逻辑修改完成后提交一次 Git 提交。提交前至少完成与之对应的构建、
   测试或静态检查；无法检查时不得标记为 `DONE`。
+- 代码修改提交前必须完成一次 diff 审查并写入 `review.md`。优先使用只读 subagent；
+  云电脑没有 subagent 或任务风险较低时，在主线程按同一范围完成审查。
 - 一个 target 编译成功不代表同 solution 的其他 target 能链接。完成前必须构建任务单
   `server_build_targets` 指定的服务器 solution/target，以及所有受共享来源影响的
   production targets。
@@ -161,9 +164,16 @@ git status --short
 git ls-files --others --exclude-standard
 ```
 
-逐项检查改动是否满足任务单，是否引入旧流程残留、重复入口、无边界参数、缺失测试或
-无关格式化。新建文件必须出现在 `git status --short` 或未跟踪文件清单中。审查发现的
-问题先修复，再重新验证。
+按 [review-policy.md](references/review-policy.md) 完成审查。审查范围至少包括任务单、
+当前 diff、受影响调用方、共享辅助代码和测试。重点检查正确性、回归、边界条件、缺失
+测试、旧流程残留、重复入口、无边界参数、模块边界和无关格式化。
+
+有只读 subagent 且任务需要独立复核时，把任务单、`base_commit` 到当前工作树的 diff、
+变更文件和验证结果交给 reviewer；若审查前已有本任务提交，也可使用
+`base_commit..HEAD`。否则在主线程完成同等审查。不得把会话历史整体交给 reviewer，
+也不得因为使用主线程审查而跳过该门禁。审查发现先修复并重新验证，再把 reviewer 类型、
+范围、发现、修复状态和残余风险写入 `review.md`。新建文件必须出现在
+`git status --short` 或未跟踪文件清单中。
 
 列出本地项目文档与源码的已确认差异；没有差异时明确写 `DOC-DISCREPANCY: none`。
 
@@ -232,6 +242,7 @@ git show --stat --oneline <result_commit>
 result.md
 changed-files.txt
 verification.log
+review.md
 cloud-code.patch
 development-result.json
 development-result.html
@@ -285,6 +296,7 @@ DOC-DISCREPANCY: none | <STATUS: confirmed | corrected | open; document; claim; 
 
 - [task-brief-contract.md](references/task-brief-contract.md)：任务单字段、示例和缺失判定。
 - [task-brief-example.md](references/task-brief-example.md)：只用于理解字段粒度的示例，不得执行其中的示例路径或命令。
+- [review-policy.md](references/review-policy.md)：提交前的 diff 审查范围、subagent 与主线程回退方式，以及 `review.md` 合同。
 - [execution-gates.md](references/execution-gates.md)：阶段门禁、Git 安全、模块边界和低能力模型约束。
 - [result-contract.md](references/result-contract.md)：输出文件、补丁格式和回传检查。
 - [doc-discrepancy.md](references/doc-discrepancy.md)：本地文档与云电脑源码冲突时的记录格式。

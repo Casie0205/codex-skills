@@ -7,19 +7,20 @@
 - [Validation](#validation)
 
 Custom Codex skills maintained in this repository for company knowledge retrieval,
-GNSS workflows, report generation, technical writing, Word equation conversion, and modular software development.
+GNSS workflows, report generation, technical writing, Word equation conversion, and
+cloud-computer code delivery.
 
 ## Skills
 
 | Skill | Purpose |
 | --- | --- |
 | [`academic-report`](academic-report/SKILL.md) | Create and revise print-ready academic-style HTML progress reports with figures, tables, and A4 print output. |
-| [`build-modular-feature`](build-modular-feature/SKILL.md) | Extend existing codebases with clear module boundaries, thin entrypoints, and focused validation and review. |
 | [`cloud-code-delivery`](cloud-code-delivery/SKILL.md) | Run one bounded code-development task on an offline cloud computer with server-target build parity, shared-source coverage checks, real verification, Git commits, document-discrepancy reporting, and a cloud-side result bundle. |
 | [`cloud-dev-result-report`](cloud-dev-result-report/SKILL.md) | Generate a self-contained, screenshot-friendly HTML report from a verified cloud development result bundle. |
 | [`convert-word-equations-to-mathtype`](convert-word-equations-to-mathtype/SKILL.md) | Convert native Word OMML equations into editable inline MathType objects using a MathML-first workflow and preservation checks. |
 | [`cpp-code-navigation`](cpp-code-navigation/SKILL.md) | Trace C and C++ symbols, callers, signatures, and include ownership using semantic evidence before editing. |
 | [`create-cloud-computer-instructions`](create-cloud-computer-instructions/SKILL.md) | Write standalone offline instruction documents for an external cloud computer under `D:\DOC`, separate from local Codex skills and commands. |
+| [`ctc-postprocess-test`](ctc-postprocess-test/SKILL.md) | Run controlled CTCLib post-processing tests with copied CTCCFG configurations and explicit output validation. |
 | [`ctclib`](ctclib/SKILL.md) | Decode CTCLib raw GNSS/INS data, run navigation post-processing, and auto-discover versioned installations under `D:\Code\ctclib_exe`. |
 | [`gnss-analysishub`](gnss-analysishub/SKILL.md) | Support GNSS conversion, QC, AnalysisHub processing, plotting, reports, and troubleshooting. |
 | [`gnss-ins-baseline-analysis`](gnss-ins-baseline-analysis/SKILL.md) | Analyze split CTCLib IMU data, calibrate observable states, run final navigation, and plot status-colored INS-versus-RTK errors. |
@@ -46,7 +47,11 @@ Copy-Item -Recurse .\academic-report "$HOME\.codex\skills\academic-report"
 
 Keep the `SKILL.md` file in each skill root. Optional `agents`, `assets`, `references`, and `scripts` directories should remain beside it.
 
-The MathType skill requires Windows, desktop Microsoft Word, and MathType 7. Its main entrypoint is `convert-word-equations-to-mathtype/scripts/mathtype_mathml_conversion/Invoke-OmmlMathMlToInlineMathTypeV2.ps1`; read its `SKILL.md` and `references/` before use. The modular-development skill provides instructions and reference checklists in `build-modular-feature/`; it has no runtime entrypoint.
+The MathType skill requires Windows, desktop Microsoft Word, and MathType 7. Its main
+entrypoint is
+`convert-word-equations-to-mathtype/scripts/mathtype_mathml_conversion/Invoke-OmmlMathMlToInlineMathTypeV2.ps1`;
+read its `SKILL.md` and `references/` before use. Modular implementation rules are part
+of `cloud-code-delivery`; there is no separate feature-development skill.
 
 ## Validation
 

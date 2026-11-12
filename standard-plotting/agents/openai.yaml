@@ -1,4 +1,4 @@
 interface:
-  display_name: "Standard Plotting"
+  display_name: "plot - Standard Plotting"
   short_description: "Default Matplotlib plotting standard for all charts and figures"
   default_prompt: "Use $standard-plotting to create the default chart or figure from the supplied data."
