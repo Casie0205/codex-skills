@@ -268,6 +268,26 @@ Use cumulative additions to find where instability starts and leave-one-out
 runs to identify dominant groups. Complete pairwise combinations when the
 cumulative matrix does not separate the coupling sources.
 
+When the base config keeps a tested group disabled, each matrix experiment may
+provide an explicit `estimate_masks` entry for selected groups. Use
+`std_overrides` when the experimental prior STD must differ from the base
+config. The generator fixes unselected groups with both `est=0` and `std=0`;
+both settings are required because CTCLib can update a nominally disabled
+state when its prior STD remains nonzero.
+
+```json
+{
+  "name": "add_lever_imu2gnss",
+  "groups": ["install_car2vio", "gyo_sf", "lever_imu2gnss"],
+  "estimate_masks": {
+    "lever_imu2gnss": "1,1,1"
+  },
+  "std_overrides": {
+    "lever_imu2gnss": "0.05,0.05,0.05"
+  }
+}
+```
+
 Analyze each generated manifest with
 `scripts/analyze_calibration_observability.py`. Keep independent single-group
 runs as references; compare each combination's state range and maximum step
