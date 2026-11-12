@@ -85,7 +85,7 @@ Record for each item:
 | solution | Absolute solution path |
 | project | Built project name |
 | configuration | Example: `Release` |
-| platform | Example: `Win32` |
+| platform | Default: `x86`; use the solution's actual name when different |
 | exit_code | Actual process exit code |
 | output | Produced executable or library |
 | evidence | Key compiler/linker summary |
@@ -103,6 +103,10 @@ Record for each item:
 
 ## 6. CTCLib Example
 
+The commands below use the MCP default `x86`. If the actual solution tree declares
+`Win32`, replace the platform argument with `Win32`; never pass a name the solution does
+not define.
+
 For the IMU time-alignment change:
 
 ```powershell
@@ -112,14 +116,14 @@ python "<skill-root>\scripts\check_project_source_coverage.py" `
   --anchor-source "proj\ctclib_app\src\DataDecoder\DataDecoder.c" `
   --required-source "proj\ctclib_app\src\AppProcessor\RTKCore\ImuTimeAlignment.c" `
   --configuration "Release" `
-  --platform "Win32"
+  --platform "x86"
 ```
 
 Then build the equivalent server target from the same tree:
 
 ```powershell
 msbuild "D:\Code\ctclib-nav\CTCLIB-SURVEY.sln" `
-  /t:ReBuild /p:Configuration=Release /p:Platform=Win32
+  /t:ReBuild /p:Configuration=Release /p:Platform=x86
 ```
 
 If the deployment tree is `D:\ctclib2.1\ctclib2.1-nav-windows\ctclib-nav`, rerun the

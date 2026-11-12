@@ -53,7 +53,7 @@
 | `forbidden_paths` | 禁止修改的文件或目录 |
 | `acceptance` | 可逐项判断真假的验收条件 |
 | `verify_commands` | 可复制执行的完整命令 |
-| `server_build_targets` | 服务器实际使用的 solution/project、configuration 和 platform；每项都要在完成前构建 |
+| `server_build_targets` | 服务器实际使用的 solution/project、configuration 和 platform；每项都要在完成前构建。未指定其他平台时默认 `x86`；solution 明确使用 `Win32`、`x64` 或 `ARM64` 时填写实际名称 |
 | `output_path` | 云电脑内结果目录，不得位于本地只读挂载 |
 | `network` | 固定为 `forbidden` |
 | `doc_authority` | 固定为 `cloud-code-first` |

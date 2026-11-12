@@ -38,7 +38,7 @@ Input:
 {
   "solution_path": "D:\\project\\app.sln",
   "configuration": "Debug",
-  "platform": "x64",
+  "platform": "x86",
   "visual_studio_version": "2019",
   "restore": true,
   "clean": false,
@@ -46,6 +46,9 @@ Input:
   "extra_properties": {}
 }
 ```
+
+`platform` defaults to `x86`. Use the project's actual platform name when it differs,
+for example `x64`, `Win32`, or `ARM64`.
 
 ### `build_project`
 

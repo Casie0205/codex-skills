@@ -28,7 +28,7 @@ class SourceCoverageTests(unittest.TestCase):
         self,
         root: Path,
         configuration: str = "Release",
-        platform: str = "Win32",
+    platform: str = "x86",
     ) -> subprocess.CompletedProcess[str]:
         return subprocess.run(
             [
@@ -113,7 +113,7 @@ class SourceCoverageTests(unittest.TestCase):
             self.write_project(
                 root,
                 '<ClCompile Include="..\\..\\src\\Required.c" '
-                'Condition="\'$(Configuration)|$(Platform)\'==\'Release|Win32\'" />',
+        'Condition="\'$(Configuration)|$(Platform)\'==\'Release|x86\'" />',
             )
             result = self.run_check(root)
             self.assertEqual(result.returncode, 0, result.stderr)

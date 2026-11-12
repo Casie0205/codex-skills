@@ -37,7 +37,7 @@
   - solution: D:\Output\cloud-code-build\fix-config-default\demo.sln
     project: demo_app
     configuration: Debug
-    platform: x64
+    platform: x86
 - build_root: D:\Output\cloud-code-build\fix-config-default
 - output_path: D:\Output\cloud-code-delivery\fix-config-default
 - network: forbidden
@@ -78,7 +78,7 @@
 ## 7. 验证
 
 ```powershell
-cmake -S "D:\Code\demo" -B "D:\Output\cloud-code-build\fix-config-default" -G "Visual Studio 16 2019" -A x64
+cmake -S "D:\Code\demo" -B "D:\Output\cloud-code-build\fix-config-default" -G "Visual Studio 16 2019" -A x86
 cmake --build "D:\Output\cloud-code-build\fix-config-default" --config Debug
 ctest --test-dir "D:\Output\cloud-code-build\fix-config-default" -C Debug --output-on-failure
 ```

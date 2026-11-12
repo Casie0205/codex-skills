@@ -5,16 +5,23 @@ description: Build, diagnose, and repair Windows C++ solutions or projects throu
 
 # Windows C++ Build
 
+## Contents
+
+- [Required Workflow](#required-workflow)
+- [Error Handling](#error-handling)
+- [Tool Contract](#tool-contract)
+
 Use the local `windows-cpp-build` MCP whenever a Windows C++ change must be validated. A source edit is not complete until a fresh build reports `success: true`, `exit_code: 0`, and `timed_out: false`.
 
 ## Required Workflow
 
 1. Locate the actual `.sln` or `.vcxproj`; do not assume the nearest project is the intended target.
 2. Call `discover_visual_studio` once to find MSBuild, or use an explicitly configured `msbuild_path`. When the project requires Visual Studio 2019, pass `version: "2019"` and `visual_studio_version: "2019"`; keep the toolset on `v142`.
-3. Build the unchanged baseline when practical, so existing failures are not attributed to the new edit.
-4. Read the reported errors and warnings. Fix one root cause at a time.
-5. Rebuild the same target after every source or project-file change.
-6. Report the exact target, configuration, platform, exit code, and log path.
+3. Use the MCP default platform `x86` unless the task brief or project explicitly requires another platform. If the solution defines `Win32`, `x64`, or `ARM64`, pass that exact platform name.
+4. Build the unchanged baseline when practical, so existing failures are not attributed to the new edit.
+5. Read the reported errors and warnings. Fix one root cause at a time.
+6. Rebuild the same target after every source or project-file change.
+7. Report the exact target, configuration, platform, exit code, and log path.
 
 ## Error Handling
 

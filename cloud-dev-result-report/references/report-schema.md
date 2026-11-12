@@ -129,7 +129,7 @@ Review finding fields: `severity`, `title`, `resolution`, `evidence`.
   "verification": [
     {
       "name": "VS2019 build",
-      "command": "windows-cpp-build build_project ctclib_app Release Win32",
+      "command": "windows-cpp-build build_project ctclib_app Release x86",
       "exit_code": 0,
       "result": "PASS",
       "evidence": "success=true, timed_out=false",
