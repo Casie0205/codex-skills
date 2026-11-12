@@ -66,8 +66,8 @@ The HTML must show, in this order:
 2. requested outcome and implemented outcome;
 3. data flow and module boundaries;
 4. changed files, diff summary, removed obsolete paths, and selected key diffs;
-5. acceptance criteria and build, test, and runtime verification with command, exit code,
-   result, and evidence;
+5. acceptance criteria plus the full build matrix and test/runtime verification, with
+   target, configuration, platform, command, exit code, result, and evidence;
 6. code-review findings and their resolution;
 7. risks, not-verified items, next action, and document discrepancies;
 8. source artifacts used to generate the report.

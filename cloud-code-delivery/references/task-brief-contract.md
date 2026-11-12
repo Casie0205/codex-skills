@@ -1,6 +1,6 @@
 # Cloud Code Task Brief Contract
 
-状态：active | 更新日期：2026-11-11
+状态：active | 更新日期：2026-11-12
 
 ## 目录
 
@@ -53,6 +53,7 @@
 | `forbidden_paths` | 禁止修改的文件或目录 |
 | `acceptance` | 可逐项判断真假的验收条件 |
 | `verify_commands` | 可复制执行的完整命令 |
+| `server_build_targets` | 服务器实际使用的 solution/project、configuration 和 platform；每项都要在完成前构建 |
 | `output_path` | 云电脑内结果目录，不得位于本地只读挂载 |
 | `network` | 固定为 `forbidden` |
 | `doc_authority` | 固定为 `cloud-code-first` |
@@ -60,6 +61,8 @@
 | `screenshot_report_skill` | 固定为 `cloud-dev-result-report` |
 
 路径应使用目标操作系统的格式。Windows 路径在 Markdown 代码块中保留反斜杠。
+`server_build_targets.solution` 可以是 `.sln` 或 `.vcxproj` 绝对路径；`project` 写实际
+构建目标名。
 
 ## 4. 完整示例
 
@@ -79,6 +82,7 @@
   `commit_policy` 已填写；
 - [ ] `local_drive_mapping` 和 `screenshot_report_skill` 已填写；
 - [ ] `allowed_paths`、`forbidden_paths`、`non_goals`、验收条件和验证命令均已填写；
+- [ ] `server_build_targets` 已填写，且 `verify_commands` 包含对应目标的完整重建命令；
 - [ ] `network` 的值严格为 `forbidden`；
 - [ ] 全文没有 `{{...}}` 占位符；
 - [ ] 允许修改路径没有覆盖整个磁盘或整个仓库；
@@ -89,3 +93,6 @@
 结构完整不代表路径、版本或验收标准正确。模型还必须核对仓库当前分支、任务文件是否
 存在、未提交修改是否与目标重叠。任何事实冲突均优先于任务单中的预期值，并以
 `BLOCKED` 结束。
+
+涉及新增源文件、共享来源或 `.vcxproj` 修改时，任务单还应注明消费者项目和实现文件的
+覆盖检查命令。不得只列一个便于本地运行的 app target。

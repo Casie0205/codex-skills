@@ -8,6 +8,7 @@
 - [2. 必需文件](#2-必需文件)
 - [3. 内容格式](#3-内容格式)
   - [3.1 截图友好报告](#31-截图友好报告)
+  - [3.2 服务器构建矩阵](#32-服务器构建矩阵)
 - [4. 补丁生成](#4-补丁生成)
 - [5. 回传检查](#5-回传检查)
 
@@ -91,6 +92,13 @@ test-details.log
   - command:
     exit_code:
     key_output:
+- build_matrix:
+  - solution:
+    project:
+    configuration:
+    platform:
+    exit_code:
+    output:
 - not_verified:
 
 ## 风险与后续
@@ -133,6 +141,19 @@ development-result.html
 `DONE` 且输出目录可写时，缺少任一报告文件不得标记 `DONE`。`PARTIAL` 只有在报告渲染
 本身失败时才能缺少对应报告产物，并必须写明缺失原因。
 
+### 3.2 服务器构建矩阵
+
+涉及共享来源、新增源文件或项目成员关系时，`result.md` 和
+`development-result.json` 必须记录完整构建矩阵：
+
+- 服务器实际 solution 和目标 project；
+- 其他受影响的 production targets；
+- 测试 target；
+- 每项的 configuration、platform、exit code 和输出文件。
+
+同时保存 `check_project_source_coverage.py` 的退出码和缺少实现文件的项目列表。
+只记录一个 app target 的 build 不能证明 solution-level parity。
+
 ## 4. 补丁生成
 
 `change_set: code` 的 `DONE`，或存在代码提交的 `PARTIAL`，使用完整提交范围生成补丁：
@@ -171,6 +192,9 @@ git diff --name-only --output="<output_path>\changed-files.txt" <base_commit>..<
   可写 `PARTIAL` 已生成报告，或已记录报告渲染失败原因和缺失产物；
 - [ ] 报告状态与 `result.md` 一致，`DONE` 的验收和验证项全部为 `PASS + exit 0`；
 - [ ] HTML 自包含，无外部 CSS、JavaScript、字体、图片或网络依赖；
+- [ ] `server_build_targets` 中的每个目标都已按指定 configuration/platform 重建，且
+  exit code 为 `0`；
+- [ ] 共享来源覆盖检查通过，所有 consumer `.vcxproj` 都包含 required source；
 - [ ] 每次任务都检查项目上下文，并记录 `DOC-DISCREPANCY` 或明确写 `none`；
 - [ ] 非 `none` 的 `DOC-DISCREPANCY` 包含 `confirmed`、`corrected` 或 `open` 状态；
 - [ ] 输出路径不在本地只读挂载内；

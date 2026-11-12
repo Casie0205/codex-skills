@@ -5,7 +5,7 @@ description: Execute one code-development task on an offline cloud computer that
 
 # Cloud Code Delivery
 
-状态：active | 适用：离线云电脑 | 调用前缀：`clou` | 更新日期：2026-11-11
+状态：active | 适用：离线云电脑 | 调用前缀：`clou` | 更新日期：2026-11-12
 
 ## 目录
 
@@ -38,10 +38,13 @@ description: Execute one code-development task on an offline cloud computer that
 5. 任务单指定的项目文档、构建说明和测试说明。
 6. [execution-gates.md](references/execution-gates.md)。
 7. [result-contract.md](references/result-contract.md)。
-8. 完成结果包后读取 `../cloud-dev-result-report/SKILL.md` 并生成截图友好报告。
+8. 涉及共享来源、新增源文件、`.vcxproj` 或服务器部署目标时，读取
+   [server-build-parity.md](references/server-build-parity.md)。
+9. 完成结果包后读取 `../cloud-dev-result-report/SKILL.md` 并生成截图友好报告。
 
-任务单缺少必需章节、路径不存在或仓库与任务单不一致时，停止修改并报告
-`BLOCKED`。不要通过猜测补全任务单。
+任务单缺少必需章节、`repo_path` 或必需源码不存在时，停止修改并报告 `BLOCKED`。
+任务单列出的 solution/project 位置与仓库不同、但能唯一定位对应服务器 target 时，
+记录 `DOC-DISCREPANCY` 后继续；无法唯一定位时停止。不要通过猜测补全任务单。
 
 ## 3. 环境契约
 
@@ -72,6 +75,11 @@ description: Execute one code-development task on an offline cloud computer that
 - 禁止编造构建结果、测试结果、文件路径、版本号或完成状态。
 - 每次可验证的逻辑修改完成后提交一次 Git 提交。提交前至少完成与之对应的构建、
   测试或静态检查；无法检查时不得标记为 `DONE`。
+- 一个 target 编译成功不代表同 solution 的其他 target 能链接。完成前必须构建任务单
+  `server_build_targets` 指定的服务器 solution/target，以及所有受共享来源影响的
+  production targets。
+- 新增 `.c/.cpp` 后，必须找出所有编译其调用方翻译单元的 `.vcxproj`，并把实现文件加入
+  每个项目。只改 `.vcxproj.filters` 或只改一个 app target 不构成完整修复。
 
 ## 5. 执行流程
 
@@ -83,7 +91,7 @@ description: Execute one code-development task on an offline cloud computer that
 - 8 个必需编号 `##` 章节全部存在且非空；
 - `task_id`、`local_input_root`、`repo_path`、`branch`、`output_path`、
   `build_root`、`network`、`project`、`project_context_paths`、`doc_authority` 和
-  `commit_policy` 已填写；
+  `commit_policy`、`server_build_targets` 已填写；
 - `allowed_paths`、`forbidden_paths`、`non_goals`、验收条件和验证命令均已填写；
 - 文件中没有 `{{...}}` 占位符；
 - `local_input_root` 与所有云电脑可写路径分离；`build_root` 必须在 `repo_path` 内，或是
@@ -104,6 +112,8 @@ description: Execute one code-development task on an offline cloud computer that
 - 入口文件、目标模块、相邻实现和测试；
 - 实际构建根、配置文件、生成目录和已有失败基线。
 - 项目上下文文档存在且可读；发现与源码冲突时记录，不在本地写回。
+- 服务器/部署 solution、目标项目、configuration 和 platform；未定义时不得用任意本地
+  target 代替。
 
 索引非空时立即停止。现有未提交修改或未跟踪文件只要与允许修改路径重叠，立即停止并
 报告重叠文件。
@@ -157,6 +167,21 @@ git ls-files --others --exclude-standard
 
 列出本地项目文档与源码的已确认差异；没有差异时明确写 `DOC-DISCREPANCY: none`。
 
+共享来源或项目文件发生变化时，先运行来源覆盖检查，再执行完整构建矩阵：
+
+```powershell
+python "<skill-root>\scripts\check_project_source_coverage.py" `
+  --repo "<repo_path>" `
+  --project-root "<repo_path>\proj" `
+  --anchor-source "<consumer source>" `
+  --required-source "<new implementation source>" `
+  --configuration "<server configuration>" `
+  --platform "<server platform>"
+```
+
+必须分别记录服务器 solution、其他受影响 production target 和测试 target 的
+configuration、platform、exit code 与输出文件。单个项目通过不能代替 solution 重建。
+
 ### 5.7 提交与回传
 
 只暂存本任务修改的文件：
@@ -192,6 +217,7 @@ git show --stat --oneline <result_commit>
 - 需要联网、权限提升、密钥或生产环境；
 - 需要执行不可恢复的 Git 或文件操作；
 - 验收标准无法观测；
+- 无法确认服务器/部署 build target，或任一依赖共享来源的项目未加入实现文件；
 - 构建环境缺失且任务单没有替代验证方式；
 - 同类根因连续 3 次修复失败；
 - 任务实际包含两个以上独立目标。
@@ -262,4 +288,5 @@ DOC-DISCREPANCY: none | <STATUS: confirmed | corrected | open; document; claim; 
 - [execution-gates.md](references/execution-gates.md)：阶段门禁、Git 安全、模块边界和低能力模型约束。
 - [result-contract.md](references/result-contract.md)：输出文件、补丁格式和回传检查。
 - [doc-discrepancy.md](references/doc-discrepancy.md)：本地文档与云电脑源码冲突时的记录格式。
+- [server-build-parity.md](references/server-build-parity.md)：共享来源、项目成员关系和服务器 build matrix。
 - `../cloud-dev-result-report/SKILL.md`：把结果包生成自包含、可截图 HTML 报告。

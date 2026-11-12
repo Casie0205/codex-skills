@@ -33,6 +33,11 @@
 - doc_authority: cloud-code-first
 - os: Windows 11
 - toolchain: Visual Studio 2019 / v142
+- server_build_targets:
+  - solution: D:\Output\cloud-code-build\fix-config-default\demo.sln
+    project: demo_app
+    configuration: Debug
+    platform: x64
 - build_root: D:\Output\cloud-code-build\fix-config-default
 - output_path: D:\Output\cloud-code-delivery\fix-config-default
 - network: forbidden

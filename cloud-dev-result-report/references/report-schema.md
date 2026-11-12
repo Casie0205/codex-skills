@@ -178,5 +178,8 @@ Review finding fields: `severity`, `title`, `resolution`, `evidence`.
   status and verification result must be `PASS`, every verification exit code must be `0`,
   a concrete result commit for code changes, and empty `not_verified` and unresolved review
   lists.
+- When the task defines `server_build_targets`, include one verification item for every
+  server target and every other affected production target; do not collapse them into one
+  generic build row.
 - Do not include secrets, tokens, credentials, private keys, or unrelated user data.
 - The HTML status and values must match `result.md` and the underlying artifacts.
