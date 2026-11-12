@@ -74,6 +74,12 @@ function Get-OutputKind {
 
     $sourceConfig = [string](Get-ObjectProperty -Object $Summary -Name 'SourceConfig')
     $signature = ($RelativePath + ' ' + $sourceConfig).ToLowerInvariant()
+    if ($RelativePath -match 'imu[_-]install[_-]final|install[_-]car2vio[_-]final') {
+        return 'NAV / official VIO-on'
+    }
+    if ($RelativePath -match 'vioshift.*_no_vio$') {
+        return 'NAV / official VIO-off'
+    }
     if ($signature -match 'imu[_-]install|install[_-]imu2car') {
         return 'CALIB / IMU installation'
     }
@@ -88,12 +94,6 @@ function Get-OutputKind {
     }
     if ($signature -match 'error-observability') {
         return 'CALIB / error observability'
-    }
-    if ($RelativePath -match 'install[_-]car2vio[_-]final') {
-        return 'NAV / official VIO-on'
-    }
-    if ($RelativePath -match 'vioshift.*_no_vio$') {
-        return 'NAV / official VIO-off'
     }
     if ($signature -match 'install-car2vio-calib') {
         return 'CALIB / VIO installation'
