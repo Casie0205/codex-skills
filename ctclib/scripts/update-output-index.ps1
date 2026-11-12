@@ -80,6 +80,9 @@ function Get-OutputKind {
     if ($RelativePath -match 'vioshift.*_no_vio$') {
         return 'NAV / official VIO-off'
     }
+    if ($signature -match 'gyro[_-]z') {
+        return 'CALIB / gyro-Z'
+    }
     if ($signature -match 'imu[_-]install|install[_-]imu2car') {
         return 'CALIB / IMU installation'
     }
