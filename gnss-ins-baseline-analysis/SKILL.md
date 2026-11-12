@@ -18,6 +18,7 @@ Status: workflow and helper scripts verified on Windows on 2026-11-12.
 - [15-state baseline model](#15-state-baseline-model)
 - [Apply calibration and rerun](#apply-calibration-and-rerun)
 - [Independent error-state sweep](#independent-error-state-sweep)
+- [Joint observable-state framework](#joint-observable-state-framework)
 - [Navigation result plots](#navigation-result-plots)
 - [Output naming](#output-naming)
 - [Resume without repeating](#resume-without-repeating)
@@ -215,6 +216,35 @@ maximum single-sample step, and the maximum step as a fraction of the full
 range. Use these as observability evidence only. A state that leaves its
 initial value is numerically observable but is not automatically accurate or
 acceptable for writeback.
+
+## Joint observable-state framework
+
+After the independent sweep, build one joint CALIB config that includes only
+groups with demonstrated state movement. Set each initial value and STD to the
+independent run's final-window median value and median filter STD. Preserve
+per-axis masks when only selected axes are observable, for example:
+
+```text
+est_gyo_sf = 0,0,1
+gyo_sf = 0,0,<observed Z value>
+gyo_sf_std = 0,0,<last-window Z STD>
+```
+
+Record the observable set and fixed groups in a manifest. The observability
+analyzer accepts an optional `groups` list per experiment when several groups
+are calibrated jointly:
+
+```json
+{
+  "group": "all_observable",
+  "groups": ["lever_imu2gnss", "lever_imu2vio", "acc_sf"],
+  "output_dir": "<joint-calibration-output>"
+}
+```
+
+A joint run can expose coupling that is not obvious in independent runs.
+Treat large joint ranges or steps as a reason to review the state set; do not
+promote the joint calibration automatically.
 
 ## Navigation result plots
 

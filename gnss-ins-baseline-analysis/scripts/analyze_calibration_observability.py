@@ -279,13 +279,16 @@ def main() -> int:
     missing = []
     for experiment in manifest["experiments"]:
         target_group = experiment["group"]
+        selected_groups = experiment.get("groups")
+        if not selected_groups:
+            selected_groups = [target_group, "install_car2vio"]
         dr_est = Path(experiment["output_dir"]) / "dr_est.prodef"
         if not dr_est.is_file():
             missing.append(str(dr_est))
             continue
         index, data, elapsed = load_dr_est(dr_est)
         for group in GROUPS:
-            if group.name not in {target_group, "install_car2vio"}:
+            if group.name not in selected_groups:
                 continue
             result = summarize_group(
                 experiment=target_group,
