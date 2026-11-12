@@ -178,6 +178,10 @@ python "<skill-root>\scripts\apply_calibration.py" `
 The script:
 
 - reads the fixed `INS_EST_STATE` columns;
+- supports lever arms, installation angles, scale factors, and cross-coupling
+  groups, including six-axis cross-coupling vectors;
+- applies relationship-specific config/state axis transforms before writeback
+  and observability comparison;
 - requires the source config to be `ins_mode=1`;
 - checks each group's `est_*` switch and VIO input availability;
 - uses the last 30 seconds by default;

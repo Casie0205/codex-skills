@@ -74,6 +74,12 @@ function Get-OutputKind {
 
     $sourceConfig = [string](Get-ObjectProperty -Object $Summary -Name 'SourceConfig')
     $signature = ($RelativePath + ' ' + $sourceConfig).ToLowerInvariant()
+    if ($RelativePath -match '^improved_joint[^/]*/nav$') {
+        return 'NAV / improved VIO-on candidate'
+    }
+    if ($RelativePath -match '^improved_joint[^/]*/calib$') {
+        return 'CALIB / improved joint'
+    }
     if ($RelativePath -match 'imu[_-]install[_-]final|install[_-]car2vio[_-]final') {
         return 'NAV / official VIO-on'
     }
@@ -136,6 +142,9 @@ function Get-RetentionLabel {
 
     if ($Kind -match 'official VIO') {
         return 'KEEP / current formal navigation'
+    }
+    if ($Kind -match 'improved VIO-on candidate') {
+        return 'KEEP / improved candidate'
     }
     if ($Kind -match 'comparison baseline') {
         return 'KEEP / comparison baseline'
@@ -374,7 +383,7 @@ $markdown.Add('## Cleanup guidance')
 $markdown.Add('')
 $markdown.Add('| Category | Count | Meaning |')
 $markdown.Add('| --- | ---: | --- |')
-$markdown.Add("| KEEP | $($keepEntries.Count) | Current formal result or required input provenance. |")
+$markdown.Add("| KEEP | $($keepEntries.Count) | Current formal result, approved candidate, comparison baseline, or required input provenance. |")
 $markdown.Add("| REVIEW | $($reviewEntries.Count) | Calibration, validation, or experiment evidence; delete only after confirmation. |")
 $markdown.Add("| DELETE-CANDIDATE | $($cleanupEntries.Count) | Historical navigation or probe output that can be cleaned first. |")
 $markdown.Add('')
