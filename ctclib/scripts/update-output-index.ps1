@@ -74,6 +74,9 @@ function Get-OutputKind {
 
     $sourceConfig = [string](Get-ObjectProperty -Object $Summary -Name 'SourceConfig')
     $signature = ($RelativePath + ' ' + $sourceConfig).ToLowerInvariant()
+    if ($signature -match 'ablation') {
+        return 'CALIB / ablation'
+    }
     if ($signature -match 'observable[_-]all|all[_-]observable') {
         return 'CALIB / all observable'
     }

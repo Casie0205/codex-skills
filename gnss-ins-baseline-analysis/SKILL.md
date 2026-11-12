@@ -19,6 +19,7 @@ Status: workflow and helper scripts verified on Windows on 2026-11-12.
 - [Apply calibration and rerun](#apply-calibration-and-rerun)
 - [Independent error-state sweep](#independent-error-state-sweep)
 - [Joint observable-state framework](#joint-observable-state-framework)
+- [Ablation matrix](#ablation-matrix)
 - [Navigation result plots](#navigation-result-plots)
 - [Output naming](#output-naming)
 - [Resume without repeating](#resume-without-repeating)
@@ -245,6 +246,31 @@ are calibrated jointly:
 A joint run can expose coupling that is not obvious in independent runs.
 Treat large joint ranges or steps as a reason to review the state set; do not
 promote the joint calibration automatically.
+
+## Ablation matrix
+
+When a joint observable-state run becomes unstable, generate incremental and
+leave-one-out matrices from the all-observable config:
+
+```powershell
+python "<skill-root>\scripts\generate_calibration_ablation_configs.py" `
+  --base-config "<all-observable-calib.ctccfg>" `
+  --matrix "<matrix.json>" `
+  --output-config-dir "<parameter-experiment-directory>" `
+  --output-root "<output-experiment-directory>" `
+  --name-prefix "<YYMMDDHH>" `
+  --manifest-output "<run-manifest.json>"
+```
+
+Use cumulative additions to find where instability starts and leave-one-out
+runs to identify dominant groups. Complete pairwise combinations when the
+cumulative matrix does not separate the coupling sources.
+
+Analyze each generated manifest with
+`scripts/analyze_calibration_observability.py`. Keep independent single-group
+runs as references; compare each combination's state range and maximum step
+against those references. Do not promote a combination merely because the
+solver exits `0`.
 
 ## Navigation result plots
 
