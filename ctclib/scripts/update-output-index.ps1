@@ -74,6 +74,9 @@ function Get-OutputKind {
 
     $sourceConfig = [string](Get-ObjectProperty -Object $Summary -Name 'SourceConfig')
     $signature = ($RelativePath + ' ' + $sourceConfig).ToLowerInvariant()
+    if ($signature -match 'imu[_-]install|install[_-]imu2car') {
+        return 'CALIB / IMU installation'
+    }
     if ($signature -match 'observable[_-]refined|refined[_-]observable') {
         return 'CALIB / refined observable'
     }
