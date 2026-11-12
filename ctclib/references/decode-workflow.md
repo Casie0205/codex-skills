@@ -32,12 +32,17 @@
 ```text
 D:\Output\<dataset-root>\
   ctclib\
+    README.md
+    output-index.json
     decode_<timestamp>\
       source\<input-stem>_ctclibdec\
       _run\
 ```
 
 `-NoStage` 时，输出目录直接位于原始输入文件旁。
+
+每次解码完成后会自动刷新数据集 `ctclib` 根目录下的 `README.md` 和
+`output-index.json`。它们列出当前输出目录、运行状态和清理分类；不要手动编辑。
 
 不要新建 `D:\Output\ctclib` 下的输出目录。`Workspace` 必须显式传入，
 并使用数据集专用根目录，例如：

@@ -235,6 +235,15 @@ $summary = [pscustomobject]@{
     Files           = $assessedInventory
 }
 Write-CtclibSummary -Summary $summary -Path (Join-Path $RunRoot 'summary.json')
+$indexUpdater = Join-Path $PSScriptRoot 'update-output-index.ps1'
+if (Test-Path -LiteralPath $indexUpdater -PathType Leaf) {
+    try {
+        & $indexUpdater -StartPath $OutputDir -TriggerPath $OutputDir | Out-Null
+    }
+    catch {
+        Write-Warning "Output index update failed: $($_.Exception.Message)"
+    }
+}
 
 if ($Json) {
     $summary | ConvertTo-Json -Depth 8

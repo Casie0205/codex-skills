@@ -4,6 +4,7 @@
 
 - [配置契约](#配置契约)
 - [包装脚本行为](#包装脚本行为)
+- [输出索引](#输出索引)
 - [主要输出](#主要输出)
 - [结果分析](#结果分析)
 - [常见故障](#常见故障)
@@ -59,6 +60,7 @@ gnss_interrupt_end_time = 200405, 0, 0, 0
 4. 启动前检查本机注册状态；未注册时返回 `license_required`，不启动程序。
 5. 对程序设置运行超时，避免注册提示或其他交互无限等待。
 6. 保存 `stdout.log`、`stderr.log`、`command.txt` 和 `summary.json`。
+7. 更新数据集 `ctclib` 根目录下的 `README.md` 和 `output-index.json`。
 
 源配置保持不变。
 
@@ -69,6 +71,19 @@ gnss_interrupt_end_time = 200405, 0, 0, 0
 
 使用 `-Force` 复用非空输出目录时，只有本次运行新增或修改的主结果文件才算成功；
 旧的 `ins_novatel.ASC` 不会让空跑被误判为成功。
+
+## 输出索引
+
+每次包装脚本运行后会自动重建：
+
+```text
+D:\Output\<dataset-root>\ctclib\README.md
+D:\Output\<dataset-root>\ctclib\output-index.json
+```
+
+索引包含所有输出目录的用途、最新运行状态、来源配置、更新时间、体积和
+`KEEP / REVIEW / DELETE-CANDIDATE` 清理建议。不要手动编辑；如果索引缺失，
+使用 skill 的 `scripts\update-output-index.ps1` 重建。
 
 ## 主要输出
 

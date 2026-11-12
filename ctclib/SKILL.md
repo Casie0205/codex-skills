@@ -91,7 +91,8 @@ The script:
 - runs `ctclib_decode.exe -b`;
 - writes decoded output to
   `<workspace>\source\<input-stem>_ctclibdec`;
-- writes command, console, and JSON summaries under `<workspace>\_run`.
+- writes command, console, and JSON summaries under `<workspace>\_run`;
+- refreshes the dataset `ctclib\README.md` and `output-index.json`.
 
 Use `-PlanOnly` to inspect paths without execution. Use `-NoStage` only when
 the user explicitly permits decoding beside the source data.
@@ -116,7 +117,8 @@ The script:
 - writes `ctclib.derived.ctccfg` under the run directory;
 - converts `file_input_obs_rover` to an absolute path;
 - sets `selfoutput=0` and the requested `dir_output`;
-- runs `ctclib_app.exe` with the derived config.
+- runs `ctclib_app.exe` with the derived config;
+- refreshes the dataset `ctclib\README.md` and `output-index.json`.
 
 If the CTCLib registration is missing, the script exits with
 `license_required` before launching the application. A bounded process timeout
@@ -138,10 +140,16 @@ Use a dataset-specific output folder instead:
 ```text
 D:\Output\<dataset-root>\
   ctclib\
+    README.md
+    output-index.json
     decode_<timestamp>\
     <run-name>\
     runs\
 ```
+
+`README.md` is a generated index of output units, run status, source configs,
+and cleanup guidance. `output-index.json` is its machine-readable companion.
+Do not hand-edit these files; update them by running the packaged scripts.
 
 Example:
 
@@ -189,3 +197,5 @@ Do not determine success from console text or exit code alone.
 - Do not interpret standard deviations as truth-referenced errors.
 - Do not apply `ins_insplot.txt` column definitions to `ins_novatel.ASC`, or
   the reverse.
+- Use the generated dataset `ctclib\README.md` before cleanup. Treat `KEEP`
+  entries as protected and confirm `REVIEW` entries before deletion.
