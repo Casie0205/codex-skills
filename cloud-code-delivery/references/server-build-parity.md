@@ -88,7 +88,7 @@ Record for each item:
 | solution | Absolute solution path |
 | project | Built project name |
 | configuration | Example: `Release` |
-| platform | Default: `x86`; use the solution's actual name when different |
+| platform | `x86`; fixed by the `windows-cpp-build` MCP |
 | exit_code | Actual process exit code |
 | output | Produced executable or library |
 | evidence | Key compiler/linker summary |
@@ -106,9 +106,9 @@ Record for each item:
 
 ## 6. CTCLib Example
 
-The commands below use the MCP default `x86`. If the actual solution tree declares
-`Win32`, replace the platform argument with `Win32`; never pass a name the solution does
-not define.
+The `windows-cpp-build` MCP has no platform argument and always passes
+`/p:Platform=x86`. The source-coverage checker still accepts `--platform` because it
+evaluates project conditions; use `x86` for parity with the build.
 
 For the IMU time-alignment change:
 

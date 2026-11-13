@@ -8,11 +8,11 @@ description: Build, diagnose, and repair Windows C++ solutions or projects throu
 ## Contents
 
 - [Required Workflow](#required-workflow)
-- [Timeout Configuration](#timeout-configuration)
+- [Build Completion](#build-completion)
 - [Error Handling](#error-handling)
 - [Tool Contract](#tool-contract)
 
-Use the local `windows-cpp-build` MCP whenever a Windows C++ change must be validated. A source edit is not complete until a fresh build reports `success: true`, `exit_code: 0`, and `timed_out: false`.
+Use the local `windows-cpp-build` MCP whenever a Windows C++ change must be validated. A source edit is not complete until a fresh build reports `success: true` and `exit_code: 0`.
 
 ## Required Workflow
 
@@ -24,23 +24,29 @@ Use the local `windows-cpp-build` MCP whenever a Windows C++ change must be vali
 6. Rebuild the same target after every source or project-file change.
 7. Report the exact target, configuration, fixed platform `x86`, exit code, and log path.
 
-## Timeout Configuration
+## Build Completion
 
-Set a Codex-level tool timeout longer than the server-side build timeout. The MCP build
-timeout defaults to 1800 seconds, so configure:
+The MCP does not impose a build-duration timeout. It waits for the MSBuild process to
+exit and then returns parsed diagnostics for either success or failure.
+
+When the client supplies `_meta.progressToken`, the MCP emits
+`notifications/progress` immediately after starting MSBuild and for each non-empty
+output line. A start notification means the build is active; continue waiting for the
+final tool result instead of retrying or treating the call as unresponsive.
+
+Codex still applies a client-side request timeout. Configure a 24-hour transport safety
+limit so a normal long build is not cut off:
 
 ```toml
 [mcp_servers.windows_cpp_build]
 command = 'python'
 args = ['-m', 'windows_cpp_build_mcp']
 env = { PYTHONPATH = 'D:\Code\windows-cpp-build-mcp\src' }
-tool_timeout_sec = 3600
+tool_timeout_sec = 86400
 ```
 
-Do not interpret a client timeout as a compiler failure. Before starting another build,
-inspect the newest log under `D:\Output\windows-cpp-build-mcp\build-logs` and call
-`parse_build_log` when `build.log` exists. Rerun only after the client timeout exceeds
-the server build timeout.
+Treat the client setting as a hung-request guard, not as a build policy. Do not stop or
+duplicate a build based only on elapsed time while the MCP call is still running.
 
 ## Error Handling
 

@@ -41,7 +41,6 @@ Input:
   "visual_studio_version": "2019",
   "restore": true,
   "clean": false,
-  "timeout_seconds": 1800,
   "extra_properties": {}
 }
 ```
@@ -50,6 +49,15 @@ The MCP always passes MSBuild `/p:Platform=x86`. `build_solution` and `build_pro
 do not expose a `platform` argument; passing one is rejected instead of being silently
 ignored. `extra_properties` also rejects the reserved `Platform` property so it cannot
 override the fixed value.
+
+The build call is synchronous. It waits until MSBuild exits, then returns the actual
+process exit code and parsed diagnostics. There is no `timeout_seconds` argument and no
+server-side build-duration cutoff.
+
+When the request includes `_meta.progressToken`, the server emits
+`notifications/progress` immediately after starting MSBuild, for each non-empty output line,
+and once when the process exits. Progress messages are live status only; the final tool
+result remains authoritative.
 
 ### `build_project`
 
@@ -71,7 +79,6 @@ Build tools return:
 
 - `success`
 - `exit_code`
-- `timed_out`
 - `duration_seconds`
 - `target_path`
 - `configuration`
@@ -86,7 +93,7 @@ Build tools return:
 
 `solution_path`, `project_path`, and `log_path` must be absolute paths. `log_root` must also be absolute when supplied.
 
-`success` is the primary completion field. It is true only when `exit_code == 0` and `timed_out == false`.
+`success` is the primary completion field. It is true only when `exit_code == 0`.
 
 `diagnostic_summary` includes `total`, `errors`, `warnings`, `fatal`, and per-category counts.
 
@@ -122,13 +129,13 @@ Use an explicit MSBuild path when multiple toolchains are installed and the proj
 
 For Visual Studio 2019, set `WINDOWS_CPP_VS_VERSION` to `[16.0,17.0)` or pass `visual_studio_version: "2019"` to the build tools. Keep the project on `PlatformToolset=v142`; do not let it fall through to the v143 toolset from Visual Studio 2022.
 
-Set the Codex MCP client timeout above the server-side build timeout. The build timeout
-defaults to 1800 seconds:
+The MCP waits for MSBuild to finish regardless of build duration. Set the Codex MCP
+client timeout to a transport safety limit of 24 hours:
 
 ```toml
 [mcp_servers.windows_cpp_build]
 command = 'python'
 args = ['-m', 'windows_cpp_build_mcp']
 env = { PYTHONPATH = 'D:\Code\windows-cpp-build-mcp\src' }
-tool_timeout_sec = 3600
+tool_timeout_sec = 86400
 ```
