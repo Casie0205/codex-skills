@@ -28,11 +28,29 @@ an inline command passed through another shell.
 Use `Read`, `Edit`, and `Write` tools before shell commands:
 
 - Use `Read` to establish exact file content.
-- Use one minimal `Edit` with a unique anchor from the actual file.
+- If the `text-edit` MCP is configured, prefer its `replace_text` tool for source
+  edits. The tool owns encoding detection, BOM preservation, newline preservation,
+  ambiguity checks, and atomic writes.
+- Use one minimal `Edit` only when `replace_text` is unavailable or the target is a
+  non-source file with no encoding risk.
 - Do not use PowerShell `Get-Content` as a substitute for `Read`.
 - Do not use `Write` to rewrite a large existing file merely because `Edit` failed.
 
-If `Edit` fails:
+If `replace_text` is available, pass the exact block and replacement directly. Do not
+pre-convert the file to UTF-8 and do not add an encoding argument on the first attempt.
+The tool normally detects UTF-8, UTF-8 BOM, UTF-16 LE/BE, and legacy Windows text.
+
+Use the structured failure result:
+
+1. `NO_MATCH`: retry once with one returned candidate context block.
+2. `AMBIGUOUS_MATCH`: add surrounding context or pass the correct `occurrence`.
+3. `STALE_FILE`: re-read the file and retry with its current SHA-256.
+4. `ENCODING_CONFIRMATION_REQUIRED`: inspect the returned encoding, use `dry_run`
+   once, and retry with an explicit `encoding` only if the decoded content is correct.
+5. `MIXED_NEWLINES`, `ENCODING_UNREPRESENTABLE`, `DECODE_ERROR`, or `WRITE_ERROR`:
+   stop and report the result. Do not fall back to a full-file `Write`.
+
+If `replace_text` is unavailable and `Edit` fails:
 
 1. Re-read the exact region.
 2. Check BOM, tabs, CRLF/LF, trailing spaces, and encoding.
@@ -114,8 +132,11 @@ Use bounded failure escalation:
 
 - First shell quoting or pipe failure: switch to a script file.
 - Second failure of the same form: stop and report the exact command and error.
-- First `Edit` mismatch: inspect exact bytes and whitespace.
-- Second `Edit` mismatch: use `replace_literal.py`.
+- First `Edit` mismatch: use the `text-edit` MCP `replace_text` tool when available.
+- If `replace_text` is unavailable, inspect exact bytes and whitespace, then use
+  `replace_literal.py` after the second `Edit` mismatch.
+- A `replace_text` result with candidates is actionable evidence. Use it for one
+  precise retry instead of rewriting the whole file.
 - `replace_literal.py` returning `no_match`, `count_mismatch`, `mixed_newlines`,
   `ambiguous_encoding`, or `error` is terminal. Report the helper JSON and stop.
 - Never rewrite an existing file with `Write` after an edit failure unless the user
