@@ -80,6 +80,12 @@ function Get-OutputKind {
     if ($RelativePath -match '^improved_joint[^/]*/calib$') {
         return 'CALIB / improved joint'
     }
+    if ($RelativePath -match '^fixed_vio_lever[^/]*/nav$') {
+        return 'NAV / fixed VIO lever test'
+    }
+    if ($RelativePath -match '^fixed_vio_lever[^/]*/calib$') {
+        return 'CALIB / fixed VIO lever test'
+    }
     if ($RelativePath -match 'imu[_-]install[_-]final|install[_-]car2vio[_-]final') {
         return 'NAV / official VIO-on'
     }
@@ -145,6 +151,9 @@ function Get-RetentionLabel {
     }
     if ($Kind -match 'improved VIO-on candidate') {
         return 'KEEP / improved candidate'
+    }
+    if ($Kind -match 'fixed VIO lever test') {
+        return 'REVIEW / VIO lever test'
     }
     if ($Kind -match 'comparison baseline') {
         return 'KEEP / comparison baseline'
