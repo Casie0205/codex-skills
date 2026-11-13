@@ -38,7 +38,6 @@ Input:
 {
   "solution_path": "D:\\project\\app.sln",
   "configuration": "Debug",
-  "platform": "x86",
   "visual_studio_version": "2019",
   "restore": true,
   "clean": false,
@@ -47,8 +46,10 @@ Input:
 }
 ```
 
-`platform` defaults to `x86`. Use the project's actual platform name when it differs,
-for example `x64`, `Win32`, or `ARM64`.
+The MCP always passes MSBuild `/p:Platform=x86`. `build_solution` and `build_project`
+do not expose a `platform` argument; passing one is rejected instead of being silently
+ignored. `extra_properties` also rejects the reserved `Platform` property so it cannot
+override the fixed value.
 
 ### `build_project`
 
@@ -74,7 +75,7 @@ Build tools return:
 - `duration_seconds`
 - `target_path`
 - `configuration`
-- `platform`
+- `platform` (always `x86`)
 - `visual_studio_version`
 - `command[]`
 - `log_path`
@@ -120,3 +121,14 @@ The server uses these discovery paths unless `msbuild_path` is supplied:
 Use an explicit MSBuild path when multiple toolchains are installed and the project requires a specific one.
 
 For Visual Studio 2019, set `WINDOWS_CPP_VS_VERSION` to `[16.0,17.0)` or pass `visual_studio_version: "2019"` to the build tools. Keep the project on `PlatformToolset=v142`; do not let it fall through to the v143 toolset from Visual Studio 2022.
+
+Set the Codex MCP client timeout above the server-side build timeout. The build timeout
+defaults to 1800 seconds:
+
+```toml
+[mcp_servers.windows_cpp_build]
+command = 'python'
+args = ['-m', 'windows_cpp_build_mcp']
+env = { PYTHONPATH = 'D:\Code\windows-cpp-build-mcp\src' }
+tool_timeout_sec = 3600
+```

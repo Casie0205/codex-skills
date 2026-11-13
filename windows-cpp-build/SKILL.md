@@ -8,6 +8,7 @@ description: Build, diagnose, and repair Windows C++ solutions or projects throu
 ## Contents
 
 - [Required Workflow](#required-workflow)
+- [Timeout Configuration](#timeout-configuration)
 - [Error Handling](#error-handling)
 - [Tool Contract](#tool-contract)
 
@@ -17,11 +18,29 @@ Use the local `windows-cpp-build` MCP whenever a Windows C++ change must be vali
 
 1. Locate the actual `.sln` or `.vcxproj`; do not assume the nearest project is the intended target.
 2. Call `discover_visual_studio` once to find MSBuild, or use an explicitly configured `msbuild_path`. When the project requires Visual Studio 2019, pass `version: "2019"` and `visual_studio_version: "2019"`; keep the toolset on `v142`.
-3. Use the MCP default platform `x86` unless the task brief or project explicitly requires another platform. If the solution defines `Win32`, `x64`, or `ARM64`, pass that exact platform name.
+3. Do not pass a `platform` argument. The MCP always builds with MSBuild `/p:Platform=x86`; an explicit platform override is rejected.
 4. Build the unchanged baseline when practical, so existing failures are not attributed to the new edit.
 5. Read the reported errors and warnings. Fix one root cause at a time.
 6. Rebuild the same target after every source or project-file change.
-7. Report the exact target, configuration, platform, exit code, and log path.
+7. Report the exact target, configuration, fixed platform `x86`, exit code, and log path.
+
+## Timeout Configuration
+
+Set a Codex-level tool timeout longer than the server-side build timeout. The MCP build
+timeout defaults to 1800 seconds, so configure:
+
+```toml
+[mcp_servers.windows_cpp_build]
+command = 'python'
+args = ['-m', 'windows_cpp_build_mcp']
+env = { PYTHONPATH = 'D:\Code\windows-cpp-build-mcp\src' }
+tool_timeout_sec = 3600
+```
+
+Do not interpret a client timeout as a compiler failure. Before starting another build,
+inspect the newest log under `D:\Output\windows-cpp-build-mcp\build-logs` and call
+`parse_build_log` when `build.log` exists. Rerun only after the client timeout exceeds
+the server build timeout.
 
 ## Error Handling
 
