@@ -18,11 +18,13 @@ Use the local `windows-cpp-build` MCP whenever a Windows C++ change must be vali
 
 1. Locate the actual `.sln` or `.vcxproj`; do not assume the nearest project is the intended target.
 2. Call `discover_visual_studio` once to find MSBuild, or use an explicitly configured `msbuild_path`. When the project requires Visual Studio 2019, pass `version: "2019"` and `visual_studio_version: "2019"`; keep the toolset on `v142`.
-3. Do not pass a `platform` argument. The MCP always builds with MSBuild `/p:Platform=x86`; an explicit platform override is rejected.
-4. Build the unchanged baseline when practical, so existing failures are not attributed to the new edit.
-5. Read the reported errors and warnings. Fix one root cause at a time.
-6. Rebuild the same target after every source or project-file change.
-7. Report the exact target, configuration, fixed platform `x86`, exit code, and log path.
+3. Let the MCP locate and initialize `vcvarsall.bat` for `x86` before invoking MSBuild. Use `WINDOWS_CPP_VCVARS` only when automatic discovery is insufficient.
+4. Do not pass a `platform` argument. The MCP always builds with MSBuild `/p:Platform=x86`; explicit `Platform` or `PlatformTarget` overrides are rejected.
+5. Use a single configuration and target name. Do not put semicolons or shell metacharacters in `configuration`, `target`, or `extra_properties` values.
+6. Build the unchanged baseline when practical, so existing failures are not attributed to the new edit.
+7. Read the reported errors and warnings. Fix one root cause at a time.
+8. Rebuild the same target after every source or project-file change.
+9. Report the exact target, configuration, fixed platform `x86`, environment status, exit code, and log path.
 
 ## Build Completion
 
@@ -54,6 +56,7 @@ duplicate a build based only on elapsed time while the MCP call is still running
 - Do not add broad include directories to silence a missing-header error until the owning dependency and required include root are understood.
 - Treat `LNK2019` and related link errors as ownership/definition/import-library problems, not as reasons to add arbitrary source files.
 - When the build output is incomplete, call `parse_build_log` on the saved log instead of relying on the console tail.
+- If `environment_initialized` is false, inspect `environment_error` and `vcvars_path`. For `MSB8020`, `MSB8008`, `MSB8036`, or missing `cl.exe`/`link.exe`, configure `WINDOWS_CPP_VCVARS` to the matching Visual Studio installation instead of changing project source.
 - If no Visual Studio or MSBuild installation is found, report that environment blocker. Do not claim compilation succeeded.
 - Do not silently fall back to Visual Studio 2022 or the `v143` toolset when the project requires Visual Studio 2019.
 

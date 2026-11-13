@@ -47,12 +47,20 @@ Input:
 
 The MCP always passes MSBuild `/p:Platform=x86`. `build_solution` and `build_project`
 do not expose a `platform` argument; passing one is rejected instead of being silently
-ignored. `extra_properties` also rejects the reserved `Platform` property so it cannot
-override the fixed value.
+ignored. `extra_properties` rejects `Platform` and `PlatformTarget`, property names
+outside the supported identifier format, and values containing property separators,
+shell metacharacters, quotes, or control characters so callers cannot inject another
+property. `extra_properties` therefore supports scalar values only, not semicolon-list
+properties such as `PreprocessorDefinitions=FOO;BAR`.
 
 The build call is synchronous. It waits until MSBuild exits, then returns the actual
 process exit code and parsed diagnostics. There is no `timeout_seconds` argument and no
 server-side build-duration cutoff.
+
+Before invoking MSBuild, the MCP derives `vcvarsall.bat` from the selected Visual Studio
+installation, runs it for `x86`, captures the resulting environment, and passes that
+environment to the MSBuild process. This supplies `INCLUDE`, `LIB`, `PATH`, and related
+Visual C++ variables while keeping the build command itself as a direct process call.
 
 When the request includes `_meta.progressToken`, the server emits
 `notifications/progress` immediately after starting MSBuild, for each non-empty output line,
@@ -83,6 +91,9 @@ Build tools return:
 - `target_path`
 - `configuration`
 - `platform` (always `x86`)
+- `vcvars_path`
+- `environment_initialized`
+- `environment_error`
 - `visual_studio_version`
 - `command[]`
 - `log_path`
@@ -126,6 +137,15 @@ The server uses these discovery paths unless `msbuild_path` is supplied:
 3. `PATH`
 
 Use an explicit MSBuild path when multiple toolchains are installed and the project requires a specific one.
+
+`vcvarsall.bat` resolution order:
+
+1. `WINDOWS_CPP_VCVARS`
+2. Visual Studio installation derived from the selected `MSBuild.exe`
+3. Visual Studio installations reported by `vswhere.exe`
+
+A `vcvarsall.bat` path containing `^` or `%` is rejected because it cannot be passed
+safely through `cmd.exe`; use the normal Visual Studio installation path.
 
 For Visual Studio 2019, set `WINDOWS_CPP_VS_VERSION` to `[16.0,17.0)` or pass `visual_studio_version: "2019"` to the build tools. Keep the project on `PlatformToolset=v142`; do not let it fall through to the v143 toolset from Visual Studio 2022.
 
