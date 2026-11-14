@@ -43,6 +43,9 @@ Use this skill when the intended reader is a customer, partner, or other externa
 - Do not expose device brands or model names in customer-facing content or delivery assets unless release is explicitly approved. This includes headings, body text, captions, alt text, linked files, and image or data filenames. Use functional labels instead; in Chinese reports, use "参考 IMU" rather than a model identifier.
 - Support data-quality conclusions with direct evidence: one or two intuitive plots plus a screenshot or excerpt of the complete original record row. Never show only a cropped field when the reader may question how the source record was interpreted.
 - Use figures only when they reveal a pattern that prose or a table cannot express as clearly. Simple counts and single values remain in text or tables.
+- For low-dimensional, discrete, or few-option comparisons, prefer a compact table. Do not use a simple bar chart when a heatmap, interval or dot plot, aligned time series, or table carries more information.
+- Give every figure one explicit reader question. Remove figures that only restate a count, a small table, or another figure.
+- Structure each conclusion summary as tiered points: core conclusion, supporting evidence, then limitations or exceptions. Keep confirmed evidence, reasonable inference, and unresolved questions separate.
 - Keep residual risks and validation limits near the relevant conclusion.
 
 ## Resources
