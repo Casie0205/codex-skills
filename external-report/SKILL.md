@@ -31,11 +31,12 @@ Use this skill when the intended reader is a customer, partner, or other externa
    python scripts/validate_report.py <report-directory>/index.html
    ```
 
-   Inspect desktop, narrow screen, and A4 print output. Check that comparisons preserve proportions and the reader never has to zoom a figure to understand the claim.
+   Inspect desktop, narrow screen, and A4 print media. Check that comparisons preserve proportions and the reader never has to zoom a figure to understand the claim. Do not generate a PDF by default; create one only when the user explicitly requests PDF delivery.
 
 ## Non-Negotiables
 
 - Keep the current academic paper layout: white surface, single content column, numbered sections, full-width figures, captions below figures, and print-safe tables.
+- Treat the HTML report as the default deliverable. Do not create or commit a PDF copy unless the user explicitly requests it.
 - Default to the `humanizer:humanizer` skill for all report prose.
 - State conclusions in customer terms. Describe what was found, its impact, what changed, and whether it is resolved.
 - Keep the opening summary free of internal sample counts, event counts, file counts, and implementation metrics. Put exact audit counts in the evidence sections and retain only the few numbers needed for the customer decision.
