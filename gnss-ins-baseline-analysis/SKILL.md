@@ -1,6 +1,6 @@
 ---
 name: gnss-ins-baseline-analysis
-description: Use when analyzing CTCLib GNSS/INS data end to end, including split IMU figures, navigation calibration and writeback, status-colored trajectories, and INS-versus-RTK error statistics.
+description: Use when analyzing CTCLib GNSS/INS data end to end, including split IMU analysis, navigation calibration and writeback, and INS-versus-RTK error statistics.
 ---
 
 # GNSS/INS Baseline Analysis
@@ -20,7 +20,7 @@ Status: workflow and helper scripts verified on Windows on 2026-11-12.
 - [Independent error-state sweep](#independent-error-state-sweep)
 - [Joint observable-state framework](#joint-observable-state-framework)
 - [Ablation matrix](#ablation-matrix)
-- [Navigation result plots](#navigation-result-plots)
+- [Navigation result analysis](#navigation-result-analysis)
 - [Output naming](#output-naming)
 - [Resume without repeating](#resume-without-repeating)
 - [Output layout](#output-layout)
@@ -43,11 +43,11 @@ NavPlot plotting that does not involve CTCLib GNSS/INS processing.
 
 ## Plot styling
 
-Use the `standard-plotting` skill and its `scripts/figure_core.py`
-for every figure. Do not restate or override its sizing, fonts, legend,
-panel-label, or export rules in this skill.
-
-The GNSS/INS figure set must not contain figure-level titles.
+All plotting and figure export are delegated to `standard-plotting`.
+This skill must not define or bundle its own plotting layout or style rules.
+Domain scripts may select data and call the shared
+`standard-plotting/scripts/figure_core.py`, but must not reimplement sizing,
+fonts, legends, panel labels, or export rules.
 
 ## Use CTCLib first
 
@@ -298,7 +298,7 @@ runs as references; compare each combination's state range and maximum step
 against those references. Do not promote a combination merely because the
 solver exits `0`.
 
-## Navigation result plots
+## Navigation result analysis
 
 Read [references/navigation-plots.md](references/navigation-plots.md) before
 interpreting solution colors, error signs, or error statistics.

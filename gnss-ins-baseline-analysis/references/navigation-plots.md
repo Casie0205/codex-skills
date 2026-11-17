@@ -1,10 +1,10 @@
-# Navigation Result Plots
+# Navigation Result Analysis
 
 ## Contents
 
 - [Source contracts](#source-contracts)
 - [Solution classes](#solution-classes)
-- [Figure outputs](#figure-outputs)
+- [Plot handoff](#plot-handoff)
 - [Error comparison](#error-comparison)
 - [Statistics table](#statistics-table)
 - [Validation](#validation)
@@ -30,16 +30,16 @@ RTKPlotStudio skill. Parse the fields defined in these Wiki pages:
 
 ## Solution classes
 
-Use six classes and stable colors:
+Use six stable solution classes:
 
-| Internal class | Display label | NavPlot status | Color intent |
-| --- | --- | --- | --- |
-| Fix | 固定解 | 1 | green |
-| Float | 浮点解 | 2 | orange |
-| Diff | 差分 | 3, 4 | blue |
-| Single | 单点 | 5 | magenta |
-| INS | INS | 6 | purple |
-| Other | 其他 | other | gray |
+| Internal class | Display label | NavPlot status |
+| --- | --- | --- |
+| Fix | 固定解 | 1 |
+| Float | 浮点解 | 2 |
+| Diff | 差分 | 3, 4 |
+| Single | 单点 | 5 |
+| INS | INS | 6 |
+| Other | 其他 | other |
 
 RTK Q mapping is:
 
@@ -52,23 +52,15 @@ RTK Q mapping is:
   is confirmed
 - other: Other
 
-For `ins_insplot.txt`, use the NavPlot status column for plot colors. For the
-fixed comparison set, require both INS status `1` and RTK Q `1`.
+For `ins_insplot.txt`, use the NavPlot status column for solution-class
+classification. For the fixed comparison set, require both INS status `1` and
+RTK Q `1`.
 
-## Figure outputs
+## Plot handoff
 
-Create three separate figures:
-
-1. horizontal East-North trajectory, colored by solution class;
-2. East/North/Up position versus elapsed time, colored by solution class;
-3. position and velocity error versus elapsed time.
-
-The error figure must cover:
-
-- position error East/North/Up;
-- velocity error East/North/Up.
-
-Render through `standard-plotting` and its shared `figure_core.py`.
+This reference defines data semantics, error signs, and required analysis
+outputs only. Figure layout, styling, legends, panel labels, and export belong
+to `standard-plotting`; do not maintain a second plotting specification here.
 
 ## Error comparison
 
@@ -131,9 +123,8 @@ Confirm:
 - malformed row counts;
 - common time overlap;
 - matched and fixed-matched row counts;
-- expected figure files exist for each figure;
 - statistics and sample CSVs are non-empty;
-- per-class colors and plotted data by visual inspection.
+- solution-class assignments in the analysis outputs.
 
 Do not claim a truth-referenced absolute accuracy from this comparison. It is an
 internal INS-versus-RTK consistency check unless RTK is independently validated
