@@ -20,8 +20,9 @@ MM_PER_INCH = 25.4
 A4_WIDTH_MM = 210.0
 FIGURE_WIDTH_IN = (A4_WIDTH_MM * 2.0 / 3.0) / MM_PER_INCH
 PANEL_HEIGHT_IN = 1.62
-TOP_MARGIN_IN = 0.70
-BOTTOM_MARGIN_IN = 0.62
+TOP_MARGIN_IN = 0.45
+BOTTOM_MARGIN_IN = 0.42
+MIN_FIGURE_HEIGHT_IN = 3.2
 
 
 def configure_style() -> None:
@@ -55,31 +56,32 @@ def create_figure(
 ) -> tuple[plt.Figure, np.ndarray]:
     if nrows < 1 or ncols < 1:
         raise ValueError("nrows and ncols must be positive")
-    gap_in = 0.58 if legend_scope == "subplot" else 0.38
+    gap_in = 0.34 if legend_scope == "subplot" else 0.30
     height_in = (
         TOP_MARGIN_IN
         + BOTTOM_MARGIN_IN
         + nrows * panel_height_in
         + max(0, nrows - 1) * gap_in
     )
+    height_in = max(height_in, MIN_FIGURE_HEIGHT_IN)
     fig, axes = plt.subplots(
         nrows=nrows,
         ncols=ncols,
-        figsize=(FIGURE_WIDTH_IN, max(height_in, 3.4)),
+        figsize=(FIGURE_WIDTH_IN, height_in),
         sharex=sharex,
         sharey=sharey,
         squeeze=False,
     )
     if external_ylabels:
-        left_margin = 0.225
+        left_margin = 0.17
     else:
         left_margin = 0.12 if ncols == 1 else 0.10
     fig.subplots_adjust(
         left=left_margin,
-        right=0.975,
-        bottom=0.16,
-        top=0.88 if legend_scope == "figure" else 0.94,
-        hspace=0.42,
+        right=0.985,
+        bottom=BOTTOM_MARGIN_IN / height_in,
+        top=1.0 - TOP_MARGIN_IN / height_in,
+        hspace=0.30,
         wspace=0.30,
     )
     return fig, axes
@@ -151,8 +153,8 @@ def add_shared_legend(
     fig.legend(
         handles=handles,
         labels=labels,
-        loc="upper center",
-        bbox_to_anchor=(0.5, 0.985),
+        loc="lower center",
+        bbox_to_anchor=(0.5, fig.subplotpars.top + 0.012),
         ncol=min(legend_columns or len(handles), len(handles)),
         frameon=False,
         borderaxespad=0,

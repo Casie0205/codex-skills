@@ -47,7 +47,10 @@ as an in-figure title.
 - Do not create a figure for a few simple counts or one scalar. Use prose or a table unless the visual reveals a trend, distribution, relationship, or another non-obvious pattern.
 - Never use raw latitude/longitude columns as metric E/N coordinates.
 - Panels stack vertically by default.
-- Legends stay outside the axes and are the topmost visual element.
+- Legends stay outside the axes and are the topmost visual element. Anchor a shared
+  legend just above the top axes frame instead of near the figure edge.
+- Minimize outer margins. The default external y-label margin is `0.17` of the figure
+  width and the bottom margin is `0.42 in`, while preserving complete labels.
 - Legend labels are Chinese by default; units, special symbols, and untranslated
   model or product names are the exceptions.
 - Each panel has only an `(a)`, `(b)`, `(c)` label at its upper-left corner.
