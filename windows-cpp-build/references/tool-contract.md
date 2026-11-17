@@ -30,7 +30,7 @@ Output:
 - `installations[]`, including `installation_path`, `display_name`, `installation_version`, `msbuild_path`, and `vcvars_path`
 - `errors[]`
 
-### `build_solution`
+### `start_build_solution`
 
 Input:
 
@@ -45,31 +45,48 @@ Input:
 }
 ```
 
-The MCP always passes MSBuild `/p:Platform=x86`. `build_solution` and `build_project`
-do not expose a `platform` argument; passing one is rejected instead of being silently
-ignored. `extra_properties` rejects `Platform` and `PlatformTarget`, property names
+The MCP always passes MSBuild `/p:Platform=x86`. `start_build_solution` and
+`start_build_project` do not expose a `platform` argument; passing one is rejected
+instead of being silently ignored. `extra_properties` rejects `Platform` and
+`PlatformTarget`, property names
 outside the supported identifier format, and values containing property separators,
 shell metacharacters, quotes, or control characters so callers cannot inject another
 property. `extra_properties` therefore supports scalar values only, not semicolon-list
 properties such as `PreprocessorDefinitions=FOO;BAR`.
 
-The build call is synchronous. It waits until MSBuild exits, then returns the actual
-process exit code and parsed diagnostics. There is no `timeout_seconds` argument and no
-server-side build-duration cutoff.
+The call returns immediately with a `job_id` and initial status. It does not wait for
+MSBuild to finish. There is no `timeout_seconds` argument and no server-side
+build-duration cutoff.
 
 Before invoking MSBuild, the MCP derives `vcvarsall.bat` from the selected Visual Studio
 installation, runs it for `x86`, captures the resulting environment, and passes that
 environment to the MSBuild process. This supplies `INCLUDE`, `LIB`, `PATH`, and related
 Visual C++ variables while keeping the build command itself as a direct process call.
 
-When the request includes `_meta.progressToken`, the server emits
-`notifications/progress` immediately after starting MSBuild, for each non-empty output line,
-and once when the process exits. Progress messages are live status only; the final tool
-result remains authoritative.
+### `start_build_project`
 
-### `build_project`
+Uses the same input shape as `start_build_solution`, with `project_path` replacing
+`solution_path`.
 
-Uses the same input shape as `build_solution`, with `project_path` replacing `solution_path`.
+### `wait_for_build`
+
+Input:
+
+```json
+{
+  "job_id": "9bd4c6401a3e4b52a4958c45e5f11230",
+  "cursor": 0,
+  "timeout_seconds": 10
+}
+```
+
+Returns immediately when new messages arrive or when the job reaches a terminal state;
+otherwise it waits up to `timeout_seconds`, which is limited to 30 seconds. Continue
+calling with the returned `next_cursor` while status is `running`.
+
+### `get_build_status`
+
+Returns the current job status and messages without waiting.
 
 ### `parse_build_log`
 
@@ -83,7 +100,23 @@ Input:
 
 ## 3. Result fields
 
-Build tools return:
+Job status responses return:
+
+- `job_id`
+- `status`: `running`, `succeeded`, `failed`, or `error`
+- `target_path`
+- `configuration`
+- `platform` (always `x86`)
+- `started_at`
+- `finished_at`
+- `messages[]`
+- `messages_dropped`
+- `first_available_cursor`
+- `next_cursor`
+- `result`
+- `error`
+
+The terminal `result` contains:
 
 - `success`
 - `exit_code`
@@ -107,6 +140,10 @@ Build tools return:
 `success` is the primary completion field. It is true only when `exit_code == 0`.
 
 `diagnostic_summary` includes `total`, `errors`, `warnings`, `fatal`, and per-category counts.
+
+`messages_dropped` reports messages no longer available after the requested cursor;
+`first_available_cursor` identifies the earliest recoverable live-message position. The
+terminal result and saved build log remain authoritative.
 
 ## 4. Diagnostic categories
 
@@ -149,13 +186,13 @@ safely through `cmd.exe`; use the normal Visual Studio installation path.
 
 For Visual Studio 2019, set `WINDOWS_CPP_VS_VERSION` to `[16.0,17.0)` or pass `visual_studio_version: "2019"` to the build tools. Keep the project on `PlatformToolset=v142`; do not let it fall through to the v143 toolset from Visual Studio 2022.
 
-The MCP waits for MSBuild to finish regardless of build duration. Set the Codex MCP
-client timeout to a transport safety limit of 24 hours:
+Each build is asynchronous and every wait call is short. Set the Codex MCP client
+timeout to a regular request guard:
 
 ```toml
 [mcp_servers.windows_cpp_build]
 command = 'python'
 args = ['-m', 'windows_cpp_build_mcp']
 env = { PYTHONPATH = 'D:\Code\windows-cpp-build-mcp\src' }
-tool_timeout_sec = 86400
+tool_timeout_sec = 120
 ```

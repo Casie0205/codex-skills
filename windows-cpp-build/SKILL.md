@@ -21,34 +21,30 @@ Use the local `windows-cpp-build` MCP whenever a Windows C++ change must be vali
 3. Let the MCP locate and initialize `vcvarsall.bat` for `x86` before invoking MSBuild. Use `WINDOWS_CPP_VCVARS` only when automatic discovery is insufficient.
 4. Do not pass a `platform` argument. The MCP always builds with MSBuild `/p:Platform=x86`; explicit `Platform` or `PlatformTarget` overrides are rejected.
 5. Use a single configuration and target name. Do not put semicolons or shell metacharacters in `configuration`, `target`, or `extra_properties` values.
-6. Build the unchanged baseline when practical, so existing failures are not attributed to the new edit.
-7. Read the reported errors and warnings. Fix one root cause at a time.
-8. Rebuild the same target after every source or project-file change.
-9. Report the exact target, configuration, fixed platform `x86`, environment status, exit code, and log path.
+6. Start the build with `start_build_solution` or `start_build_project` and retain its `job_id`.
+7. Build the unchanged baseline when practical, so existing failures are not attributed to the new edit.
+8. Call `wait_for_build` repeatedly with the same `job_id` and the returned `next_cursor` until status is `succeeded`, `failed`, or `error`.
+9. Read the reported messages, errors, and warnings. Fix one root cause at a time.
+10. Start a new job and repeat the wait loop after every source or project-file change.
+11. Report the exact target, configuration, fixed platform `x86`, environment status, exit code, and log path.
 
 ## Build Completion
 
-The MCP does not impose a build-duration timeout. It waits for the MSBuild process to
-exit and then returns parsed diagnostics for either success or failure.
-
-When the client supplies `_meta.progressToken`, the MCP emits
-`notifications/progress` immediately after starting MSBuild and for each non-empty
-output line. A start notification means the build is active; continue waiting for the
-final tool result instead of retrying or treating the call as unresponsive.
-
-Codex still applies a client-side request timeout. Configure a 24-hour transport safety
-limit so a normal long build is not cut off:
+Builds are asynchronous. `start_build_solution` and `start_build_project` return
+immediately. Use `wait_for_build` with a maximum 30-second wait per call:
 
 ```toml
 [mcp_servers.windows_cpp_build]
 command = 'python'
 args = ['-m', 'windows_cpp_build_mcp']
 env = { PYTHONPATH = 'D:\Code\windows-cpp-build-mcp\src' }
-tool_timeout_sec = 86400
+tool_timeout_sec = 120
 ```
 
-Treat the client setting as a hung-request guard, not as a build policy. Do not stop or
-duplicate a build based only on elapsed time while the MCP call is still running.
+Each wait returns immediately when new output arrives, otherwise it waits at most 30
+seconds. Continue polling while status is `running`; do not start a duplicate build
+because a single wait timed out. Use `get_build_status` only when an immediate snapshot
+is needed.
 
 ## Error Handling
 
