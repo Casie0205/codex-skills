@@ -129,10 +129,10 @@ Review finding fields: `severity`, `title`, `resolution`, `evidence`.
   "verification": [
     {
       "name": "VS2019 build",
-      "command": "windows-cpp-build start_build_project project_path=D:\\Code\\ctclib-nav\\proj\\ctclib_app\\ctclib_app.vcxproj configuration=Release; wait_for_build until terminal",
+      "command": "windows-cpp-build build_project project_path=D:\\Code\\ctclib-nav\\proj\\ctclib_app\\ctclib_app.vcxproj configuration=Release",
       "exit_code": 0,
       "result": "PASS",
-      "evidence": "job status=succeeded, result.success=true, result.exit_code=0",
+      "evidence": "success=true, exit_code=0",
       "log_path": "D:\\Output\\build\\ctclib_app.log"
     }
   ],

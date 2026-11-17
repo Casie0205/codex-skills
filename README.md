@@ -34,8 +34,11 @@ cloud-computer code delivery.
 | [`rtkplot-studio`](rtkplot-studio/SKILL.md) | Inspect and plot 18-column RTKPlot solution text as trajectory, position, sigma, or quality figures through a headless CLI. |
 | [`starhub-mcp`](starhub-mcp/SKILL.md) | Operate CHC StarHub through MCP for connection reuse, device commands, raw saves, log inspection, and upgrade-state handling. |
 | [`structured-md-docs`](structured-md-docs/SKILL.md) | Create and maintain structure-first Markdown documentation with synchronized tables of contents, deliberate content placement, and document-splitting checks. |
-| [`windows-cpp-build`](windows-cpp-build/SKILL.md) | Build and repair Windows C++ solutions or projects through MSBuild diagnostics with fixed platform `x86` and a mandatory rebuild loop. |
 | [`yunxin-wiki`](yunxin-wiki/SKILL.md) | Search and read the authenticated internal Yunxin DokuWiki for company documentation, commands, message definitions, and technical references. |
+
+Cloud-only skills, including `windows-cpp-build`, are maintained in
+<https://github.com/Casie0205/cloud-skills>. Do not add cloud-specific changes to this
+personal skill repository.
 
 ## Installation
 

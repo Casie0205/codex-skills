@@ -54,7 +54,7 @@
 | `forbidden_paths` | 禁止修改的文件或目录 |
 | `acceptance` | 可逐项判断真假的验收条件 |
 | `verify_commands` | 可复制执行的完整命令 |
-| `server_build_targets` | solution/project, configuration, and platform metadata. For `windows-cpp-build` MCP tasks, `platform` is always `x86`; every target must use `start_build_*`, then repeated `wait_for_build` calls with `job_id` and `next_cursor` until a terminal result. |
+| `server_build_targets` | solution/project, configuration, and platform metadata. For `windows-cpp-build` MCP tasks, `platform` is always `x86`; every listed target must be rebuilt before completion. |
 | `output_path` | 云电脑内结果目录，不得位于本地只读挂载 |
 | `network` | 固定为 `forbidden` |
 | `doc_authority` | 固定为 `cloud-code-first` |

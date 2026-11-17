@@ -1,4 +1,0 @@
-interface:
-  display_name: "Windows C++ Build"
-  short_description: "Build and repair Windows C++ projects with MSBuild"
-  default_prompt: "Use $windows-cpp-build to build this Visual Studio C++ project with the fixed x86 platform and fix compiler or linker failures from real diagnostics."
