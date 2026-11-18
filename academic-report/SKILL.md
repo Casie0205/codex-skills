@@ -51,7 +51,10 @@ A finished report should:
 - Use serif type for body text and report titles; reserve sans-serif for navigation, labels, code, and numeric callouts.
 - Use numbered main sections and, when needed, descriptive subsections. Do not mix multiple competing section systems.
 - Do not show implementation or page-verification status in report metadata. Include work status only when it changes how the reader should interpret the results.
-- Keep figures single-column and full-width. Preserve the original aspect ratio; never place a graph inside a fixed-height viewport that clips it.
+- Keep independent single figures at two-thirds of the content width and centered.
+  Reserve full-width figures for explicitly requested wide figures or multi-column
+  figure groups. Preserve the original aspect ratio; never place a graph inside a
+  fixed-height viewport that clips it.
 - Do not create a figure for a few simple counts or a single scalar when prose or a table communicates the result more directly. Use figures when the visual reveals a trend, distribution, relationship, spatial pattern, or nontrivial comparison.
 - Put figure captions below the image and table titles above the table. Let the CSS number them automatically.
 - Give a figure caption title and its explanatory text the same font family, size, and color. Keep only the title bold; use regular weight for the explanation.

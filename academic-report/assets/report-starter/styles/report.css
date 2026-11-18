@@ -327,6 +327,12 @@ body {
   break-inside: avoid;
 }
 
+.figure-card.is-two-thirds {
+  width: 66.6667%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .figure-media {
   min-height: 0;
   padding: 0;
@@ -634,6 +640,10 @@ body {
 }
 
 @media (max-width: 640px) {
+  .figure-card.is-two-thirds {
+    width: 100%;
+  }
+
   .report-brand-copy span,
   .report-nav-link {
     display: none;

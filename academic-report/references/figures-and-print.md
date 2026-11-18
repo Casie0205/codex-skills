@@ -39,7 +39,7 @@ Do not combine unrelated metrics merely to reduce figure count.
 ## Figure HTML
 
 ```html
-<figure class="figure-card is-full">
+<figure class="figure-card is-two-thirds">
   <div class="figure-media">
     <img src="../assets/result.png" alt="结果图的准确描述">
   </div>
@@ -53,6 +53,10 @@ Do not combine unrelated metrics merely to reduce figure count.
 Keep the caption title and its explanatory text at the same font family, size, and color. Make only the title bold; render the explanation at regular weight.
 
 Do not add a fixed height to `.figure-media` or the image. Use `width: 100%; height: auto`.
+
+An independent single figure uses `is-two-thirds` and is centered at two-thirds
+of the content width. Use `is-full` only for an explicitly requested wide figure
+or when the figure belongs to a multi-column comparison grid.
 
 ## Table HTML
 
