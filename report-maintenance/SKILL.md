@@ -32,7 +32,7 @@ explicitly requests a synchronized or regenerated export.
 
 The user may edit the Markdown at any time. On every report task:
 
-1. Locate the containing Git repository when one exists.
+1. Locate the containing Git repository. If none exists, initialize one at the report root before editing.
 2. Record the current branch, status, staged changes, and task-file diff before
    editing.
 3. Re-read the current Markdown file immediately before patching it.
@@ -50,11 +50,16 @@ contains newer content.
 
 - If the report is in a Git repository, make the requested edit, verify the current
   diff, and commit only the task files after successful validation.
+- If no repository exists, run `git init -b main` in the report root. Verify that the
+  repository top level is the intended report directory, not a filesystem root or a
+  broader unrelated folder.
+- For a newly initialized repository, commit the current report state as a baseline
+  before changing report content. Include the Markdown source and the assets it needs;
+  include existing HTML/CSS/scripts when they are part of the report directory and are
+  needed to reproduce or inspect it.
 - Stage explicit paths only with `git add -- <paths>`. Do not use `git add -A`,
   `git add .`, forced pushes, resets, clean operations, or history rewrites.
 - Keep unrelated user changes unstaged and untouched.
-- If no Git repository contains the report, do not initialize one without an explicit
-  request. Report that no commit was created.
 - Do not create numbered backup copies when Git can preserve history.
 
 ## Validation

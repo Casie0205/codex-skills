@@ -29,7 +29,7 @@ cloud-computer code delivery.
 | [`navplot-coordinate-conversion`](navplot-coordinate-conversion/SKILL.md) | Convert NavPlot latitude, longitude, and height into metric local ENU displacement, cumulative distance, and summary output. |
 | [`navplot-studio`](navplot-studio/SKILL.md) | Inspect, plot, save, and difference NavPlot data through the packaged Windows GUI or CLI. |
 | [`project-knowledge-sync`](project-knowledge-sync/SKILL.md) | Merge user-returned cloud AI reviews and source evidence into a local, evidence-tracked Markdown project knowledge base. |
-| [`report-maintenance`](report-maintenance/SKILL.md) | Modify existing technical reports with Markdown-only output by default, user-edit preservation, and scoped Git commits. |
+| [`report-maintenance`](report-maintenance/SKILL.md) | Modify existing technical reports with Markdown-only output by default, automatic report Git initialization, user-edit preservation, and scoped commits. |
 | [`standard-plotting`](standard-plotting/SKILL.md) | Default plotting standard for all charts and figures: fixed Matplotlib layout, external legends, no titles, publication fonts, and SVG/PNG output. |
 | [`study-codebase`](study-codebase/SKILL.md) | Create read-only code-understanding reports with evidence-backed HTML, copy-friendly Markdown, symbol indexes, and open questions. |
 | [`rtkplot-studio`](rtkplot-studio/SKILL.md) | Inspect and plot 18-column RTKPlot solution text as trajectory, position, sigma, or quality figures through a headless CLI. |
