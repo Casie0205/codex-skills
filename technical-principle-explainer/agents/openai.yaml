@@ -1,0 +1,4 @@
+interface:
+  display_name: "Technical Principle Explainer"
+  short_description: "Explain technical principles with concrete worked examples"
+  default_prompt: "Use $technical-principle-explainer to explain this concept from intuition through formulas and a worked example."
