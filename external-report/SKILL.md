@@ -7,6 +7,10 @@ description: Create client-ready technical reports with an academic paper layout
 
 Use this skill when the intended reader is a customer, partner, or other external stakeholder. The report explains what problem was found, how it was resolved, and what evidence supports the conclusion. It is not an internal work log.
 
+Use this skill for new customer-facing HTML reports. For changes to an existing report,
+use `$report-maintenance`; that workflow defaults to Markdown-only edits and does not
+regenerate HTML or PDF unless explicitly requested.
+
 ## Workflow
 
 1. **Establish the client decision.** Read the supplied records, outputs, screenshots, and acceptance criteria. State the problem, impact, current result, and remaining risk before drafting.

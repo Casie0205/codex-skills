@@ -1,11 +1,15 @@
 ---
 name: academic-report
-description: "Create and revise print-ready academic-style HTML progress reports and PPT-conversion reports, with quantitative figures and tables, consistent layouts, and A4 or slide output."
+description: "Create new print-ready academic-style HTML progress reports and PPT-conversion reports, with quantitative figures and tables, consistent layouts, and A4 or slide output. Use report-maintenance to revise an existing report."
 ---
 
 # Academic Report
 
 Build reports as complete, evidence-led documents. The default deliverable is a static HTML report that reads like an academic paper and prints cleanly to A4. Use this design unless the user explicitly asks for a different visual system.
+
+Use this skill for new reports or an explicitly requested HTML-based redesign. For
+changes to an existing report, use `$report-maintenance`; that workflow defaults to
+Markdown-only edits and controls whether HTML or PDF is generated.
 
 ## Outcome
 

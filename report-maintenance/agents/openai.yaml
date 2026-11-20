@@ -1,0 +1,4 @@
+interface:
+  display_name: "Report Maintenance"
+  short_description: "Modify Markdown reports while preserving user edits"
+  default_prompt: "Use $report-maintenance to update the existing Markdown report while preserving my edits and Git history."
