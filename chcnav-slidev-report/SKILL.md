@@ -61,7 +61,7 @@ Replace the sample copy and placeholder figures with user-provided facts. Keep e
 
 Prefer native Markdown tables and KaTeX formulas. Use the theme classes already present in the template instead of inline positioning.
 
-Keep multi-line body copy at the theme's default `1.5` line-height. If a page overflows, cut text or split the page instead of tightening prose spacing.
+Keep body copy at the theme's default `18px` size and `1.5` line-height. Dense tables, captions, paths, and footnotes may stay smaller. If a page overflows, cut text or split the page instead of shrinking the body type.
 
 ## Copy Pass
 
