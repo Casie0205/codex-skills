@@ -723,6 +723,13 @@
   align-content: center;
 }
 
+.chcnav-content-body.earth-controls .contract-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px 32px;
+  align-content: start;
+  padding-top: 12px;
+}
+
 .contract-item {
   padding-top: 14px;
   border-top: 3px solid var(--cn-orange);
