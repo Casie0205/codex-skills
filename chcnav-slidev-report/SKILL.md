@@ -61,6 +61,26 @@ Replace the sample copy and placeholder figures with user-provided facts. Keep e
 
 Prefer native Markdown tables and KaTeX formulas. Use the theme classes already present in the template instead of inline positioning.
 
+## Copy Pass
+
+Run a separate copy pass before validation. Apply `$humanizer:humanizer` to titles, subtitles, body copy, captions, and closing text. Keep every supported fact, number, unit, condition, path, and citation.
+
+For content slides, turn each `subtitle` into a direct conclusion supported by that page. Name the result, comparison, or decision the audience should take away. Cover, contents, and section-divider pages may use their natural purpose instead.
+
+Put limitations and unresolved evidence in the page body. A subtitle such as "仍需进一步验证" or "结论不能外推" does not give the audience a result. Weak subtitle:
+
+```yaml
+subtitle: 仍需进一步验证
+```
+
+Rewrite it with the page's actual finding:
+
+```yaml
+subtitle: 三路位置 ANEES 为 1.0876 至 1.0951
+```
+
+Move the single-realization caveat to a body note or evidence page.
+
 ## Theme Changes
 
 Read [references/design-contract.md](references/design-contract.md) before changing:
@@ -75,12 +95,13 @@ Do not modify individual slides with ad hoc pixel offsets when the change belong
 
 ## Validation
 
-1. Run the Markdown audit when editing long supporting Markdown:
+1. Complete the copy pass and check every content-slide subtitle against its page evidence.
+2. Run the Markdown audit when editing long supporting Markdown:
 
 ```powershell
 python "$HOME\.codex\skills\structured-md-docs\scripts\audit_markdown.py" <file>
 ```
 
-2. Check that every referenced image exists.
-3. Start the Slidev preview only when visual inspection is needed.
-4. Confirm the final deck remains Markdown-first and no export files were created.
+3. Check that every referenced image exists.
+4. Start the Slidev preview only when visual inspection is needed.
+5. Confirm the final deck remains Markdown-first and no export files were created.

@@ -2,7 +2,7 @@
 theme: ./theme
 layout: cover
 title: 报告标题
-subtitle: 副标题或汇报主线
+subtitle: 用一句明确结论概括本次汇报的主要发现
 metaLeftLabel: 汇报人：
 metaLeftValue: 填写姓名
 metaRightLabel: 时间：
@@ -26,7 +26,7 @@ defaults:
 
 ---
 title: 报告概述
-subtitle: 用一句话写明本次汇报的主要问题和结论
+subtitle: 用一句明确结论概括本页最重要的事实
 ---
 
 <div class="lead-grid">
@@ -85,7 +85,7 @@ title: 背景与目标
 
 ---
 title: 内容页标题
-subtitle: 用一句话说明本页结论
+subtitle: 写出本页数据能够直接支持的明确结论
 ---
 
 <div class="setup-grid">
@@ -128,7 +128,7 @@ subtitle: 用一句话说明本页结论
 layout: split
 split: figure-left
 title: 图表页标题
-subtitle: 用一句话说明图中最重要的观察
+subtitle: 写出图中最重要的明确结论
 ---
 
 ::left::
@@ -168,7 +168,7 @@ subtitle: 用一句话说明图中最重要的观察
 layout: split
 split: wide-left
 title: 公式页标题
-subtitle: 说明公式衡量什么以及如何解释
+subtitle: 写出公式揭示的明确结论，不要只描述公式
 ---
 
 ::left::
@@ -211,7 +211,7 @@ $$
 
 ---
 title: 表格页标题
-subtitle: 用一句话说明表格的核心结论
+subtitle: 写出表格比较后得到的明确结论
 ---
 
 <table class="flat-table">
@@ -239,7 +239,7 @@ title: 方法与结果
 
 ---
 title: 对比页标题
-subtitle: 说明比较对象和比较口径
+subtitle: 写出比较后得到的明确结论
 ---
 
 <div class="two-col-list">
@@ -263,7 +263,7 @@ subtitle: 说明比较对象和比较口径
 
 ---
 title: 关键差异
-subtitle: 只保留能够直接影响判断的差异
+subtitle: 写出影响最终判断的明确差异
 ---
 
 <div class="rule-list">
@@ -296,7 +296,7 @@ subtitle: 只保留能够直接影响判断的差异
 layout: split
 split: figure-left
 title: 结果图表页
-subtitle: 用一句话说明图表的主要发现
+subtitle: 写出图表支持的明确结论
 ---
 
 ::left::
@@ -342,7 +342,7 @@ title: 分析与讨论
 
 ---
 title: 证据分级
-subtitle: 已确认事实、合理推断和未决问题分开呈现
+subtitle: 写出当前证据能够确认的明确结论
 ---
 
 <div class="evidence-grid">
@@ -375,7 +375,7 @@ subtitle: 已确认事实、合理推断和未决问题分开呈现
 ---
 layout: split
 title: 限制与下一步
-subtitle: 填写当前结论的适用范围和后续工作
+subtitle: 写出当前结论的适用范围和已确定的后续动作
 ---
 
 ::left::
@@ -432,7 +432,7 @@ subtitle: 填写当前结论的适用范围和后续工作
 
 ---
 title: 复现入口
-subtitle: 结果、脚本和数据路径
+subtitle: 结果、脚本和数据均可按下列路径复现
 ---
 
 <div class="path-list">
