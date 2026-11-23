@@ -1,0 +1,19 @@
+{
+  "name": "slidev-theme-chcnav-internal",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "CHCNAV internal report theme derived from PPTinternally.pptx.",
+  "engines": {
+    "slidev": ">=53.0.0"
+  },
+  "slidev": {
+    "defaults": {
+      "fonts": {
+        "sans": "Microsoft YaHei",
+        "mono": "Cascadia Code",
+        "provider": "none"
+      }
+    }
+  }
+}

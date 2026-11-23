@@ -1,0 +1,8 @@
+interface:
+  display_name: "CHCNAV Slidev Report"
+  short_description: "Create CHCNAV Slidev reports in Markdown by default"
+  brand_color: "#FF7F32"
+  default_prompt: "Use $chcnav-slidev-report to create a CHCNAV internal Slidev report in Markdown."
+
+policy:
+  allow_implicit_invocation: true
