@@ -11,7 +11,7 @@ const { $frontmatter } = useSlideContext()
     class="slidev-layout chcnav-content"
     :style="{ backgroundImage: `url(${background})` }"
   >
-    <img class="chcnav-content-logo" :src="logo" alt="CHCNAV">
+    <img class="chcnav-page-logo" :src="logo" alt="CHCNAV">
     <header class="chcnav-content-header">
       <h1 v-if="$frontmatter.title">
         {{ $frontmatter.title }}

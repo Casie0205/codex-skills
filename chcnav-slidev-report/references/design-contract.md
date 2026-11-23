@@ -24,10 +24,10 @@ The PowerPoint master is rasterized once into the background files under `assets
 | Deep orange | `#E95D00` |
 | Body dark | `#1F1F1F` |
 | Secondary gray | `#3F3F3F` |
-| Body font-size | `18px`; tables, captions, paths, and footnotes may be smaller |
+| Body font-size | `18 pt` (24 px in browser); tables, captions, paths, and footnotes may be smaller |
 | Body line-height | `1.5` |
 | Content title | 36 pt at `x=99.91, y=41.24, w=901.93, h=57.8` |
-| Content subtitle | 18 px at `x=99.91, y=101, w=901.99, h=54`, maximum two lines |
+| Content subtitle | 18 pt (24 px) at `x=99.91, y=101, w=901.99, h=72`, maximum two lines |
 | Section number | 220 pt |
 | Section title | 40 pt |
 | Closing title | 66 pt |
@@ -54,7 +54,7 @@ The PowerPoint master is rasterized once into the background files under `assets
 
 ### Content
 
-- Safe content area: `x=100, y=158, w=1080, h=508`
+- Safe content area: `x=100, y=176, w=1080, h=484`
 - Split layouts use `wide-left`, `wide-right`, `figure-left`, or `figure-right`
 
 ### Closing
@@ -73,9 +73,10 @@ assets/theme/assets/template_section.png
 assets/theme/assets/template_content.png
 assets/theme/assets/template_closing.png
 assets/theme/assets/chcnav-logo.png
+assets/theme/assets/chcnav-logo-white.png
 ```
 
-The background assets contain the orange title marker and decorative elements. Content pages render `chcnav-logo.png` as a separate transparent header logo; `template_content.png` must not contain a baked-in upper-right logo.
+The background assets contain the orange title marker and decorative elements. Orange cover and closing pages keep their native white logo; section pages keep their native dark logo. White content, split, and contents pages render transparent `chcnav-logo.png`. `chcnav-logo-white.png` is reserved for explicit recoloring or alternate orange layouts.
 
 ## Output Policy
 
