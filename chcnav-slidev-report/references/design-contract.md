@@ -24,8 +24,9 @@ The PowerPoint master is rasterized once into the background files under `assets
 | Deep orange | `#E95D00` |
 | Body dark | `#1F1F1F` |
 | Secondary gray | `#3F3F3F` |
+| Body line-height | `1.5` |
 | Content title | 36 pt at `x=99.91, y=41.24, w=901.93, h=57.8` |
-| Content subtitle | 16 pt at `x=99.91, y=105.48, w=901.99, h=37.87` |
+| Content subtitle | 18 px at `x=99.91, y=101, w=901.99, h=54`, maximum two lines |
 | Section number | 220 pt |
 | Section title | 40 pt |
 | Closing title | 66 pt |
@@ -70,9 +71,10 @@ assets/theme/assets/template_toc.png
 assets/theme/assets/template_section.png
 assets/theme/assets/template_content.png
 assets/theme/assets/template_closing.png
+assets/theme/assets/chcnav-logo.png
 ```
 
-They already include the CHCNAV logo, orange title marker, and decorative background elements. Do not redraw or replace them.
+The background assets contain the orange title marker and decorative elements. Content pages render `chcnav-logo.png` as a separate transparent header logo; `template_content.png` must not contain a baked-in upper-right logo.
 
 ## Output Policy
 

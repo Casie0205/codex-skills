@@ -61,6 +61,8 @@ Replace the sample copy and placeholder figures with user-provided facts. Keep e
 
 Prefer native Markdown tables and KaTeX formulas. Use the theme classes already present in the template instead of inline positioning.
 
+Keep multi-line body copy at the theme's default `1.5` line-height. If a page overflows, cut text or split the page instead of tightening prose spacing.
+
 ## Copy Pass
 
 Run a separate copy pass before validation. Apply `$humanizer:humanizer` to titles, subtitles, body copy, captions, and closing text. Keep every supported fact, number, unit, condition, path, and citation.

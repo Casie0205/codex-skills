@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import background from '../assets/template_content.png'
+import logo from '../assets/chcnav-logo.png'
 import { useSlideContext } from '@slidev/client'
 
 const { $frontmatter } = useSlideContext()
@@ -10,6 +11,7 @@ const { $frontmatter } = useSlideContext()
     class="slidev-layout chcnav-content"
     :style="{ backgroundImage: `url(${background})` }"
   >
+    <img class="chcnav-content-logo" :src="logo" alt="CHCNAV">
     <header class="chcnav-content-header">
       <h1 v-if="$frontmatter.title">
         {{ $frontmatter.title }}

@@ -9,6 +9,7 @@
   --cn-line: #d7d7d7;
   --cn-line-dark: #7f7f7f;
   --cn-bg: #fff;
+  --cn-body-line-height: 1.5;
   --cn-font: "Microsoft YaHei", "Noto Sans SC", "PingFang SC", sans-serif;
   --cn-mono: "Cascadia Code", "Consolas", monospace;
 }
@@ -48,7 +49,7 @@
 .slidev-layout li {
   color: var(--cn-gray);
   font-size: 18px;
-  line-height: 1.65;
+  line-height: var(--cn-body-line-height) !important;
 }
 
 .slidev-layout ul,
@@ -183,18 +184,30 @@
 
 .chcnav-content-header p {
   position: absolute;
-  top: 105.48px;
+  top: 101px;
   left: 99.91px;
   width: 901.99px;
-  height: 37.87px;
-  display: flex;
-  align-items: center;
+  height: 54px;
+  display: -webkit-box;
   overflow: hidden;
   color: #666;
-  font-size: 21.33px;
-  line-height: 1.2;
-  white-space: nowrap;
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 0 !important;
+  white-space: normal;
   text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.chcnav-content-logo {
+  position: absolute;
+  top: 40px;
+  right: 34px;
+  width: 140px;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
 }
 
 .chcnav-content-body {
@@ -363,7 +376,7 @@
 .chcnav-section-body li {
   color: #fff;
   font-size: 26.67px;
-  line-height: 1.55;
+  line-height: var(--cn-body-line-height);
 }
 
 .chcnav-section-body li::marker {
@@ -448,7 +461,7 @@
 
 .lead-item p {
   font-size: 17px;
-  line-height: 1.7;
+  line-height: var(--cn-body-line-height);
 }
 
 .setup-grid {
@@ -485,7 +498,7 @@
 
 .setup-item p {
   font-size: 15px;
-  line-height: 1.55;
+  line-height: var(--cn-body-line-height);
 }
 
 .figure-block {
@@ -552,7 +565,7 @@
 
 .metric-item p {
   font-size: 15px;
-  line-height: 1.55;
+  line-height: var(--cn-body-line-height);
 }
 
 .rule-list {
@@ -582,7 +595,7 @@
 
 .rule-item p {
   font-size: 15px;
-  line-height: 1.55;
+  line-height: var(--cn-body-line-height);
 }
 
 .flat-table {
@@ -650,7 +663,7 @@
 .callout p,
 .callout li {
   font-size: 16px;
-  line-height: 1.6;
+  line-height: var(--cn-body-line-height);
 }
 
 .callout strong {
@@ -726,7 +739,7 @@
 .contract-item p,
 .contract-item li {
   font-size: 15px;
-  line-height: 1.6;
+  line-height: var(--cn-body-line-height);
 }
 
 .contract-item .equation {
@@ -855,7 +868,7 @@
 
 .closing-summary p {
   font-size: 17px;
-  line-height: 1.7;
+  line-height: var(--cn-body-line-height);
 }
 
 .closing-metrics {
