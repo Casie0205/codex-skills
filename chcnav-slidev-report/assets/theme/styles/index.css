@@ -476,24 +476,26 @@
 
 .setup-list {
   display: grid;
-  gap: 14px;
+  gap: 8px;
 }
 
 .setup-item {
-  padding: 14px 0 14px 18px;
+  padding: 10px 0 10px 18px;
   border-left: 4px solid var(--cn-orange);
 }
 
 .setup-item .label {
   display: block;
-  margin-bottom: 4px;
-  color: var(--cn-faint);
-  font-size: 14px;
+  margin-bottom: 2px;
+  color: var(--cn-orange);
+  font-size: 16pt;
+  font-weight: 700;
+  line-height: 1.15;
 }
 
 .setup-item strong {
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
   font-size: 26px;
   line-height: 1.35;
 }
