@@ -474,6 +474,10 @@
   align-items: center;
 }
 
+.chcnav-content-body.setup-with-note .setup-grid {
+  height: calc(100% - 44px);
+}
+
 .setup-list {
   display: grid;
   gap: 8px;
