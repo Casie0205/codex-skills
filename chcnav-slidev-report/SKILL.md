@@ -66,6 +66,8 @@ Use `.literature-map` for the literature timeline and four-cluster research map.
 
 Keep body copy at the theme's default `18 pt` size and `1.5` line-height. Dense tables, captions, paths, and footnotes may stay smaller. If a page overflows, cut text or split the page instead of shrinking the body type.
 
+Keep every numeric value and its unit on one line. Use `&nbsp;`, such as `47.33&nbsp;s`, or wrap the full value in `<span class="nowrap">47.33 s</span>`. Never allow a line break between the number and unit.
+
 ## Copy Pass
 
 Run a separate copy pass before validation. Apply `$humanizer:humanizer` to titles, subtitles, body copy, captions, and closing text. Keep every supported fact, number, unit, condition, path, and citation.

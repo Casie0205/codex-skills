@@ -28,6 +28,7 @@ The PowerPoint master is rasterized once into the background files under `assets
 | Body line-height | `1.5` |
 | Field label | `16 pt`, bold, primary orange `#FF7F32` |
 | Table alignment | Numeric tables default to right alignment; add `.align-left` to force every cell left |
+| Number and unit | Keep on one line with `&nbsp;` or `.nowrap` |
 | Content title | 36 pt at `x=99.91, y=41.24, w=901.93, h=57.8` |
 | Content subtitle | 18 pt (24 px) at `x=99.91, y=101, w=901.99, h=72`, maximum two lines |
 | Section number | 220 pt |

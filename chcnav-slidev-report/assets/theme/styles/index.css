@@ -996,6 +996,10 @@
   font-style: normal;
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 .closing-summary {
   height: 100%;
   display: flex;
