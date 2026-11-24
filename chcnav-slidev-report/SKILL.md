@@ -54,12 +54,15 @@ Start from `assets/slides-template.md`. It contains the approved page patterns:
 - figure-led content
 - formula content
 - table content
+- literature research map with timeline and four research clusters
 - evidence grading
 - closing
 
 Replace the sample copy and placeholder figures with user-provided facts. Keep every number, unit, status, and caveat from the source material.
 
 Prefer native Markdown tables and KaTeX formulas. Use the theme classes already present in the template instead of inline positioning.
+
+Use `.literature-map` for the literature timeline and four-cluster research map. Keep citation numbers stable and mirror every cited work in the appendix.
 
 Keep body copy at the theme's default `18 pt` size and `1.5` line-height. Dense tables, captions, paths, and footnotes may stay smaller. If a page overflows, cut text or split the page instead of shrinking the body type.
 
