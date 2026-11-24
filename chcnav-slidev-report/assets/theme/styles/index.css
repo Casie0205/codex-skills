@@ -335,7 +335,13 @@
 }
 
 .chcnav-split.formula-left .chcnav-split-left .katex {
-  font-size: 0.78em;
+  font-size: 1em;
+}
+
+.chcnav-split.formula-left .chcnav-split-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .chcnav-split.formula-left .chcnav-split-left .katex-display {
