@@ -340,6 +340,11 @@
 
 .chcnav-split.formula-left .chcnav-split-left .katex-display {
   margin: 3px 0;
+  text-align: left;
+}
+
+.chcnav-split.formula-left .chcnav-split-left .katex-display > .katex {
+  text-align: left;
 }
 
 .chcnav-split.formula-left .formula-definition {
