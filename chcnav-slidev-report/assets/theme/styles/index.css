@@ -347,6 +347,14 @@
   text-align: left;
 }
 
+.chcnav-split.slope-panel .chcnav-split-right .katex-display {
+  text-align: left;
+}
+
+.chcnav-split.slope-panel .chcnav-split-right .katex-display > .katex {
+  text-align: left;
+}
+
 .chcnav-split.formula-left .formula-definition {
   font-size: 13px;
 }
