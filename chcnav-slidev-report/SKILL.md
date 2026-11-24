@@ -62,6 +62,10 @@ Replace the sample copy and placeholder figures with user-provided facts. Keep e
 
 Prefer native Markdown tables and KaTeX formulas. Use the theme classes already present in the template instead of inline positioning.
 
+Prefer SVG for plots and diagrams. Use PNG only when the source is raster or no SVG exists. Figures should consume the maximum available safe area after their captions. Do not impose arbitrary `max-height` values; move prose or formulas aside before shrinking a figure.
+
+Break long formulas into multiple `aligned` rows before reducing their size. Keep equations outside raw HTML wrappers so Slidev parses KaTeX correctly.
+
 Use `.literature-map` for the literature timeline and four-cluster research map. Keep citation numbers stable and mirror every cited work in the appendix.
 
 Keep body copy at the theme's default `18 pt` size and `1.5` line-height. Dense tables, captions, paths, and footnotes may stay smaller. If a page overflows, cut text or split the page instead of shrinking the body type.

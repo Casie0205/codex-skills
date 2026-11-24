@@ -312,10 +312,46 @@
 
 .chcnav-split.figure-left .chcnav-split-body {
   grid-template-columns: 1.38fr 0.82fr;
+  align-items: stretch;
 }
 
 .chcnav-split.figure-right .chcnav-split-body {
   grid-template-columns: 0.82fr 1.38fr;
+  align-items: stretch;
+}
+
+.chcnav-split.slope-panel .figure-block {
+  justify-content: flex-start;
+}
+
+.chcnav-split.slope-panel .chcnav-split-left {
+  height: 100%;
+}
+
+.chcnav-split.formula-left .chcnav-split-body {
+  grid-template-columns: 0.44fr 1.76fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.chcnav-split.formula-left .chcnav-split-left .katex {
+  font-size: 0.78em;
+}
+
+.chcnav-split.formula-left .chcnav-split-left .katex-display {
+  margin: 3px 0;
+}
+
+.chcnav-split.formula-left .formula-definition {
+  font-size: 13px;
+}
+
+.chcnav-split.formula-left .three-figure-grid {
+  gap: 8px;
+}
+
+.chcnav-split.formula-left .chcnav-split-right {
+  height: 100%;
 }
 
 .chcnav-split-left,
@@ -518,11 +554,13 @@
 
 .figure-block img {
   width: 100%;
-  max-height: 360px;
+  min-height: 0;
+  flex: 1 1 auto;
   object-fit: contain;
 }
 
 .figure-block figcaption {
+  flex: 0 0 auto;
   margin-top: 8px;
   color: var(--cn-faint);
   font-size: 14px;
@@ -541,7 +579,7 @@
 }
 
 .figure-block.tall img {
-  max-height: 380px;
+  max-height: none;
 }
 
 .metric-stack {
@@ -1002,6 +1040,57 @@
 
 .nowrap {
   white-space: nowrap;
+}
+
+.three-figure-grid {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  align-items: stretch;
+}
+
+.three-figure-grid figure {
+  height: 100%;
+  min-width: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.three-figure-grid img {
+  width: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+  object-fit: contain;
+}
+
+.three-figure-grid figcaption {
+  flex: 0 0 auto;
+  margin-top: 8px;
+  color: var(--cn-muted);
+  font-size: 13px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.chcnav-split-left .formula-definition {
+  margin: 0;
+  color: var(--cn-muted);
+  font-size: 14px;
+}
+
+.chcnav-split-left .katex {
+  font-size: 0.9em;
+}
+
+.chcnav-split-right .three-figure-grid {
+  gap: 10px;
+}
+
+.chcnav-split-right .three-figure-grid figcaption {
+  font-size: 11px;
 }
 
 .closing-summary {

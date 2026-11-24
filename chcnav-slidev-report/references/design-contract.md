@@ -30,6 +30,9 @@ The PowerPoint master is rasterized once into the background files under `assets
 | Table alignment | Numeric tables default to right alignment; add `.align-left` to force every cell left |
 | Number and unit | Keep on one line with `&nbsp;` or `.nowrap` |
 | `setup-with-note` | Reserve 44 px below a setup grid for one bottom note |
+| Figure format | Prefer SVG; use PNG only for raster sources or when SVG is unavailable |
+| Figure sizing | Fill the available safe area after captions; avoid arbitrary `max-height` caps |
+| Long formulas | Split with `aligned` rows before reducing font size or area |
 | Content title | 36 pt at `x=99.91, y=41.24, w=901.93, h=57.8` |
 | Content subtitle | 18 pt (24 px) at `x=99.91, y=101, w=901.99, h=72`, maximum two lines |
 | Section number | 220 pt |
