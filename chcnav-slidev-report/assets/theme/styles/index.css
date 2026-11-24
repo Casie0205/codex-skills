@@ -622,6 +622,11 @@
   text-align: left;
 }
 
+.flat-table.align-left th,
+.flat-table.align-left td {
+  text-align: left;
+}
+
 .flat-table thead th {
   color: var(--cn-gray);
   background: #f7f7f7;
