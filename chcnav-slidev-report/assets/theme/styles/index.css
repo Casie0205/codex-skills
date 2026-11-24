@@ -330,6 +330,7 @@
 
 .chcnav-split.formula-left .chcnav-split-body {
   grid-template-columns: 0.44fr 1.76fr;
+  grid-template-rows: minmax(0, 1fr);
   gap: 20px;
   align-items: stretch;
 }
@@ -371,6 +372,7 @@
 
 .chcnav-split.formula-left .chcnav-split-right {
   height: 100%;
+  min-height: 0;
 }
 
 .chcnav-split-left,
