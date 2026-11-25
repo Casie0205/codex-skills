@@ -7,6 +7,16 @@ metadata:
 
 # CHCNAV Slidev Report
 
+## Contents
+
+- [Default Output Contract](#default-output-contract)
+- [New Deck](#new-deck)
+- [Authoring](#authoring)
+- [Pointer Navigation](#pointer-navigation)
+- [Copy Pass](#copy-pass)
+- [Theme Changes](#theme-changes)
+- [Validation](#validation)
+
 Create and maintain CHCNAV internal presentations as Slidev Markdown.
 
 ## Default Output Contract
@@ -37,6 +47,7 @@ The script copies:
 slides.md
 theme/
 assets/
+global-bottom.vue
 ```
 
 If either `slides.md` or `theme/` already exists, the script refuses to modify the destination. Back up or move the existing deck before scaffolding again.
@@ -71,6 +82,21 @@ Use `.literature-map` for the literature timeline and four-cluster research map.
 Keep body copy at the theme's default `18 pt` size and `1.5` line-height. Dense tables, captions, paths, and footnotes may stay smaller. If a page overflows, cut text or split the page instead of shrinking the body type.
 
 Keep every numeric value and its unit on one line. Use `&nbsp;`, such as `47.33&nbsp;s`, or wrap the full value in `<span class="nowrap">47.33 s</span>`. Never allow a line break between the number and unit.
+
+## Pointer Navigation
+
+Keep the copied root `global-bottom.vue` in every new deck. It supplements
+Slidev's built-in keyboard and touch navigation:
+
+- wheel down goes to the next slide and wheel up goes to the previous slide;
+- clicking the right half goes forward and clicking the left half goes back;
+- buttons, tabs, links, form controls, editable content, and scrollable regions
+  keep their native behavior;
+- wheel navigation is locked for `450 ms` to prevent trackpad over-jumping;
+- print mode, drawing mode, modifier-click, and horizontal wheel gestures are ignored.
+
+Do not duplicate this listener inside individual slides or interactive components.
+If a custom control must opt out explicitly, add `data-no-slide-navigation`.
 
 ## Copy Pass
 
@@ -115,4 +141,6 @@ python "$HOME\.codex\skills\structured-md-docs\scripts\audit_markdown.py" <file>
 
 3. Check that every referenced image exists.
 4. Start the Slidev preview only when visual inspection is needed.
-5. Confirm the final deck remains Markdown-first and no export files were created.
+5. Verify left/right click and wheel-up/wheel-down navigation.
+6. Verify interactive tabs still switch content without changing slides.
+7. Confirm the final deck remains Markdown-first and no export files were created.
