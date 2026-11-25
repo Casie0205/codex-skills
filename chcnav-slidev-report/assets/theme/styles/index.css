@@ -56,6 +56,11 @@
 .slidev-layout ul,
 .slidev-layout ol {
   padding-left: 1.2em;
+  text-align: left;
+}
+
+.slidev-layout li {
+  text-align: left;
 }
 
 .slidev-layout li + li {
@@ -1112,6 +1117,52 @@
 
 .chcnav-split-right .three-figure-grid figcaption {
   font-size: 11px;
+}
+
+.global-error-eval {
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 14px 28px;
+  align-items: start;
+}
+
+.global-error-panel {
+  min-width: 0;
+}
+
+.global-error-panel h2 {
+  margin-bottom: 7px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid var(--cn-orange);
+  font-size: 20px;
+}
+
+.global-error-panel .flat-table {
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.global-error-panel .flat-table th,
+.global-error-panel .flat-table td {
+  padding: 6px 7px;
+  white-space: nowrap;
+}
+
+.global-error-note {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 3px;
+  padding-top: 8px;
+  border-top: 1px solid var(--cn-line-dark);
+}
+
+.global-error-note p {
+  margin: 0;
+  color: var(--cn-muted);
+  font-size: 13px;
+  line-height: 1.4;
 }
 
 .closing-summary {

@@ -65,6 +65,7 @@ Start from `assets/slides-template.md`. It contains the approved page patterns:
 - figure-led content
 - formula content
 - table content
+- global error evaluation with paired consistency and RMS tables
 - literature research map with timeline and four research clusters
 - evidence grading
 - closing
@@ -82,6 +83,8 @@ Use `.literature-map` for the literature timeline and four-cluster research map.
 Keep body copy at the theme's default `18 pt` size and `1.5` line-height. Dense tables, captions, paths, and footnotes may stay smaller. If a page overflows, cut text or split the page instead of shrinking the body type.
 
 Keep every numeric value and its unit on one line. Use `&nbsp;`, such as `47.33&nbsp;s`, or wrap the full value in `<span class="nowrap">47.33 s</span>`. Never allow a line break between the number and unit.
+
+Keep every bullet and numbered list left aligned. Do not center list text or use centered lists as a layout device.
 
 ## Pointer Navigation
 

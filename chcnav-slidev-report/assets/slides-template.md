@@ -230,6 +230,46 @@ subtitle: 写出表格比较后得到的明确结论
 </div>
 
 ---
+title: 全局误差评价
+subtitle: 用一句明确结论概括一致性与绝对导航精度
+---
+
+<div class="global-error-eval">
+  <section class="global-error-panel">
+    <h2>状态组 ANEES / NRC</h2>
+    <table class="flat-table">
+      <thead>
+        <tr><th>路径</th><th>位置</th><th>速度</th><th>姿态</th><th>NRC</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>路径 1</strong></td><td>填写</td><td>填写</td><td>填写</td><td>填写</td></tr>
+        <tr><td><strong>路径 2</strong></td><td>填写</td><td>填写</td><td>填写</td><td>填写</td></tr>
+        <tr><td><strong>路径 3</strong></td><td>填写</td><td>填写</td><td>填写</td><td>填写</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="global-error-panel">
+    <h2>位置误差 RMS</h2>
+    <table class="flat-table">
+      <thead>
+        <tr><th>路径</th><th>E</th><th>N</th><th>U</th><th>水平</th><th>3D RMS</th><th>3D max</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>路径 1</strong></td><td>填写</td><td>填写</td><td>填写</td><td>填写</td><td>填写</td><td>填写</td></tr>
+        <tr><td><strong>路径 2</strong></td><td>填写</td><td>填写</td><td>填写</td><td>填写</td><td>填写</td><td>填写</td></tr>
+        <tr><td><strong>路径 3</strong></td><td>填写</td><td>填写</td><td>填写</td><td>填写</td><td>填写</td><td>填写</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="global-error-note">
+    <p><strong>填写评价时刻数量。</strong>填写一致性与速度、姿态差异的解释边界。</p>
+    <p>填写绝对精度结果的结构优势、限制和不能外推的范围。</p>
+  </div>
+</div>
+
+---
 layout: section
 sectionNumber: "02"
 title: 方法与结果
