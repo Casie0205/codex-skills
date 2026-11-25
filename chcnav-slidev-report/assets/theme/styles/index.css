@@ -1122,9 +1122,9 @@
 .global-error-eval {
   height: 100%;
   display: grid;
-  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
-  grid-template-rows: minmax(0, 1fr) auto;
-  gap: 14px 28px;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto auto;
+  gap: 9px;
   align-items: start;
 }
 
@@ -1133,10 +1133,10 @@
 }
 
 .global-error-panel h2 {
-  margin-bottom: 7px;
-  padding-bottom: 5px;
+  margin-bottom: 5px;
+  padding-bottom: 4px;
   border-bottom: 2px solid var(--cn-orange);
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .global-error-panel .flat-table {
@@ -1146,15 +1146,14 @@
 
 .global-error-panel .flat-table th,
 .global-error-panel .flat-table td {
-  padding: 6px 7px;
+  padding: 5px 8px;
   white-space: nowrap;
 }
 
 .global-error-note {
-  grid-column: 1 / -1;
   display: grid;
-  gap: 3px;
-  padding-top: 8px;
+  gap: 2px;
+  padding-top: 6px;
   border-top: 1px solid var(--cn-line-dark);
 }
 
